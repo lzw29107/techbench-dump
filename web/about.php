@@ -38,8 +38,12 @@ echo '<h1>'.$translation['tbDump'].'</h1>';
         </tr>
     </thead>
     <tr>
-        <td><img src="lang/flags/US.png"> English</td>
+        <td><img src="lang/flags/US.png"> English (US)</td>
         <td>mkuba50</td>
+    </tr>
+    <tr>
+        <td><img src="lang/flags/ES.png"> Español (España)</td>
+        <td><a href="https://forums.mydigitallife.info/members/417886-antonio8909">antonio8909</a></td>
     </tr>
     <tr>
         <td><img src="lang/flags/NL.png"> Nederlands</td>
