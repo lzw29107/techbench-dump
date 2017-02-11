@@ -75,15 +75,7 @@ getDownUrlLong="https://www.microsoft.com/en-us/api/controls/contentinclude/html
 getDownUrlShort="https://mdl-tb.ct8.pl/get.php"
 refererUrl="https://www.microsoft.com/en-us/software-download/windows10ISO"
 
-#Fix redirection on Windows and warn user, that Control-C is broken
-if [ "$WIN_WRAPPED" == "1" ]; then
-	nullRedirect="NUL"
-	echo -e "$warnHead Control-C does not work when using this script on Windows!\n"
-else
-	nullRedirect="/dev/null"
-fi
-
-if ! type curl > $nullRedirect; then
+if ! type curl > /dev/null; then
 	echo "$errorHead This scripts needs cUrl to be installed! Exiting" >&2
 	exit
 fi
@@ -101,7 +93,7 @@ fi
 function getLangs {
 	local result=$(curl -s "$getLangUrl&productEditionId=$1" -H "Referer: $refererUrl")
 
-	if echo "$result" | grep "$noProductErr" > $nullRedirect; then
+	if echo "$result" | grep "$noProductErr" > /dev/null; then
 		return 1
 	fi
 
@@ -135,7 +127,7 @@ function getProductName {
 
 	local result=$(curl -s "$getDownUrlLong&$(echo -n $tempLink)" -H "Referer: $refererUrl")
 
-	echo "$result" | grep "Choose a link below to begin the download" > $nullRedirect
+	echo "$result" | grep "Choose a link below to begin the download" > /dev/null
 	if [ $? -ne 0 ]; then
 		return 1
 	fi
