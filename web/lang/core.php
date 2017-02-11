@@ -36,6 +36,12 @@ switch ($lang) {
     case 'ru-ru':
         require 'langs/ru-RU.php';
         break;
+    case 'fr-fr':
+        require 'langs/fr-FR.php';
+        break;
+    case 'ja-jp':
+        require 'langs/ja-JP.php';
+        break;
     default:
         require 'langs/en-US.php';
         break;
@@ -46,9 +52,11 @@ $langCore_menu = '<li class="dropdown"><a class="dropdown-toggle" data-toggle="d
                             <ul class="dropdown-menu">
                                 <li><a href="./?lang=en-US"><img src="lang/flags/US.png">&nbsp;English (US)</a></li>
                                 <li><a href="./?lang=es-ES"><img src="lang/flags/ES.png">&nbsp;Español (España)</a></li>
+                                <li><a href="./?lang=fr-FR"><img src="lang/flags/FR.png">&nbsp;Français</a></li>
                                 <li><a href="./?lang=nl-NL"><img src="lang/flags/NL.png">&nbsp;Nederlands</a></li>
                                 <li><a href="./?lang=pl-PL"><img src="lang/flags/PL.png">&nbsp;Polski</a></li>
                                 <li><a href="./?lang=ru-RU"><img src="lang/flags/RU.png">&nbsp;Русский</a></li>
+                                <li><a href="./?lang=ja-JP"><img src="lang/flags/JP.png">&nbsp;日本語</a></li>
                             </ul>
                   </li>';
 ?>
