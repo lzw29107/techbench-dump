@@ -53,6 +53,10 @@ echo '<h1>'.$translation['tbDump'].'</h1>';
         <td><img src="lang/flags/PL.png"> Polski</td>
         <td>mkuba50</td>
     </tr>
+    <tr>
+        <td><img src="lang/flags/RU.png"> Русский</td>
+        <td><a href="https://forums.mydigitallife.info/members/381582-adguard">adguard</a></td>
+    </tr>
 </table>
 
 <?php styleBottom(); ?>
