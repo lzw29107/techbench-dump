@@ -27,6 +27,9 @@ switch ($lang) {
     case 'pl-pl':
         require 'langs/pl-PL.php';
         break;
+    case 'nl-nl':
+        require 'langs/nl-NL.php';
+        break;
     default:
         require 'langs/en-US.php';
         break;
@@ -36,6 +39,7 @@ $langParam='lang='.$translation['langCode'];
 $langCore_menu = '<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" role="button">'. $translation['langMenu'] . ' <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li><a href="./?lang=en-US"><img src="lang/flags/US.png">&nbsp;English</a></li>
+                                <li><a href="./?lang=nl-NL"><img src="lang/flags/NL.png">&nbsp;Nederlands</a></li>
                                 <li><a href="./?lang=pl-PL"><img src="lang/flags/PL.png">&nbsp;Polski</a></li>
                             </ul>
                   </li>';

@@ -1,6 +1,7 @@
 <?php
 $translation = array(
     'langName' => 'English',
+    'langNameLocal' => 'English',
     'langCode' => 'en-US',
     'authorName' => 'mkuba50',
     'authorLink' => '',
