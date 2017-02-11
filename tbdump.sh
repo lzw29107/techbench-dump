@@ -24,27 +24,13 @@ legacyGen=0
 helpUsage="Usage: $0 generator [first_id] [last_id]
 
 Supported generators:
-* html\t\t- generates HTML based dump
-* bootstrap\t- generates Bootstrap based HTML dump
-* md\t\t- generates markdown based dump
-* html_legacy\t- generates HTML based dump (legacy links)
-* md_legacy\t- generates markdown based dump (legacy links)"
+* web\t\t- generates dump for web purposes"
 
 if [ -z "$1" ]; then
 	echo -e "$helpUsage"
 	exit
-elif [ "$1" = "html" ]; then
-	useGen="html"
-elif [ "$1" = "md" ]; then
-	useGen="md"
-elif [ "$1" = "html_legacy" ]; then
-	useGen="html"
-	legacyGen=1
-elif [ "$1" = "md_legacy" ]; then
-	useGen="md"
-	legacyGen=1
-elif [ "$1" = "bootstrap" ]; then
-	useGen="bootstrap"
+elif [ "$1" = "web" ]; then
+	useGen="web"
 else
 	echo "Unknown generator specified"
 	exit
@@ -61,7 +47,7 @@ if [ -n "$2" -a -n "$3" ]; then
 	if [ $maxProdID -lt $minProdID ]; then echo "Last Product ID needs to be larger or equal to First Product ID"; exit 1; fi
 fi
 
-tbdumpVersion="master"
+tbdumpVersion="web"
 
 infoHead="[INFO]"
 warnHead="[WARNING]"
@@ -117,7 +103,7 @@ function identProduct {
 	if [ $productID -ge 178 -a $productID -le 185 ]; then local appendVer=" (Threshold 2, April 2016 Update)"; fi
 	if [ $productID -ge 242 -a $productID -le 247 ]; then local appendVer=" (Redstone 1)"; fi
 	
-	echo "$appendVer [ID: $productID]"
+	echo "$appendVer"
 }
 
 function getProductName {
@@ -150,7 +136,7 @@ function writeMarkdown {
 	local appendVer="$(identProduct)"
 	echo "" >> "Techbench dump.md"
 	
-	echo "$productName" | sed "s/<h2>/### /g;s/ $tempLang.*<\/h2>/<\/h2>/g;s/<\/h2>/$appendVer/g" >> "Techbench dump.md"
+	echo "$productName" | sed "s/<h2>/### /g;s/ $tempLang.*<\/h2>/<\/h2>/g;s/<\/h2>/$appendVer [ID: $productID]/g" >> "Techbench dump.md"
 	if [ $? -ne 0 ]; then
 		return 1
 	fi
@@ -173,11 +159,28 @@ function headerMarkdown {
 	echo '```' >> "Techbench dump.md"
 }
 
-function mainMarkdown {
+#####################################
+# Web generator section (json + md) #
+#####################################
+
+function writeJson {
+	local appendVer="$(identProduct)"
+
+	echo "$productName" | sed "s/<h2>/\"$productID\":\"/g;s/ $tempLang.*<\/h2>/<\/h2>/g;s/<\/h2>/$appendVer\",/g" >> "dump.json"
+	if [ $? -ne 0 ]; then
+		return 1
+	fi
+
+	return 0
+}
+
+function mainWeb {
 	headerMarkdown
 	
+	echo '{"genTime":"'$(date "+%s")'","productNumber":"!!productsNumberPlaceholder!!","products":{' > dump.json
+	
 	echo -e "\n$infoHead Checking for languages using Product ID..."
-
+	
 	productsFound=0
 
 	for productID in $(seq $minProdID $maxProdID); do
@@ -195,6 +198,7 @@ function mainMarkdown {
 				done;
 				
 				echo "$infoHead Writing..."
+				writeJson
 				writeMarkdown
 				
 				let productsFound=productsFound+1
@@ -205,164 +209,14 @@ function mainMarkdown {
 		done;
 		echo ""
 	done;
-
+	
+	sed -i '$ s/,$/}}/' dump.json
+	
+	sed s/!!productsNumberPlaceholder!!/$productsFound/g "dump.json" | tr -d '\n' > "Techbench dump.tmp"
+	mv -f "Techbench dump.tmp" "dump.json"
+	
 	sed s/!!productsNumberPlaceholder!!/$productsFound/g "Techbench dump.md" > "Techbench dump.tmp"
 	mv -f "Techbench dump.tmp" "Techbench dump.md"
-
-	return 0
-}
-
-####################################
-# HTML generator functions section #
-####################################
-
-function writeHtml {
-	local appendVer="$(identProduct)"
-	echo "" >> "Techbench dump.html"
-	
-	echo "$productName" | sed "s/<h2>/<h3>/g;s/ $tempLang.*<\/h2>/<\/h2>/g;s/<\/h2>/$appendVer<\/h3>/g" >> "Techbench dump.html"
-
-	echo "<ul>" >> "Techbench dump.html"
-	echo "$langList" | tr -d '\r' | awk -v url="$getDownUrl" -F'[&=]' '{print "<li><a href=\""url $2"\">"$4"</a></li>"}' >> "Techbench dump.html"
-	echo "</ul>" >> "Techbench dump.html"
-	return 0
-}
-
-function runGenHtml {
-	echo -e "\n$infoHead Checking for languages using Product ID..."
-	
-	productsFound=0
-
-	for productID in $(seq $minProdID $maxProdID); do
-		echo "$infoHead Checking product ID: $productID"
-		getLangErr=2
-		while [ $getLangErr -gt 1 ]; do
-			getLangs $productID
-			getLangErr=$?
-			if [ $getLangErr -eq 0 ]; then
-				echo "$infoHead Got language list!"
-				getErr=1
-				while [ $getErr -ne 0 ]; do
-					getProductName
-					getErr=$?
-				done;
-				
-				echo "$infoHead Writing..."
-				writeHtml
-				
-				let productsFound=productsFound+1
-				echo "$infoHead OK!"
-			elif [ $getLangErr -eq 1 ]; then
-				echo "$errorHead Product does not exist!"
-			fi
-		done;
-		echo ""
-	done;
-}
-
-function mainHtml {
-	echo "<html>" > "Techbench dump.html"
-	echo "<head>" >> "Techbench dump.html"
-	echo "<title>TechBench dump</title>" >> "Techbench dump.html"
-	echo "<style>body{font-family: \"Segoe UI\", \"Tahoma\", \"Arial\", sans-serif; font-size: 10pt} h1{font-weight: 600} h3{font-weight: 600} a{text-decoration: none; color: #0060A5;} a:hover{text-decoration: underline}</style>" >> "Techbench dump.html"
-	echo "</head>" >> "Techbench dump.html"
-	echo "<body>" >> "Techbench dump.html"
-	echo "<h1>TechBench dump</h1>" >> "Techbench dump.html"
-	echo "Generated on $(date "+%Y-%m-%dT%H:%M:%S%z") using:<br>" >> "Techbench dump.html"
-	echo "- TechBench dump script (tbdump-$tbdumpVersion)<br>" >> "Techbench dump.html"
-	echo "- $(uname -mrsio)<br>" >> "Techbench dump.html"
-	echo "- $(curl -V | head -n1)<br>" >> "Techbench dump.html"
-	echo "" >> "Techbench dump.html"
-	echo "<br>Number of products: !!productsNumberPlaceholder!!<br>" >> "Techbench dump.html"
-
-	runGenHtml
-	
-	echo "</body>" >> "Techbench dump.html"
-	echo "</html>" >> "Techbench dump.html"
-
-	sed s/!!productsNumberPlaceholder!!/$productsFound/g "Techbench dump.html" > "Techbench dump.tmp"
-	mv -f "Techbench dump.tmp" "Techbench dump.html"
-
-	return 0
-}
-
-##########################################
-# Bootstrap based HTML generator section #
-##########################################
-
-function headerBootstrap {
-
-	echo '<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <title>TechBench dump</title>
-
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <style>body{font-family: "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif; padding-top: 50px;} .content {padding: 30px 15px;} .modal-content {padding: 20px;}</style>
-
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-  </head>
-
-  <body>
-
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">TechBench dump</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">TechBench dump</a>
-        </div>
-        <div id="navbar" class="collapse navbar-collapse">
-          <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Home</a></li>
-            <li><a href="https://gist.github.com/mkuba50/27c909501cbc2a4f169be4b4075a66ff">Gist</a></li>
-            <li><a href="https://github.com/mkuba50/techbench-dump">GitHub repository</a></li>
-          </ul>
-        </div><!--/.nav-collapse -->
-      </div>
-    </nav>
-
-    <div class="container">
-
-      <div class="content">' > "Techbench dump.html"
-	echo "<h1>TechBench dump</h1>" >> "Techbench dump.html"
-	echo "<pre><code>Generated on $(date "+%Y-%m-%dT%H:%M:%S%z") using:" >> "Techbench dump.html"
-	echo "- TechBench dump script (tbdump-$tbdumpVersion)" >> "Techbench dump.html"
-	echo "- $(uname -mrsio)" >> "Techbench dump.html"
-	echo "- $(curl -V | head -n1)" >> "Techbench dump.html"
-	echo "" >> "Techbench dump.html"
-	echo "Number of products: !!productsNumberPlaceholder!!</code></pre>" >> "Techbench dump.html"
-}
-
-function footerBootstrap {
-	echo '      </div>
-
-    </div><!-- /.container -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-  </body>
-</html>' >> "Techbench dump.html"
-}
-
-function mainBootstrap {
-	headerBootstrap
-	runGenHtml
-	footerBootstrap
-
-	sed s/!!productsNumberPlaceholder!!/$productsFound/g "Techbench dump.html" > "Techbench dump.tmp"
-	mv -f "Techbench dump.tmp" "Techbench dump.html"
 
 	return 0
 }
@@ -374,15 +228,9 @@ function mainBootstrap {
 echo "$infoHead TechBench dump script (tbdump-$tbdumpVersion)"
 echo "$infoHead Using Product ID range from $minProdID to $maxProdID"
 
-if [ "$useGen" = "html" ]; then
-	echo "$infoHead Using HTML generator"
-	mainHtml
-elif [ "$useGen" = "md" ]; then
-	echo "$infoHead Using Markdown generator"
-	mainMarkdown
-elif [ "$useGen" = "bootstrap" ]; then
-	echo "$infoHead Using Bootstrap based HTML generator"
-	mainBootstrap
+if [ "$useGen" = "web" ]; then
+	echo "$infoHead Using generator for Web"
+	mainWeb
 fi
 
 echo "$infoHead Number of products: $productsFound"
