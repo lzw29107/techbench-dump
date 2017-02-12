@@ -50,6 +50,10 @@ echo '<h1>'.$translation['tbDump'].'</h1>';
         <td><a href="https://forums.mydigitallife.info/members/476049-NeXtStatioN">NeXtStatioN (@AniMachin3)</a></td>
     </tr>
     <tr>
+        <td><img src="lang/flags/IT.png"> Italiano</td>
+        <td><a href="https://forums.mydigitallife.info/members/6748-garf02">garf02</a></td>
+    </tr>
+    <tr>
         <td><img src="lang/flags/NL.png"> Nederlands</td>
         <td><a href="https://forums.mydigitallife.info/members/104688-Enthousiast">Enthousiast</a></td>
     </tr>
