@@ -101,7 +101,8 @@ function styleTop($pageType = 'home') {
                         <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" role="button">'. $translation['moreMenu'] . ' <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li><a href="https://gist.github.com/mkuba50/27c909501cbc2a4f169be4b4075a66ff">'.$translation['githubGist'].'</a></li>
-                                <li><a href="https://github.com/mkuba50/techbench-dump">'.$translation['githubRepo'].'</a></li>
+                                <li><a href="https://github.com/mkuba50/techbench-dump">'.$translation['githubRepoScript'].'</a></li>
+                                <li><a href="https://github.com/mkuba50/techbench-dump-web">'.$translation['githubRepoWeb'].'</a></li>
                             </ul>
                         </li>
                         '.$navbarLink2.'
