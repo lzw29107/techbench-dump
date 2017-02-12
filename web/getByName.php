@@ -44,7 +44,6 @@ styleTop('downloads');
 echo '<h1>'.$translation['tbDumpDownload']."</h1>\n";
 echo "<h3><span class=\"glyphicon glyphicon-file\" aria-hidden=\"true\"></span> ".$downList['fileName']."</h3>\n";
 echo '<a class="btn btn-primary" href="'.$downList['downloadLink'].'"><span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> '.$btnText."</a>\n";
-echo '</table>'
 ?> 
 
 <div class="alert alert-success" style="margin-top: 1.5em">

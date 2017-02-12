@@ -52,7 +52,6 @@ foreach ($downList['downloadLinks'] as &$curr) {
     echo '<a class="btn '.$btnType.'" href="'.$curr['url'].'"><span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> '.$btnText."</a>\n";
     $index++;
 }
-echo '</table>'
 ?> 
 
 <div class="alert alert-success" style="margin-top: 1.5em">

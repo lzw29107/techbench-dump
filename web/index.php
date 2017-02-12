@@ -34,10 +34,10 @@ echo '<h1>'.$translation['tbDump'].'</h1>';
 <div class="alert alert-info" style="margin-top: 1.5em">
     <h4><span class="glyphicon glyphicon-dashboard" aria-hidden="true"></span> <?php echo $translation['techInfo']; ?></h4>
     <p> <?php echo $translation['lastUpdate']; ?>: <b><?php echo gmdate("Y-m-d H:i:s e", $out['genTime']); ?></b><br>
-     <?php echo $translation['productsNumber']; ?>: <b><?php echo $out['productNumber']; ?></b></b></p>
+     <?php echo $translation['productsNumber']; ?>: <b><?php echo $out['productNumber']; ?></b></p>
 </div>
 
-<h3><?php echo $translation['catSelect'];?>:</p>
+<h3><?php echo $translation['catSelect'];?>:</h3>
 
 <div class="row" style="margin-top: -0.5em;">
     <div class="col-md-6"><a class="btn btn-primary btn-lg btn-block prod-btn" href="./products.php?prod=win7&<?php echo $langParam;?>">

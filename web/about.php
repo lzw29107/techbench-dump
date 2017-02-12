@@ -23,10 +23,10 @@ styleTop('about');
 echo '<h1>'.$translation['tbDump'].'</h1>';
 ?>
 
-<h3><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> <?php echo $translation['aboutPageTitle'];?></p></h3>
+<h3><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> <?php echo $translation['aboutPageTitle'];?></h3>
 <p><?php echo $translation['aboutPageContent'];?></p>
 
-<h3><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> <?php echo $translation['aboutThanksTitle'];?></p></h3>
+<h3><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> <?php echo $translation['aboutThanksTitle'];?></h3>
 <p><?php echo $translation['aboutThanksContent'];?></p>
 
 <h3><span class="glyphicon glyphicon-globe" aria-hidden="true"></span> <?php echo $translation['aboutTranslationsTitle'];?></h3>
