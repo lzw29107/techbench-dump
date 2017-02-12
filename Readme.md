@@ -23,7 +23,8 @@ Example command to create files used by Website with products from range between
 TechBench dump
 --------------
 Website: https://mdl-tb.ct8.pl/<br>
-Markdown: https://mdl-tb.ct8.pl/dump.md
+Markdown: https://mdl-tb.ct8.pl/dump.md<br>
+Full script: https://github.com/mkuba50/techbench-dump
 
 Credits
 -------
