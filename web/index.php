@@ -74,7 +74,7 @@ echo '<h1>'.$translation['tbDump'].'</h1>';
 
 <hr>
 
-<div class="row" style="margin-top: -0.75em;">
+<div class="row" style="margin-top: -1.25em;">
     <div class="col-md-6"><a class="btn btn-default btn-lg btn-block prod-btn" href="./products.php?prod=all&<?php echo $langParam;?>">
         <div class="prod-btn-title"><?php echo $translation['allProd'];?></div>
         <div class="prod-btn-desc"><?php echo $translation['allProd_desc'];?></div>
