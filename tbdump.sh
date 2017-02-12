@@ -210,9 +210,7 @@ function mainWeb {
 		echo ""
 	done;
 	
-	sed -i '$ s/,$/}}/' dump.json
-	
-	sed s/!!productsNumberPlaceholder!!/$productsFound/g "dump.json" | tr -d '\n' > "Techbench dump.tmp"
+	sed "$ s/,$/}}/;s/!!productsNumberPlaceholder!!/$productsFound/g" "dump.json" | tr -d '\n' > "Techbench dump.tmp"
 	mv -f "Techbench dump.tmp" "dump.json"
 	
 	sed s/!!productsNumberPlaceholder!!/$productsFound/g "Techbench dump.md" > "Techbench dump.tmp"
