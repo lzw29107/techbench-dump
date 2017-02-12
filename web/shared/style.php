@@ -40,7 +40,8 @@ function styleTop($pageType = 'home') {
         break;
     }
     
-    echo '<!--
+    echo '<!DOCTYPE html>
+<!--
 TechBench dump
 Copyright (C) 2017  mkuba50
 
@@ -57,8 +58,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<!DOCTYPE html>
-<html lang="en">
+<html>
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
