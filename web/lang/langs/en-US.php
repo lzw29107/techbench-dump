@@ -23,14 +23,14 @@ $translation = array(
     'prodSelect' => 'Avaliable products for this category',
     'prodLangSelect' => 'Avaliable languages for this product',
     'noProducts' => 'There are no products in this category.',
-    'linkExpireTitle' => 'Links expiration',
+    'linkExpireTitle' => 'Expiration of links',
     'linkExpire1' => 'Links are valid for 24 hours from time of creation.',
     'linkExpire2' => 'Links will expire',
     'directLinksTitle' => 'Direct download links',
-    'directLinksLine1' => 'Need to share a direct link with someone? Use those links below, which generate fresh download link on the fly.',
+    'directLinksLine1' => 'Need to share a direct link with someone? Use these links below, which generate fresh download link on the fly.',
     'linkNotChecked' => 'This website <b>does not</b> check if file exists on Microsoft servers',
     'aboutPageTitle' => 'About this page',
-    'aboutPageContent' => 'This website was created with simplicity in mind. You can here easly download products directly from Microsoft.<br>
+    'aboutPageContent' => 'This website was created with simplicity in mind. Here you can easily download products directly from Microsoft.<br>
 This website or author of it are not affiliated with Microsoft Corporation.',
     'aboutThanksTitle' => 'Thanks',
     'aboutThanksContent' => 'Thanks to everyone who contributed to this project by translating it or by other means.',
