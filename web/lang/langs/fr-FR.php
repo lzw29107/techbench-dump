@@ -47,7 +47,7 @@ Ce site Web et son propriétaire ne sont en aucun cas affiliés avec Microsoft C
     'otherProd' => 'Autres produits',
     'win7_desc' => 'Considéré par certains comme le meilleur système d\'exploitation Windows ayant existé',
     'win81_desc' => 'Version corrigée de Windows 8',
-    'win10_desc' => 'Le système d\'eploitation Windows le plus controversé de tous les temps',
+    'win10_desc' => 'Le système d\'exploitation Windows le plus controversé de tous les temps',
     'office2007_desc' => 'Suite Microsoft Office de 2007',
     'office2010_desc' => 'Suite Microsoft Office de 2010',
     'office2011_desc' => 'Microsoft Office 2011 pour Apple macOS',
