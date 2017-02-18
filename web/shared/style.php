@@ -102,7 +102,7 @@ function styleTop($pageType = 'home') {
                             <ul class="dropdown-menu">
                                 <li><a href="https://gist.github.com/mkuba50/27c909501cbc2a4f169be4b4075a66ff">'.$translation['githubGist'].'</a></li>
                                 <li><a href="https://github.com/mkuba50/techbench-dump">'.$translation['githubRepoScript'].'</a></li>
-                                <li><a href="https://gitlab.com/mkuba50/techbench-dump-web">'.$translation['githubRepoWeb'].'</a></li>
+                                <li><a href="https://github.com/mkuba50/techbench-dump-web">'.$translation['githubRepoWeb'].'</a></li>
                             </ul>
                         </li>
                         '.$navbarLink2.'
@@ -120,7 +120,12 @@ function styleTop($pageType = 'home') {
 }
 
 function styleBottom() {
-    echo '</div>
+    global $translation;
+    echo '
+            <div class="footer">
+            <hr>
+                <p>'.$translation['tbDump'].' [ v2.1-alpha ] &copy; '.date('Y').' <a href="https://forums.mydigitallife.info/threads/72165">The TechBench dump website authors</a></p>
+            </div></div>
         </div><!-- /.container -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
