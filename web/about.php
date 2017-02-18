@@ -73,6 +73,10 @@ echo '<h1>'.$translation['tbDump'].'</h1>';
         <td><img src="lang/flags/ja-JP.png"> 日本語</td>
         <td><a href="https://forums.mydigitallife.info/members/476049-NeXtStatioN">NeXtStatioN (@AniMachin3)</a></td>
     </tr>
+    <tr>
+        <td><img src="lang/flags/qps-ploc.png"> [ !!! Ƥşḗŭḓǿ !!! ]</td>
+        <td>mkuba50</td>
+    </tr>
 </table>
 
 <?php styleBottom(); ?>

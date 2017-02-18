@@ -48,6 +48,9 @@ switch ($lang) {
     case 'it-it':
         require 'langs/it-IT.php';
         break;
+    case 'qps-ploc':
+        require 'langs/qps-ploc.php';
+        break;
     default:
         require 'langs/en-US.php';
         break;
@@ -65,6 +68,7 @@ $langCore_menu = '<li class="dropdown"><a class="dropdown-toggle" data-toggle="d
                                 <li><a href="./?lang=ru-RU"><img src="lang/flags/ru-RU.png">&nbsp;Русский</a></li>
                                 <li><a href="./?lang=th-TH"><img src="lang/flags/th-TH.png">&nbsp;ภาษาไทย</a></li>
                                 <li><a href="./?lang=ja-JP"><img src="lang/flags/ja-JP.png">&nbsp;日本語</a></li>
+                                <li><a href="./?lang=qps-ploc"><img src="lang/flags/qps-ploc.png">&nbsp;[ !!! Ƥşḗŭḓǿ !!! ]</a></li>
                             </ul>
                   </li>';
 ?>
