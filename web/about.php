@@ -38,39 +38,39 @@ echo '<h1>'.$translation['tbDump'].'</h1>';
         </tr>
     </thead>
     <tr>
-        <td><img src="lang/flags/US.png"> English (US)</td>
+        <td><img src="lang/flags/en-US.png"> English (US)</td>
         <td>mkuba50</td>
     </tr>
     <tr>
-        <td><img src="lang/flags/ES.png"> Español (España)</td>
+        <td><img src="lang/flags/es-ES.png"> Español (España)</td>
         <td><a href="https://forums.mydigitallife.info/members/417886-antonio8909">antonio8909</a></td>
     </tr>
     <tr>
-        <td><img src="lang/flags/FR.png"> Français</td>
+        <td><img src="lang/flags/fr-FR.png"> Français</td>
         <td><a href="https://forums.mydigitallife.info/members/476049-NeXtStatioN">NeXtStatioN (@AniMachin3)</a></td>
     </tr>
     <tr>
-        <td><img src="lang/flags/IT.png"> Italiano</td>
+        <td><img src="lang/flags/it-IT.png"> Italiano</td>
         <td><a href="https://forums.mydigitallife.info/members/6748-garf02">garf02</a></td>
     </tr>
     <tr>
-        <td><img src="lang/flags/NL.png"> Nederlands</td>
+        <td><img src="lang/flags/nl-NL.png"> Nederlands</td>
         <td><a href="https://forums.mydigitallife.info/members/104688-Enthousiast">Enthousiast</a></td>
     </tr>
     <tr>
-        <td><img src="lang/flags/PL.png"> Polski</td>
+        <td><img src="lang/flags/pl-PL.png"> Polski</td>
         <td>mkuba50</td>
     </tr>
     <tr>
-        <td><img src="lang/flags/RU.png"> Русский</td>
+        <td><img src="lang/flags/ru-RU.png"> Русский</td>
         <td><a href="https://forums.mydigitallife.info/members/381582-adguard">adguard</a></td>
     </tr>
     <tr>
-        <td><img src="lang/flags/TH.png"> ภาษาไทย</td>
+        <td><img src="lang/flags/th-TH.png"> ภาษาไทย</td>
         <td><a href="https://forums.mydigitallife.info/members/418421-Phairat">Phairat</a></td>
     </tr>
     <tr>
-        <td><img src="lang/flags/JP.png"> 日本語</td>
+        <td><img src="lang/flags/ja-JP.png"> 日本語</td>
         <td><a href="https://forums.mydigitallife.info/members/476049-NeXtStatioN">NeXtStatioN (@AniMachin3)</a></td>
     </tr>
 </table>

@@ -54,17 +54,17 @@ switch ($lang) {
 }
 
 $langParam='lang='.$translation['langCode'];
-$langCore_menu = '<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" role="button">'. $translation['langMenu'] . ' <span class="caret"></span></a>
+$langCore_menu = '<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" role="button"><img src="lang/flags/'.$translation['langCode'].'.png"> '.$translation['langNameLocal'].' <span class="caret"></span></a>
                             <ul class="dropdown-menu">
-                                <li><a href="./?lang=en-US"><img src="lang/flags/US.png">&nbsp;English (US)</a></li>
-                                <li><a href="./?lang=es-ES"><img src="lang/flags/ES.png">&nbsp;Español (España)</a></li>
-                                <li><a href="./?lang=fr-FR"><img src="lang/flags/FR.png">&nbsp;Français</a></li>
-                                <li><a href="./?lang=it-IT"><img src="lang/flags/IT.png">&nbsp;Italiano</a></li>
-                                <li><a href="./?lang=nl-NL"><img src="lang/flags/NL.png">&nbsp;Nederlands</a></li>
-                                <li><a href="./?lang=pl-PL"><img src="lang/flags/PL.png">&nbsp;Polski</a></li>
-                                <li><a href="./?lang=ru-RU"><img src="lang/flags/RU.png">&nbsp;Русский</a></li>
-                                <li><a href="./?lang=th-TH"><img src="lang/flags/TH.png">&nbsp;ภาษาไทย</a></li>
-                                <li><a href="./?lang=ja-JP"><img src="lang/flags/JP.png">&nbsp;日本語</a></li>
+                                <li><a href="./?lang=en-US"><img src="lang/flags/en-US.png">&nbsp;English (US)</a></li>
+                                <li><a href="./?lang=es-ES"><img src="lang/flags/es-ES.png">&nbsp;Español (España)</a></li>
+                                <li><a href="./?lang=fr-FR"><img src="lang/flags/fr-FR.png">&nbsp;Français</a></li>
+                                <li><a href="./?lang=it-IT"><img src="lang/flags/it-IT.png">&nbsp;Italiano</a></li>
+                                <li><a href="./?lang=nl-NL"><img src="lang/flags/nl-NL.png">&nbsp;Nederlands</a></li>
+                                <li><a href="./?lang=pl-PL"><img src="lang/flags/pl-PL.png">&nbsp;Polski</a></li>
+                                <li><a href="./?lang=ru-RU"><img src="lang/flags/ru-RU.png">&nbsp;Русский</a></li>
+                                <li><a href="./?lang=th-TH"><img src="lang/flags/th-TH.png">&nbsp;ภาษาไทย</a></li>
+                                <li><a href="./?lang=ja-JP"><img src="lang/flags/ja-JP.png">&nbsp;日本語</a></li>
                             </ul>
                   </li>';
 ?>

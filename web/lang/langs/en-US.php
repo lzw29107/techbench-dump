@@ -1,3 +1,4 @@
+
 <?php
 $translation = array(
     'langName' => 'English',
@@ -14,7 +15,7 @@ $translation = array(
     'aboutPage' => 'About',
     'githubGist' => 'Gist',
     'githubRepoScript' => 'GitHub repository (script)',
-    'githubRepoWeb' => 'GitHub repository (website)',
+    'githubRepoWeb' => 'GitLab repository (website)',
     'langMenu' => 'Language',
     'techInfo' => 'Technical information',
     'lastUpdate' => 'Last update',

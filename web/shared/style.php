@@ -102,7 +102,7 @@ function styleTop($pageType = 'home') {
                             <ul class="dropdown-menu">
                                 <li><a href="https://gist.github.com/mkuba50/27c909501cbc2a4f169be4b4075a66ff">'.$translation['githubGist'].'</a></li>
                                 <li><a href="https://github.com/mkuba50/techbench-dump">'.$translation['githubRepoScript'].'</a></li>
-                                <li><a href="https://github.com/mkuba50/techbench-dump-web">'.$translation['githubRepoWeb'].'</a></li>
+                                <li><a href="https://gitlab.com/mkuba50/techbench-dump-web">'.$translation['githubRepoWeb'].'</a></li>
                             </ul>
                         </li>
                         '.$navbarLink2.'
