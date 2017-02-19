@@ -124,7 +124,7 @@ function styleBottom() {
     echo '
             <div class="footer">
             <hr>
-                <p>'.$translation['tbDump'].' [ v2.1-alpha ] &copy; '.date('Y').' <a href="https://forums.mydigitallife.info/threads/72165">The TechBench dump website authors</a></p>
+                <p>'.$translation['tbDump'].' v2.1 &copy; '.date('Y').' <a href="https://forums.mydigitallife.info/threads/72165">The TechBench dump website authors</a></p>
             </div></div>
         </div><!-- /.container -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
