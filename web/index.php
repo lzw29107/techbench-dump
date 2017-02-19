@@ -33,7 +33,7 @@ echo '<h1>'.$translation['tbDump'].'</h1>';
 
 <div class="alert alert-info" style="margin-top: 1.5em">
     <h4><span class="glyphicon glyphicon-dashboard" aria-hidden="true"></span> <?php echo $translation['techInfo']; ?></h4>
-    <p> <?php echo $translation['lastUpdate']; ?>: <b><?php echo date("Y-m-d H:i:s e", $out['genTime']); ?></b><br>
+    <p> <?php echo $translation['lastUpdate']; ?>: <b><?php echo date("Y-m-d H:i:s T", $out['genTime']); ?></b><br>
      <?php echo $translation['productsNumber']; ?>: <b><?php echo $out['productNumber']; ?></b></p>
 </div>
 
