@@ -1,4 +1,3 @@
-
 <?php
 $translation = array(
     'langName' => 'English',
@@ -59,6 +58,6 @@ This website or author of it are not affiliated with Microsoft Corporation.',
     'archx64' => '64-bit',
     'archx86' => '32-bit',
     'downloadName' => 'Download',
-    'timeZone' => 'America/Los_Angeles',
+    'timeZone' => 'UTC',
 );
 ?>
