@@ -57,7 +57,7 @@ foreach ($downList['downloadLinks'] as &$curr) {
 <div class="alert alert-success" style="margin-top: 1.5em">
     <h4><span class="glyphicon glyphicon-time" aria-hidden="true"></span> <?php echo $translation['linkExpireTitle'];?></h4>
     <p><?php echo $translation['linkExpire1'];?><br>
-    <?php echo $translation['linkExpire2'].': <b>'.gmdate("Y-m-d H:i:s e", $downList['expiration']); ?></b></p>
+    <?php echo $translation['linkExpire2'].': <b>'.date("Y-m-d H:i:s e", $downList['expiration']); ?></b></p>
 </div>
 
 <div class="alert alert-info" style="margin-top: 1.5em">

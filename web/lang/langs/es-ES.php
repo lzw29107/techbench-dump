@@ -57,6 +57,7 @@ Esta página web o autor no están afiliados con Microsoft Corporation.',
     'idName' => 'ID',
     'archx64' => '64-bit',
     'archx86' => '32-bit',
-    'downloadName' => 'Descargar'
+    'downloadName' => 'Descargar',
+    'timeZone' => 'Europe/Madrid',
 );
 ?>

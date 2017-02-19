@@ -58,6 +58,7 @@ This website or author of it are not affiliated with Microsoft Corporation.',
     'idName' => 'ID',
     'archx64' => '64-bit',
     'archx86' => '32-bit',
-    'downloadName' => 'Download'
+    'downloadName' => 'Download',
+    'timeZone' => 'America/Los_Angeles',
 );
 ?>

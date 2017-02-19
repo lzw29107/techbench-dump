@@ -57,6 +57,7 @@ Ce site Web et son propriétaire ne sont en aucun cas affiliés avec Microsoft C
     'idName' => 'ID',
     'archx64' => '64-bit',
     'archx86' => '32-bit',
-    'downloadName' => 'Téléchargement'
+    'downloadName' => 'Téléchargement',
+    'timeZone' => 'Europe/Paris',
 );
 ?>

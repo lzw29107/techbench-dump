@@ -57,6 +57,7 @@ $translation = array(
     'idName' => 'ID',
     'archx64' => '64-bit',
     'archx86' => '32-bit',
-    'downloadName' => 'ดาวน์โหลด'
+    'downloadName' => 'ดาวน์โหลด',
+    'timeZone' => 'Asia/Bangkok',
 );
 ?>

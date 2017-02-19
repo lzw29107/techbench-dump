@@ -57,6 +57,7 @@ Questo sito web o l\'autore non è in alcun modo affiliato con Microsoft Corpora
     'idName' => 'ID',
     'archx64' => '64-bit',
     'archx86' => '32-bit',
-    'downloadName' => 'Download'
+    'downloadName' => 'Download',
+    'timeZone' => 'Europe/Rome',
 );
 ?>

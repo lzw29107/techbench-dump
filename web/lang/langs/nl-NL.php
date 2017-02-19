@@ -57,6 +57,7 @@ De maker van deze website, of de website zelf, is niet gelieerd aan Microsoft.',
     'idName' => 'ID',
     'archx64' => '64-bit',
     'archx86' => '32-bit',
-    'downloadName' => 'Download'
+    'downloadName' => 'Download',
+    'timeZone' => 'Europe/Amsterdam',
 );
 ?>

@@ -56,6 +56,7 @@ switch ($lang) {
         break;
 }
 
+date_default_timezone_set($translation['timeZone']);
 $langParam='lang='.$translation['langCode'];
 $langCore_menu = '<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" role="button"><img src="lang/flags/'.$translation['langCode'].'.png"> '.$translation['langNameLocal'].' <span class="caret"></span></a>
                             <ul class="dropdown-menu">

@@ -58,5 +58,6 @@ $translation = array(
     'archx64' => '[ !!! 64-ƀīŧ !!! ]',
     'archx86' => '[ !!! 32-ƀīŧ !!! ]',
     'downloadName' => '[ !!! Ḓǿẇƞŀǿȧḓ !!! ]',
+    'timeZone' => 'UTC',
 );
 ?>
