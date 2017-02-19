@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 // TechBench dump
 // Copyright (C) 2017  mkuba50
 
