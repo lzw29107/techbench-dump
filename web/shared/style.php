@@ -8,7 +8,7 @@
 // (at your option) any later version.
 
 // Additional terms to GPLv3 license apply, see LICENSE.txt file or
-// <https://gitlab.com/mkuba50/techbench-dump-web/blob/master/LICENSE.txt>.
+// <https://github.com/techbench-dump/website/blob/master/LICENSE.txt>.
 
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -18,7 +18,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-$websiteVersion = '2.1.1';
+$websiteVersion = '2.1.2';
 function styleTop($pageType = 'home') {
     global $translation, $langCore_menu, $langParam;
 
@@ -56,7 +56,7 @@ function styleTop($pageType = 'home') {
     (at your option) any later version.
 
     Additional terms to GPLv3 license apply, see LICENSE.txt file or
-    <https://gitlab.com/mkuba50/techbench-dump-web/blob/master/LICENSE.txt>.
+    <https://github.com/techbench-dump/website/blob/master/LICENSE.txt>.
 
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -108,8 +108,8 @@ function styleTop($pageType = 'home') {
                         <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" role="button">'. $translation['moreMenu'] . ' <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li><a href="https://gist.github.com/mkuba50/27c909501cbc2a4f169be4b4075a66ff">'.$translation['githubGist'].'</a></li>
-                                <li><a href="https://github.com/mkuba50/techbench-dump">'.$translation['githubRepoScript'].'</a></li>
-                                <li><a href="https://gitlab.com/mkuba50/techbench-dump-web">'.$translation['gitlabRepoWeb'].'</a></li>
+                                <li><a href="https://github.com/techbench-dump/script">'.$translation['githubRepoScript'].'</a></li>
+                                <li><a href="https://github.com/techbench-dump/website">'.$translation['githubRepoWeb'].'</a></li>
                             </ul>
                         </li>
                         '.$navbarLink2.'

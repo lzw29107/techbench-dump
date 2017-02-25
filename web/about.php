@@ -8,7 +8,7 @@
 // (at your option) any later version.
 
 // Additional terms to GPLv3 license apply, see LICENSE.txt file or
-// <https://gitlab.com/mkuba50/techbench-dump-web/blob/master/LICENSE.txt>.
+// <https://github.com/techbench-dump/website/blob/master/LICENSE.txt>.
 
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -42,7 +42,7 @@ echo '<h1>'.$translation['tbDump'].'</h1>';
     </thead>
     <tr>
         <td><img src="lang/flags/en-US.png"> English (US)</td>
-        <td><a href="https://forums.mydigitallife.info/members/317641-mkuba50">mkuba50</a></td>
+        <td><a href="https://forums.mydigitallife.info/members/317641-mkuba50">mkuba50</a> (<a href="https://github.com/techbench-dump">GitHub</a>)</td>
     </tr>
     <tr>
         <td><img src="lang/flags/es-ES.png"> Español (España)</td>
@@ -62,7 +62,7 @@ echo '<h1>'.$translation['tbDump'].'</h1>';
     </tr>
     <tr>
         <td><img src="lang/flags/pl-PL.png"> Polski</td>
-        <td><a href="https://forums.mydigitallife.info/members/317641-mkuba50">mkuba50</a></td>
+        <td><a href="https://forums.mydigitallife.info/members/317641-mkuba50">mkuba50</a> (<a href="https://github.com/techbench-dump">GitHub</a>)</td>
     </tr>
     <tr>
         <td><img src="lang/flags/ru-RU.png"> Русский</td>
@@ -78,7 +78,7 @@ echo '<h1>'.$translation['tbDump'].'</h1>';
     </tr>
     <tr>
         <td><img src="lang/flags/qps-ploc.png"> [ !!! Ƥşḗŭḓǿ !!! ]</td>
-        <td><a href="https://forums.mydigitallife.info/members/317641-mkuba50">mkuba50</a></td>
+        <td><a href="https://forums.mydigitallife.info/members/317641-mkuba50">mkuba50</a> (<a href="https://github.com/techbench-dump">GitHub</a>)</td>
     </tr>
 </table>
 
