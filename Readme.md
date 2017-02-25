@@ -24,7 +24,7 @@ TechBench dump
 --------------
 Website: https://mdl-tb.ct8.pl/<br>
 Markdown: https://mdl-tb.ct8.pl/dump.md<br>
-Full script: https://github.com/mkuba50/techbench-dump
+Full script: https://github.com/techbench-dump/script
 
 License
 -------
