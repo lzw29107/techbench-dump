@@ -7,6 +7,9 @@
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 
+// Additional terms to GPLv3 license apply, see LICENSE.txt file or
+// <https://gitlab.com/mkuba50/techbench-dump-web/blob/master/LICENSE.txt>.
+
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -15,6 +18,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+$websiteVersion = '2.1.1';
 function styleTop($pageType = 'home') {
     global $translation, $langCore_menu, $langParam;
 
@@ -50,6 +54,9 @@ function styleTop($pageType = 'home') {
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
+
+    Additional terms to GPLv3 license apply, see LICENSE.txt file or
+    <https://gitlab.com/mkuba50/techbench-dump-web/blob/master/LICENSE.txt>.
 
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -120,11 +127,11 @@ function styleTop($pageType = 'home') {
 }
 
 function styleBottom() {
-    global $translation;
+    global $translation, $websiteVersion;
     echo '
             <div class="footer">
             <hr>
-                <p>'.$translation['tbDump'].' v2.1 &copy; '.date('Y').' <a href="https://forums.mydigitallife.info/threads/72165">The TechBench dump website authors</a></p>
+                <p>'.$translation['tbDump'].' v'.$websiteVersion.' &copy; '.date('Y').' <a href="https://forums.mydigitallife.info/threads/72165">The TechBench dump website authors</a></p>
             </div></div>
         </div><!-- /.container -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
