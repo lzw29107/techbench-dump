@@ -42,7 +42,7 @@ echo '<h1>'.$translation['tbDump'].'</h1>';
     </thead>
     <tr>
         <td><img src="lang/flags/en-US.png"> English (US)</td>
-        <td>mkuba50</td>
+        <td><a href="https://forums.mydigitallife.info/members/317641-mkuba50">mkuba50</a></td>
     </tr>
     <tr>
         <td><img src="lang/flags/es-ES.png"> Español (España)</td>
@@ -62,7 +62,7 @@ echo '<h1>'.$translation['tbDump'].'</h1>';
     </tr>
     <tr>
         <td><img src="lang/flags/pl-PL.png"> Polski</td>
-        <td>mkuba50</td>
+        <td><a href="https://forums.mydigitallife.info/members/317641-mkuba50">mkuba50</a></td>
     </tr>
     <tr>
         <td><img src="lang/flags/ru-RU.png"> Русский</td>
@@ -78,7 +78,7 @@ echo '<h1>'.$translation['tbDump'].'</h1>';
     </tr>
     <tr>
         <td><img src="lang/flags/qps-ploc.png"> [ !!! Ƥşḗŭḓǿ !!! ]</td>
-        <td>mkuba50</td>
+        <td><a href="https://forums.mydigitallife.info/members/317641-mkuba50">mkuba50</a></td>
     </tr>
 </table>
 
