@@ -26,6 +26,10 @@ Website: https://mdl-tb.ct8.pl/<br>
 Markdown: https://mdl-tb.ct8.pl/dump.md<br>
 Full script: https://github.com/mkuba50/techbench-dump
 
+License
+-------
+The TechBench dump website is licensed under the terms of GNU GPLv3 with additional terms, see LICENSE.txt file.
+
 Credits
 -------
 WzorNET - finding out that TechBench contains more than Windows 10.<br>
