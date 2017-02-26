@@ -23,7 +23,7 @@ require 'lang/core.php';
 require 'shared/style.php';
 
 styleTop('about');
-echo '<h1>'.$translation['tbDump'].'</h1>';
+echo '<h1>'.$translation['tbDump'].' <span class="badge">v'.$websiteVersion.'</span></h1>';
 ?>
 
 <h3><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> <?php echo $translation['aboutPageTitle'];?></h3>

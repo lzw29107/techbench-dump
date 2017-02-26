@@ -31,7 +31,7 @@ if(empty($out)) {
 
 styleTop('home');
 
-echo '<h1>'.$translation['tbDump'].'</h1>';
+echo '<h1>'.$translation['tbDump'].' <span class="badge">v'.$websiteVersion.'</span></h1>';
 ?>
 
 <div class="alert alert-info" style="margin-top: 1.5em">
