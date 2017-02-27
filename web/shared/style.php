@@ -18,7 +18,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-$websiteVersion = '2.2.0';
+$websiteVersion = '2.2.1';
 function styleTop($pageType = 'home') {
     global $translation, $langCore_menu, $langParam;
 

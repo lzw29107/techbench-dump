@@ -53,7 +53,7 @@ switch ($prodName) {
         $selectedCategory = $translation['win10th2'];
         break;
     case 'win10rs1':
-        $products = preg_grep('/Windows.10.*?Redstone.1/',$out['products']);
+        $products = preg_grep('/Windows.10.*?Redstone.1|Windows.*?Build 14393/',$out['products']);
         $selectedCategory = $translation['win10rs1'];
         break;
     case 'win10ip':
