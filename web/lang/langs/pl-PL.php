@@ -30,7 +30,7 @@ $translation = array(
     'directLinksLine1' => 'Potrzebujesz udostępnić komuś link bezpośredni? Użyj linków poniżej, które generują świeży link pobrania w locie.',
     'linkNotChecked' => 'Ta strona <b>nie</b> sprawdza, czy plik istnieje na serwerach firmy Microsoft.',
     'aboutPageTitle' => 'O tej stronie',
-    'aboutPageContent' => 'Ta strona została stworzona z myślą o prostocie. Możesz tutaj pobierać produkty bezpośrednio of firmy Microsoft.<br>
+    'aboutPageContent' => 'Ta strona została stworzona z myślą o prostocie. Możesz tutaj pobierać produkty bezpośrednio od firmy Microsoft.<br>
 Ta strona oraz jej autor nie są powiązani z Microsoft Corporation.',
     'aboutThanksTitle' => 'Podziękowania',
     'aboutThanksContent' => 'Dziękuję każdemu, kto przyczynił się do rozwoju tego projektu poprzez tłumaczenie go lub w inny sposób.',
