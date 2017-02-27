@@ -44,6 +44,22 @@ switch ($prodName) {
         $products = preg_grep('/Windows.10/',$out['products']);
         $selectedCategory = $translation['win10'];
         break;
+    case 'win10th1':
+        $products = preg_grep('/Windows.10.*?Threshold.1/',$out['products']);
+        $selectedCategory = $translation['win10th1'];
+        break;
+    case 'win10th2':
+        $products = preg_grep('/Windows.10.*?Threshold.2/',$out['products']);
+        $selectedCategory = $translation['win10th2'];
+        break;
+    case 'win10rs1':
+        $products = preg_grep('/Windows.10.*?Redstone.1/',$out['products']);
+        $selectedCategory = $translation['win10rs1'];
+        break;
+    case 'win10ip':
+        $products = preg_grep('/Windows.*?Insider.?Preview/',$out['products']);
+        $selectedCategory = $translation['win10ip'];
+        break;
     case 'office2007':
         $products = preg_grep('/ 2007/',$out['products']);
         $selectedCategory = $translation['office2007'];

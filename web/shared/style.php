@@ -18,7 +18,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-$websiteVersion = '2.1.4';
+$websiteVersion = '2.2.0';
 function styleTop($pageType = 'home') {
     global $translation, $langCore_menu, $langParam;
 
@@ -77,9 +77,12 @@ function styleTop($pageType = 'home') {
         <style>
         body{font-family: "Segoe UI", "Microsoft JhengHei", "Helvetica Neue", Helvetica, Arial, sans-serif; padding-top: 50px;}
         .content {padding: 30px 15px;}
-        .prod-btn {margin-top: 1em;}
+        .prod-btn {margin-top: 18px;}
         .prod-btn-title {text-align: left; white-space: normal;}
         .prod-btn-desc {text-align: left; font-size: 65%; opacity: 0.75; white-space: normal;}
+        .dropd-toggle-btn-container {position: absolute; width: 38px; right: 15px; top: 0px; height: 100%; z-index: 1;}
+        .dropd-toggle-btn {position: absolute; width: 30px; right: 8px; bottom: 8px; top: 8px; z-index: 1; padding-left: 0px; padding-right: 0px;}
+        .dropd-parent-btn {padding-right: 46px; z-index: 0;}
         </style>
 
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
