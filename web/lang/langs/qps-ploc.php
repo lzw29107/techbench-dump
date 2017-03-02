@@ -35,6 +35,7 @@ $translation = array(
     'aboutThanksTitle' => '[ !!! Ŧħȧƞķş !!! ]',
     'aboutThanksContent' => '[ !!! Ŧħȧƞķş ŧǿ ḗṽḗřẏǿƞḗ ẇħǿ ƈǿƞŧřīƀŭŧḗḓ ŧǿ ŧħīş ƥřǿĵḗƈŧ ƀẏ ŧřȧƞşŀȧŧīƞɠ īŧ ǿř ƀẏ ǿŧħḗř ḿḗȧƞş. !!! ]',
     'aboutTranslationsTitle' => '[ !!! Ŧřȧƞşŀȧŧīǿƞş !!! ]',
+    'aboutLicenseTitle' => 'License',
     'language' => '[ !!! Ŀȧƞɠŭȧɠḗ !!! ]',
     'authors' => '[ !!! Ȧŭŧħǿřş !!! ]',
     'win7' => '[ !!! Ẇīƞḓǿẇş 7 !!! ]',

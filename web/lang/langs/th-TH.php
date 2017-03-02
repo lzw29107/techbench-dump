@@ -35,6 +35,7 @@ $translation = array(
     'aboutThanksTitle' => 'ขอบคุณ',
     'aboutThanksContent' => 'ขอบคุณทุกคนที่มีส่วนร่วมกับโครงการนี้โดยการแปลหรือโดยวิธีการอื่น.',
     'aboutTranslationsTitle' => 'การแปล',
+    'aboutLicenseTitle' => 'License',
     'language' => 'ภาษา',
     'authors' => 'ผู้เขียน',
     'win7' => 'Windows 7',

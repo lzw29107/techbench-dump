@@ -35,6 +35,7 @@ Ce site Web et son propriétaire ne sont en aucun cas affiliés avec Microsoft C
     'aboutThanksTitle' => 'Merci',
     'aboutThanksContent' => 'Merci à tous ceux qui ont contribué à ce projet en le traduisant ou par quelconque autre moyen.',
     'aboutTranslationsTitle' => 'Traductions',
+    'aboutLicenseTitle' => 'License',
     'language' => 'Langue',
     'authors' => 'Auteurs',
     'win7' => 'Windows 7',

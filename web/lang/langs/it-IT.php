@@ -35,6 +35,7 @@ Questo sito web o l\'autore non è in alcun modo affiliato con Microsoft Corpora
     'aboutThanksTitle' => 'Grazie',
     'aboutThanksContent' => 'Grazie a tutti quelli che vogliono contribuire a questo progetto con le traduzioni o altri mezzi.',
     'aboutTranslationsTitle' => 'Traduzioni',
+    'aboutLicenseTitle' => 'License',
     'language' => 'Lingue',
     'authors' => 'Autori',
     'win7' => 'Windows 7',
