@@ -20,6 +20,7 @@
 
 $skuId = isset($_GET['skuId']) ? $_GET['skuId'] : '6PC-00020';
 $lang = isset($_GET['lang']) ? $_GET['lang'] : 'en-us';
+$base_url=$_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['SERVER_NAME'].dirname($_SERVER['REQUEST_URI'].'?').'/';
 require 'lang/core.php';
 require 'shared/get.php';
 require 'shared/style.php';
@@ -69,7 +70,7 @@ foreach ($downList['downloadLinks'] as &$curr) {
     <pre style="margin-top: 1em"><code><?php 
         foreach ($downList['downloadLinks'] as &$iso)
         {
-        echo 'https://mdl-tb.ct8.pl/getDirect.php?fileName='.$iso['fileName']."\n";
+        echo "{$base_url}getDirect.php?fileName=".$iso['fileName']."\n";
         }
     ?></code></pre>
 </div>

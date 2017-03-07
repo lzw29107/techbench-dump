@@ -20,6 +20,7 @@
 
 $fileName = isset($_GET['fileName']) ? $_GET['fileName'] : 'Win7_Pro_SP1_English_x64.iso';
 $lang = isset($_GET['lang']) ? $_GET['lang'] : 'en-us';
+$base_url=$_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['SERVER_NAME'].dirname($_SERVER['REQUEST_URI'].'?').'/';
 require 'lang/core.php';
 require 'shared/get.php';
 require 'shared/style.php';
@@ -59,7 +60,7 @@ echo '<a class="btn btn-primary" href="'.$downList['downloadLink'].'"><span clas
     <h4><span class="glyphicon glyphicon-link" aria-hidden="true"></span> <?php echo $translation['directLinksTitle'];?></h4>
     <p><?php echo $translation['directLinksLine1'];?></p>
     <pre style="margin-top: 1em"><code><?php 
-        echo 'https://mdl-tb.ct8.pl/getDirect.php?fileName='.$downList['fileName']."\n";
+        echo "{$base_url}getDirect.php?fileName=".$downList['fileName']."\n";
     ?></code></pre>
 </div>
 
