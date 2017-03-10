@@ -23,7 +23,7 @@ $out = @file_get_contents('dump.json');
 if(empty($out)) {
     $out = array('products' => null);
 } else {
-    $out = json_decode($out, true);   
+    $out = json_decode($out, true);
 }
 
 $products = $out['products'];

@@ -21,7 +21,7 @@ $out = @file_get_contents('dump.json');
 if(empty($out)) {
     $out = array('genTime' => null, 'productNumber' => '?', 'products' => null);
 } else {
-    $out = json_decode($out, true);   
+    $out = json_decode($out, true);
 }
 
 styleTop('home');

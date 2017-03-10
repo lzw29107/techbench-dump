@@ -22,7 +22,7 @@ $out = @file_get_contents('dump.json');
 if(empty($out)) {
     $out = array('genTime' => null, 'productNumber' => '?', 'products' => array());
 } else {
-    $out = json_decode($out, true);   
+    $out = json_decode($out, true);
 }
 
 $prodName = strtolower($prodName);
@@ -92,10 +92,10 @@ echo '<h1>'.$translation['tbDumpDownload']."</h1>\n";
 echo "<h3><span class=\"glyphicon glyphicon-th-list\" aria-hidden=\"true\"></span> $selectedCategory</h3>\n";
 echo '<table class="table table-striped">';
 echo '<thead><tr><th>'.$translation['prodSelect']."</th></tr></thead>\n";
-                
+
 if(empty($products)) {
     echo '<tr><td>'.$translation['noProducts'].'</td></tr>';
-} else {                
+} else {
     foreach ($products as $key => &$curr) {
         echo '<tr><td><a href="./langs.php?id='.$key.'&'.$langParam.'">'.$curr .' ['.$translation['idName'].': '.$key."]</a></td></tr>\n";
     }

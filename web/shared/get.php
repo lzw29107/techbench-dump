@@ -19,7 +19,7 @@ function getDownload($skuId = '6PC-00020') {
 
     curl_setopt($req, CURLOPT_HEADER, 0);
     curl_setopt($req, CURLOPT_REFERER, "https://www.microsoft.com/en-us/software-download/windows10ISO");
-    curl_setopt($req, CURLOPT_RETURNTRANSFER, true); 
+    curl_setopt($req, CURLOPT_RETURNTRANSFER, true);
 
     $expire = time() + 86400;
     $out = curl_exec($req);
@@ -77,7 +77,7 @@ function getDownloadByName($fileName = 'Win7_Pro_SP1_English_x64.iso') {
 
     curl_setopt($req, CURLOPT_HEADER, 0);
     curl_setopt($req, CURLOPT_REFERER, "https://www.microsoft.com/en-us/software-download/windows10ISO");
-    curl_setopt($req, CURLOPT_RETURNTRANSFER, true); 
+    curl_setopt($req, CURLOPT_RETURNTRANSFER, true);
 
     $expire = time() + 86400;
     $out = curl_exec($req);
@@ -114,7 +114,7 @@ function getLangOut($prodId = "4", $lang = "en-us") {
 
     curl_setopt($req, CURLOPT_HEADER, 0);
     curl_setopt($req, CURLOPT_REFERER, "https://www.microsoft.com/en-us/software-download/windows10ISO");
-    curl_setopt($req, CURLOPT_RETURNTRANSFER, true); 
+    curl_setopt($req, CURLOPT_RETURNTRANSFER, true);
 
     $out = curl_exec($req);
     curl_close($req);
