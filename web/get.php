@@ -15,7 +15,11 @@
 
 $skuId = isset($_GET['skuId']) ? $_GET['skuId'] : '6PC-00020';
 $lang = isset($_GET['lang']) ? $_GET['lang'] : 'en-us';
-$base_url=$_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['SERVER_NAME'].dirname($_SERVER['REQUEST_URI'].'?').'/';
+
+$requestScheme = (isset($_SERVER['HTTPS'])) ? 'https' : 'http';
+$baseDir = preg_replace('/\/$/', '', dirname($_SERVER['REQUEST_URI']));
+$baseUrl=$requestScheme.'://'.$_SERVER['SERVER_NAME'].$baseDir.'/';
+
 require 'lang/core.php';
 require 'shared/get.php';
 require 'shared/style.php';
@@ -51,7 +55,7 @@ foreach ($downList['downloadLinks'] as &$curr) {
     echo '<a class="btn '.$btnType.'" href="'.$curr['url'].'"><span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> '.$btnText."</a>\n";
     $index++;
 }
-?> 
+?>
 
 <div class="alert alert-success" style="margin-top: 1.5em">
     <h4><span class="glyphicon glyphicon-time" aria-hidden="true"></span> <?php echo $translation['linkExpireTitle'];?></h4>
@@ -62,10 +66,10 @@ foreach ($downList['downloadLinks'] as &$curr) {
 <div class="alert alert-info" style="margin-top: 1.5em">
     <h4><span class="glyphicon glyphicon-link" aria-hidden="true"></span> <?php echo $translation['directLinksTitle'];?></h4>
     <p><?php echo $translation['directLinksLine1'];?></p>
-    <pre style="margin-top: 1em"><code><?php 
+    <pre style="margin-top: 1em"><code><?php
         foreach ($downList['downloadLinks'] as &$iso)
         {
-        echo "{$base_url}getDirect.php?fileName=".$iso['fileName']."\n";
+        echo "{$baseUrl}getDirect.php?fileName=".$iso['fileName']."\n";
         }
     ?></code></pre>
 </div>

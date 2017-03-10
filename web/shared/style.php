@@ -13,7 +13,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-$websiteVersion = '2.2.2.1';
+$websiteVersion = '2.2.2.2';
 function styleTop($pageType = 'home') {
     global $translation, $langCore_menu, $langParam;
 
@@ -38,7 +38,7 @@ function styleTop($pageType = 'home') {
         $menuBtn = '<li class="active"><a href="#">'.$translation['homePage'].'</a></li>';
         break;
     }
-    
+
     echo '<!DOCTYPE html>
 <html>
     <!--
@@ -131,5 +131,5 @@ function styleBottom() {
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     </body>
 </html>';
-}    
+}
 ?>

@@ -15,7 +15,11 @@
 
 $fileName = isset($_GET['fileName']) ? $_GET['fileName'] : 'Win7_Pro_SP1_English_x64.iso';
 $lang = isset($_GET['lang']) ? $_GET['lang'] : 'en-us';
-$base_url=$_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['SERVER_NAME'].dirname($_SERVER['REQUEST_URI'].'?').'/';
+
+$requestScheme = (isset($_SERVER['HTTPS'])) ? 'https' : 'http';
+$baseDir = preg_replace('/\/$/', '', dirname($_SERVER['REQUEST_URI']));
+$baseUrl=$requestScheme.'://'.$_SERVER['SERVER_NAME'].$baseDir.'/';
+
 require 'lang/core.php';
 require 'shared/get.php';
 require 'shared/style.php';
@@ -43,7 +47,7 @@ styleTop('downloads');
 echo '<h1>'.$translation['tbDumpDownload']."</h1>\n";
 echo "<h3><span class=\"glyphicon glyphicon-file\" aria-hidden=\"true\"></span> ".$downList['fileName']."</h3>\n";
 echo '<a class="btn btn-primary" href="'.$downList['downloadLink'].'"><span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> '.$btnText."</a>\n";
-?> 
+?>
 
 <div class="alert alert-success" style="margin-top: 1.5em">
     <h4><span class="glyphicon glyphicon-time" aria-hidden="true"></span> <?php echo $translation['linkExpireTitle'];?></h4>
@@ -54,8 +58,8 @@ echo '<a class="btn btn-primary" href="'.$downList['downloadLink'].'"><span clas
 <div class="alert alert-info" style="margin-top: 1.5em">
     <h4><span class="glyphicon glyphicon-link" aria-hidden="true"></span> <?php echo $translation['directLinksTitle'];?></h4>
     <p><?php echo $translation['directLinksLine1'];?></p>
-    <pre style="margin-top: 1em"><code><?php 
-        echo "{$base_url}getDirect.php?fileName=".$downList['fileName']."\n";
+    <pre style="margin-top: 1em"><code><?php
+        echo "{$baseUrl}getDirect.php?fileName=".$downList['fileName']."\n";
     ?></code></pre>
 </div>
 
