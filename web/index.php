@@ -38,44 +38,44 @@ echo '<h1>'.$translation['tbDump'].' <span class="badge">v'.$websiteVersion.'</s
 <h3><?php echo $translation['catSelect'];?>:</h3>
 
 <div class="row" style="margin-top: -0.5em;">
-    <div class="col-md-6 prod-btn"><a class="btn btn-primary btn-lg btn-block" href="./products.php?prod=win7&<?php echo $langParam;?>">
+    <div class="col-md-6 prod-btn"><a class="btn btn-primary btn-lg btn-block" href="./products.php?prod=win7&amp;<?php echo $langParam;?>">
         <div class="prod-btn-title"><?php echo $translation['win7'];?></div>
         <div class="prod-btn-desc"><?php echo $translation['win7_desc'];?></div>
     </a></div>
-    <div class="col-md-6 prod-btn"><a class="btn btn-primary btn-lg btn-block" href="./products.php?prod=win81&<?php echo $langParam;?>">
+    <div class="col-md-6 prod-btn"><a class="btn btn-primary btn-lg btn-block" href="./products.php?prod=win81&amp;<?php echo $langParam;?>">
         <div class="prod-btn-title"><?php echo $translation['win81'];?></div>
         <div class="prod-btn-desc"><?php echo $translation['win81_desc'];?></div>
     </a></div>
 </div>
 
 <div class="row">
-  <div class="col-md-6 prod-btn">
-      <button class="btn btn-primary btn-block btn-lg dropdown-toggle dropd-toggle-btn" data-toggle="dropdown">
-          <div class="prod-btn-title"><?php echo $translation['win10'];?></div>
-          <div class="prod-btn-desc"><?php echo $translation['win10_desc'];?></div>
-          <span class="caret dropd-icon"></span>
-      </button>
-      <ul class="dropdown-menu dropd-menu-right">
-          <li><a href="./products.php?prod=win10&<?php echo $langParam;?>"><?php echo $translation['win10'];?></a></li>
-          <li role="separator" class="divider"></li>
-          <li><a href="./products.php?prod=win10th1&<?php echo $langParam;?>"><?php echo $translation['win10th1'];?></a></li>
-          <li><a href="./products.php?prod=win10th2&<?php echo $langParam;?>"><?php echo $translation['win10th2'];?></a></li>
-          <li><a href="./products.php?prod=win10rs1&<?php echo $langParam;?>"><?php echo $translation['win10rs1'];?></a></li>
-          <li><a href="./products.php?prod=win10ip&<?php echo $langParam;?>"><?php echo $translation['win10ip'];?></a></li>
-      </ul>
-  </div>
-    <div class="col-md-6 prod-btn"><a class="btn btn-primary btn-lg btn-block" href="./products.php?prod=office2007&<?php echo $langParam;?>">
+    <div class="col-md-6 prod-btn">
+        <button class="btn btn-primary btn-block btn-lg dropdown-toggle dropd-toggle-btn" data-toggle="dropdown">
+            <div class="prod-btn-title"><?php echo $translation['win10'];?></div>
+            <div class="prod-btn-desc"><?php echo $translation['win10_desc'];?></div>
+            <span class="caret dropd-icon"></span>
+        </button>
+        <ul class="dropdown-menu dropd-menu-right">
+            <li><a href="./products.php?prod=win10&amp;<?php echo $langParam;?>"><?php echo $translation['win10'];?></a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="./products.php?prod=win10th1&amp;amp;<?php echo $langParam;?>"><?php echo $translation['win10th1'];?></a></li>
+            <li><a href="./products.php?prod=win10th2&amp;amp;<?php echo $langParam;?>"><?php echo $translation['win10th2'];?></a></li>
+            <li><a href="./products.php?prod=win10rs1&amp;amp;<?php echo $langParam;?>"><?php echo $translation['win10rs1'];?></a></li>
+            <li><a href="./products.php?prod=win10ip&amp;amp;<?php echo $langParam;?>"><?php echo $translation['win10ip'];?></a></li>
+        </ul>
+    </div>
+    <div class="col-md-6 prod-btn"><a class="btn btn-primary btn-lg btn-block" href="./products.php?prod=office2007&amp;<?php echo $langParam;?>">
         <div class="prod-btn-title"><?php echo $translation['office2007'];?></div>
         <div class="prod-btn-desc"><?php echo $translation['office2007_desc'];?></div>
     </a></div>
 </div>
 
 <div class="row">
-    <div class="col-md-6 prod-btn"><a class="btn btn-primary btn-lg btn-block" href="./products.php?prod=office2010&<?php echo $langParam;?>">
+    <div class="col-md-6 prod-btn"><a class="btn btn-primary btn-lg btn-block" href="./products.php?prod=office2010&amp;<?php echo $langParam;?>">
         <div class="prod-btn-title"><?php echo $translation['office2010'];?></div>
         <div class="prod-btn-desc"><?php echo $translation['office2010_desc'];?></div>
     </a></div>
-    <div class="col-md-6 prod-btn"><a class="btn btn-primary btn-lg btn-block" href="./products.php?prod=office2011&<?php echo $langParam;?>">
+    <div class="col-md-6 prod-btn"><a class="btn btn-primary btn-lg btn-block" href="./products.php?prod=office2011&amp;<?php echo $langParam;?>">
         <div class="prod-btn-title"><?php echo $translation['office2011'];?></div>
         <div class="prod-btn-desc"><?php echo $translation['office2011_desc'];?></div>
     </a></div>
@@ -84,11 +84,11 @@ echo '<h1>'.$translation['tbDump'].' <span class="badge">v'.$websiteVersion.'</s
 <hr>
 
 <div class="row" style="margin-top: -1.25em;">
-    <div class="col-md-6 prod-btn"><a class="btn btn-default btn-lg btn-block" href="./products.php?prod=all&<?php echo $langParam;?>">
+    <div class="col-md-6 prod-btn"><a class="btn btn-default btn-lg btn-block" href="./products.php?prod=all&amp;<?php echo $langParam;?>">
         <div class="prod-btn-title"><?php echo $translation['allProd'];?></div>
         <div class="prod-btn-desc"><?php echo $translation['allProd_desc'];?></div>
     </a></div>
-    <div class="col-md-6 prod-btn"><a class="btn btn-default btn-lg btn-block" href="./products.php?prod=other&<?php echo $langParam;?>">
+    <div class="col-md-6 prod-btn"><a class="btn btn-default btn-lg btn-block" href="./products.php?prod=other&amp;<?php echo $langParam;?>">
         <div class="prod-btn-title"><?php echo $translation['otherProd'];?></div>
         <div class="prod-btn-desc"><?php echo $translation['otherProd_desc'];?></div>
     </a></div>
