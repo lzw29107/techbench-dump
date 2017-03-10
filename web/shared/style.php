@@ -13,7 +13,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-$websiteVersion = '2.2.2.3';
+$websiteVersion = '2.2.2.4';
 function styleTop($pageType = 'home') {
     global $translation, $langCore_menu, $langParam;
 
@@ -64,16 +64,7 @@ function styleTop($pageType = 'home') {
         <title>'.$pageTitle.'</title>
 
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-        <style>
-        body{font-family: "Segoe UI", "Microsoft JhengHei", "Helvetica Neue", Helvetica, Arial, sans-serif; padding-top: 50px;}
-        .content {padding: 30px 15px;}
-        .prod-btn {margin-top: 18px;}
-        .prod-btn-title {text-align: left; white-space: normal;}
-        .prod-btn-desc {text-align: left; font-size: 65%; opacity: 0.75; white-space: normal;}
-        .dropd-toggle-btn-container {position: absolute; width: 38px; right: 15px; top: 0px; height: 100%; z-index: 1;}
-        .dropd-toggle-btn {position: absolute; width: 30px; right: 8px; bottom: 8px; top: 8px; z-index: 1; padding-left: 0px; padding-right: 0px;}
-        .dropd-parent-btn {padding-right: 46px; z-index: 0;}
-        </style>
+        <link rel="stylesheet" href="shared/style.css">
 
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>

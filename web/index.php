@@ -49,23 +49,21 @@ echo '<h1>'.$translation['tbDump'].' <span class="badge">v'.$websiteVersion.'</s
 </div>
 
 <div class="row">
-    <div class="col-md-6 prod-btn">
-        <a class="btn btn-primary btn-block btn-lg dropd-parent-btn" href="./products.php?prod=win10&<?php echo $langParam;?>">
-            <div class="prod-btn-title"><?php echo $translation['win10'];?></div>
-            <div class="prod-btn-desc"><?php echo $translation['win10_desc'];?></div>
-        </a>
-        <div class="dropd-toggle-btn-container">
-            <button class="btn btn-primary dropdown-toggle dropd-toggle-btn" data-toggle="dropdown"><span class="caret"></span></button>
-            <ul class="dropdown-menu dropdown-menu-right">
-              <li><a href="./products.php?prod=win10&<?php echo $langParam;?>"><?php echo $translation['win10'];?></a></li>
-              <li role="separator" class="divider"></li>
-              <li><a href="./products.php?prod=win10th1&<?php echo $langParam;?>"><?php echo $translation['win10th1'];?></a></li>
-              <li><a href="./products.php?prod=win10th2&<?php echo $langParam;?>"><?php echo $translation['win10th2'];?></a></li>
-              <li><a href="./products.php?prod=win10rs1&<?php echo $langParam;?>"><?php echo $translation['win10rs1'];?></a></li>
-              <li><a href="./products.php?prod=win10ip&<?php echo $langParam;?>"><?php echo $translation['win10ip'];?></a></li>
-            </ul>
-        </div>
-    </div>
+  <div class="col-md-6 prod-btn">
+      <button class="btn btn-primary btn-block btn-lg dropdown-toggle dropd-toggle-btn" data-toggle="dropdown">
+          <div class="prod-btn-title"><?php echo $translation['win10'];?></div>
+          <div class="prod-btn-desc"><?php echo $translation['win10_desc'];?></div>
+          <span class="caret dropd-icon"></span>
+      </button>
+      <ul class="dropdown-menu dropd-menu-right">
+          <li><a href="./products.php?prod=win10&<?php echo $langParam;?>"><?php echo $translation['win10'];?></a></li>
+          <li role="separator" class="divider"></li>
+          <li><a href="./products.php?prod=win10th1&<?php echo $langParam;?>"><?php echo $translation['win10th1'];?></a></li>
+          <li><a href="./products.php?prod=win10th2&<?php echo $langParam;?>"><?php echo $translation['win10th2'];?></a></li>
+          <li><a href="./products.php?prod=win10rs1&<?php echo $langParam;?>"><?php echo $translation['win10rs1'];?></a></li>
+          <li><a href="./products.php?prod=win10ip&<?php echo $langParam;?>"><?php echo $translation['win10ip'];?></a></li>
+      </ul>
+  </div>
     <div class="col-md-6 prod-btn"><a class="btn btn-primary btn-lg btn-block" href="./products.php?prod=office2007&<?php echo $langParam;?>">
         <div class="prod-btn-title"><?php echo $translation['office2007'];?></div>
         <div class="prod-btn-desc"><?php echo $translation['office2007_desc'];?></div>
