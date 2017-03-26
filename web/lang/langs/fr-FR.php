@@ -44,6 +44,7 @@ Ce site Web et son propriétaire ne sont en aucun cas affiliés avec Microsoft C
     'win10th1' => 'Windows 10 Threshold 1',
     'win10th2' => 'Windows 10 Threshold 2',
     'win10rs1' => 'Windows 10 Redstone 1',
+    'win10rs2' => 'Windows 10 Redstone 2',
     'win10ip' => 'Windows 10 Insider Preview',
     'office2007' => 'Office 2007',
     'office2010' => 'Office 2010',

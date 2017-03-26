@@ -58,10 +58,11 @@ echo '<h1>'.$translation['tbDump'].' <span class="badge">v'.$websiteVersion.'</s
         <ul class="dropdown-menu dropd-menu-right">
             <li><a href="./products.php?prod=win10&amp;<?php echo $langParam;?>"><?php echo $translation['win10'];?></a></li>
             <li role="separator" class="divider"></li>
-            <li><a href="./products.php?prod=win10th1&amp;amp;<?php echo $langParam;?>"><?php echo $translation['win10th1'];?></a></li>
-            <li><a href="./products.php?prod=win10th2&amp;amp;<?php echo $langParam;?>"><?php echo $translation['win10th2'];?></a></li>
-            <li><a href="./products.php?prod=win10rs1&amp;amp;<?php echo $langParam;?>"><?php echo $translation['win10rs1'];?></a></li>
-            <li><a href="./products.php?prod=win10ip&amp;amp;<?php echo $langParam;?>"><?php echo $translation['win10ip'];?></a></li>
+            <li><a href="./products.php?prod=win10th1&amp;<?php echo $langParam;?>"><?php echo $translation['win10th1'];?></a></li>
+            <li><a href="./products.php?prod=win10th2&amp;<?php echo $langParam;?>"><?php echo $translation['win10th2'];?></a></li>
+            <li><a href="./products.php?prod=win10rs1&amp;<?php echo $langParam;?>"><?php echo $translation['win10rs1'];?></a></li> <!-- Windows 10 Redmond 1 -->
+            <li><a href="./products.php?prod=win10rs2&amp;<?php echo $langParam;?>"><?php echo $translation['win10rs2'];?></a></li> <!-- Windows 10 Redmond 2 -->
+            <li><a href="./products.php?prod=win10ip&amp;<?php echo $langParam;?>"><?php echo $translation['win10ip'];?></a></li>
         </ul>
     </div>
     <div class="col-md-6 prod-btn"><a class="btn btn-primary btn-lg btn-block" href="./products.php?prod=office2007&amp;<?php echo $langParam;?>">
