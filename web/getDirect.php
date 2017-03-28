@@ -21,8 +21,30 @@ if(isset($downList['error'])) {
     echo 'There was an error processing your request.';
     die();
 }
-echo '<h1>Moved to <a href="'. $downList['downloadLink'] .'">here</a>';
 
+$headers = get_headers($downList['downloadLink']);
+$headers = preg_grep('/HTTP\/.+ \d\d\d /', $headers);
+$status = preg_replace('/HTTP\/.*? /', '', end($headers));
+
+if($status != '200 OK') {
+    echo "<h1>Validation failed!</h1>";
+    echo "Your request has been processed successfully, but remote server returned an error during validation stage:<br>";
+    echo $status;
+
+    if($status == '404 Not Found') {
+        echo "<br><br>Validation script has determined, that requested file does not exist.";
+        echo "<br>Please check if entered file name is correct.";
+    } elseif($status == '403 Forbidden') {
+        echo "<br><br>Validation script has determined, that requested file is protected.";
+        echo "<br>Please check back later.";
+    }
+
+    echo "<br><br>If you think that this message was shown by a mistake, please try using the following link to check if it works:<br>";
+    echo '<a href="'.$downList['downloadLink'].'">'.$downList['downloadLink'].'</a>';
+    die();
+}
+
+echo '<h1>Moved to <a href="'. $downList['downloadLink'] .'">here</a>';
 header('Location: '. $downList['downloadLink']);
 die();
 ?>
