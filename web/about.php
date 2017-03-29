@@ -68,6 +68,10 @@ echo '<h1>'.$translation['tbDump'].' <span class="badge">v'.$websiteVersion.'</s
         <td><a href="https://forums.mydigitallife.info/members/418421-Phairat">Phairat</a></td>
     </tr>
     <tr>
+        <td><img src="lang/flags/zh-TW.png"> 繁體中文</td>
+        <td><a href="https://forums.mydigitallife.info/members/269134-rubyclose">rubyclose (@iliGPU)</a></td>
+    </tr>
+    <tr>
         <td><img src="lang/flags/ja-JP.png"> 日本語</td>
         <td><a href="https://forums.mydigitallife.info/members/476049-NeXtStatioN">NeXtStatioN (@AniMachin3)</a></td>
     </tr>
