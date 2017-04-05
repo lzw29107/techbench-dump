@@ -100,6 +100,7 @@ function identProduct {
 	if [ $productID -ge 109 -a $productID -le 116 ]; then local appendVer=" (Threshold 2, February 2016 Update)"; fi
 	if [ $productID -ge 178 -a $productID -le 185 ]; then local appendVer=" (Threshold 2, April 2016 Update)"; fi
 	if [ $productID -ge 242 -a $productID -le 247 ]; then local appendVer=" (Redstone 1)"; fi
+	if [ $productID -ge 361 -a $productID -le 364 ]; then local appendVer=" (Redstone 2)"; fi
 	
 	echo "$appendVer"
 }
