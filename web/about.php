@@ -72,6 +72,10 @@ echo '<h1>'.$translation['tbDump'].' <span class="badge">v'.$websiteVersion.'</s
         <td><a href="https://forums.mydigitallife.info/members/269134-rubyclose">rubyclose (@iliGPU)</a></td>
     </tr>
     <tr>
+    <td><img src="lang/flags/zh-CN.png"> 简体中文</td>
+        <td><a href="https://forums.mydigitallife.info/members/623435-TNEPlus">tneplus</a></td>
+    </tr>
+    <tr>
         <td><img src="lang/flags/ja-JP.png"> 日本語</td>
         <td><a href="https://forums.mydigitallife.info/members/476049-NeXtStatioN">NeXtStatioN (@AniMachin3)</a></td>
     </tr>
