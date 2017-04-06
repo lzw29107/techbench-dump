@@ -1,11 +1,11 @@
 <?php
 $translation = array(
-    'langName' => 'العربية',
-    'langNameLocal' => 'Arabic',
-    'langCode' => 'ar-eg',
+    'langName' => 'Arabic',
+    'langNameLocal' => 'العربية',
+    'langCode' => 'ar-EG',
     'authorName' => 'ShoSh',
     'authorLink' => 'https://forums.mydigitallife.info/members/319699-cheetoslover',
-    'langCodeMs' => 'ar-eg', //used internally when connecting to Microsoft API
+    'langCodeMs' => 'ar-sa', //used internally when connecting to Microsoft API
     'tbDump' => 'TechBench dump',
     'tbDumpDownload' => 'TechBench تحميلات',
     'homePage' => 'الرئيسية',
@@ -63,6 +63,6 @@ $translation = array(
     'archx64' => '64-بيت',
     'archx86' => '32-بيت',
     'downloadName' => 'تحميل',
-    'timeZone' => 'UTC',
+    'timeZone' => 'Africa/Cairo',
 );
 ?>

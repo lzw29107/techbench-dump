@@ -2,7 +2,7 @@
 $translation = array(
     'langName' => 'Chinese Simplified',
     'langNameLocal' => '中文(简体)',
-    'langCode' => 'zh-cn',
+    'langCode' => 'zh-CN',
     'authorName' => 'TNEPlus',
     'authorLink' => 'https://forums.mydigitallife.info/members/623435-TNEPlus',
     'langCodeMs' => 'zh-cn', //used internally when connecting to Microsoft API
@@ -31,7 +31,7 @@ $translation = array(
     'linkNotChecked' => '此网站 <b>不会</b> 检查文件是否存在于微软服务器上',
     'aboutPageTitle' => '关于此页',
     'aboutPageContent' => '这个网站是源于简单的心态创建的。在这里你可以轻松的从微软直接下载产品。<br>
-此网站及作者不附属于微软公司。', // Preserved for further translation： This website was created with simplicity in mind. 
+此网站及作者不附属于微软公司。', // Preserved for further translation： This website was created with simplicity in mind.
     'aboutThanksTitle' => '感谢',
     'aboutThanksContent' => '感谢每个通过翻译或其他方式对此项目做出贡献的人', //Thanks to everyone who contributed to this project by translating it or by other means. Preserved for further translate.
     'aboutTranslationsTitle' => '翻译',

@@ -52,6 +52,9 @@ switch ($lang) {
     case 'zh-tw':
         require 'langs/zh-TW.php';
         break;
+    case 'ar-eg':
+        require 'langs/ar-EG.php';
+        break;
     case 'qps-ploc':
         require 'langs/qps-ploc.php';
         break;
@@ -71,10 +74,11 @@ $langCore_menu = '<li class="dropdown"><a class="dropdown-toggle" data-toggle="d
                                 <li><a href="./?lang=nl-NL"><img src="lang/flags/nl-NL.png">&nbsp;Nederlands</a></li>
                                 <li><a href="./?lang=pl-PL"><img src="lang/flags/pl-PL.png">&nbsp;Polski</a></li>
                                 <li><a href="./?lang=ru-RU"><img src="lang/flags/ru-RU.png">&nbsp;Русский</a></li>
+                                <li><a href="./?lang=ar-EG"><img src="lang/flags/ar-EG.png">&nbsp;العربية</a></li>
                                 <li><a href="./?lang=th-TH"><img src="lang/flags/th-TH.png">&nbsp;ภาษาไทย</a></li>
-                                <li><a href="./?lang=zh-TW"><img src="lang/flags/zh-CN.png">&nbsp;简体中文</a></li>
-                                <li><a href="./?lang=zh-TW"><img src="lang/flags/zh-TW.png">&nbsp;繁體中文</a></li>
                                 <li><a href="./?lang=ja-JP"><img src="lang/flags/ja-JP.png">&nbsp;日本語</a></li>
+                                <li><a href="./?lang=zh-CN"><img src="lang/flags/zh-CN.png">&nbsp;简体中文</a></li>
+                                <li><a href="./?lang=zh-TW"><img src="lang/flags/zh-TW.png">&nbsp;繁體中文</a></li>
                                 <li><a href="./?lang=qps-ploc"><img src="lang/flags/qps-ploc.png">&nbsp;[ !!! Ƥşḗŭḓǿ !!! ]</a></li>
                             </ul>
                   </li>';
