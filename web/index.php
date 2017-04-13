@@ -35,9 +35,59 @@ echo '<h1>'.$translation['tbDump'].' <span class="badge">v'.$websiteVersion.'</s
      <?php echo $translation['productsNumber']; ?>: <b><?php echo $out['productNumber']; ?></b></p>
 </div>
 
-<h3><?php echo $translation['catSelect'];?>:</h3>
+<div class="well">
+    <form action="./products.php">
+        <div class="input-group">
+            <input type="text" class="form-control input-lg" name="search" placeholder="<?php echo $translation['searchBar'];?>">
+            <span class="input-group-btn">
+                <button type="submit" class="btn btn-primary btn-lg">
+                    <span class="glyphicon glyphicon-search"></span>
+                </button>
+            </span>
+        </div>
+        <div class="row" style="margin-top: 0.5em;">
+            <div class="col-md-12">
+                <label class="radio-inline">
+                    <input type="radio" name="prod" value="all" checked> <?php echo $translation['allProd'];?>
+                </label>
+            </div>
+            <div class="col-md-3">
+                <label class="radio-inline">
+                    <input type="radio" name="prod" value="win7"> <?php echo $translation['win7'];?>
+                </label>
+            </div>
+            <div class="col-md-3">
+                <label class="radio-inline">
+                    <input type="radio" name="prod" value="win81"> <?php echo $translation['win81'];?>
+                </label>
+            </div>
+            <div class="col-md-3">
+                <label class="radio-inline">
+                    <input type="radio" name="prod" value="win10"> <?php echo $translation['win10'];?>
+                </label>
+            </div>
+            <div class="col-md-3">
+                <label class="radio-inline">
+                    <input type="radio" name="prod" value="office2007"> <?php echo $translation['office2007'];?>
+                </label>
+            </div>
+            <div class="col-md-3">
+                <label class="radio-inline">
+                    <input type="radio" name="prod" value="office2010"> <?php echo $translation['office2010'];?>
+                </label>
+            </div>
+            <div class="col-md-3">
+                <label class="radio-inline">
+                    <input type="radio" name="prod" value="office2011"> <?php echo $translation['office2011'];?>
+                </label>
+            </div>
+        </div>
+        <input type="hidden" name="lang" value="<?php echo $translation['langCode']; ?>">
+    </form>
+</div>
 
-<div class="row" style="margin-top: -0.5em;">
+
+<div class="row" style="margin-top: -1.25em;">
     <div class="col-md-6 prod-btn"><a class="btn btn-primary btn-lg btn-block" href="./products.php?prod=win7&amp;<?php echo $langParam;?>">
         <div class="prod-btn-title"><?php echo $translation['win7'];?></div>
         <div class="prod-btn-desc"><?php echo $translation['win7_desc'];?></div>

@@ -13,7 +13,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-$websiteVersion = '2.2.4';
+$websiteVersion = '2.3.0';
 function styleTop($pageType = 'home') {
     global $translation, $langCore_menu, $langParam;
 
@@ -92,6 +92,7 @@ function styleTop($pageType = 'home') {
                         <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" role="button">'. $translation['moreMenu'] . ' <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li><a href="https://gist.github.com/mkuba50/27c909501cbc2a4f169be4b4075a66ff">'.$translation['githubGist'].'</a></li>
+                                <li><a href="./dump.md">'.$translation['markdownFile'].'</a></li>
                                 <li><a href="https://github.com/techbench-dump/script">'.$translation['githubRepoScript'].'</a></li>
                                 <li><a href="https://github.com/techbench-dump/website">'.$translation['githubRepoWeb'].'</a></li>
                             </ul>
@@ -115,7 +116,7 @@ function styleBottom() {
     echo '
             <div class="footer">
             <hr>
-                <p>'.$translation['tbDump'].' v'.$websiteVersion.' &copy; '.date('Y').' <a href="https://forums.mydigitallife.info/threads/72165">The TechBench dump website contributors</a></p>
+                <p>'.$translation['tbDump'].' v'.$websiteVersion.' &copy; '.date('Y').' '.$translation['footerNotice'].'</p>
             </div></div>
         </div><!-- /.container -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>

@@ -17,6 +17,7 @@ if (empty($lang)) {
     $lang = 'en-US';
 }
 
+require 'langs/en-US.php';
 $lang = strtolower($lang);
 switch ($lang) {
     case 'en-us':

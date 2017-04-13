@@ -14,7 +14,9 @@
 // limitations under the License.
 
 $prodName = isset($_GET['prod']) ? $_GET['prod'] : 'all';
+$search = isset($_GET['search']) ? $_GET['search'] : null;
 $lang = isset($_GET['lang']) ? $_GET['lang'] : 'en-us';
+
 require 'lang/core.php';
 require 'shared/style.php';
 
@@ -51,10 +53,6 @@ switch ($prodName) {
         $products = preg_grep('/Windows.10.*?Redstone.1|Windows.*?Build 14393/',$out['products']);
         $selectedCategory = $translation['win10rs1'];
         break;
-    case 'win10rs2':
-        $products = preg_grep('/Windows.10.*?Redstone.2|Windows.*? 15063/',$out['products']);
-        $selectedCategory = $translation['win10rs2'];
-        break;
     case 'win10ip':
         $products = preg_grep('/Windows.*?Insider.?Preview/',$out['products']);
         $selectedCategory = $translation['win10ip'];
@@ -90,15 +88,49 @@ switch ($prodName) {
         $products = $out['products'];
         break;
 }
+
+if(!empty($search)) {
+    $searchSafe = str_replace('\\', '\\\\', $search);
+    $searchSafe = str_replace('/', '\/', $searchSafe);
+    $searchSafe = str_replace('.', '\.', $searchSafe);
+    $searchSafe = str_replace('^', '\^', $searchSafe);
+    $searchSafe = str_replace('$', '\$', $searchSafe);
+    $searchSafe = str_replace('*', '\*', $searchSafe);
+    $searchSafe = str_replace('+', '\+', $searchSafe);
+    $searchSafe = str_replace('-', '\-', $searchSafe);
+    $searchSafe = str_replace('?', '\?', $searchSafe);
+    $searchSafe = str_replace('(', '\(', $searchSafe);
+    $searchSafe = str_replace(')', '\)', $searchSafe);
+    $searchSafe = str_replace('[', '\[', $searchSafe);
+    $searchSafe = str_replace(']', '\]', $searchSafe);
+    $searchSafe = str_replace('{', '\{', $searchSafe);
+    $searchSafe = str_replace('}', '\}', $searchSafe);
+    $searchSafe = str_replace('|', '\|', $searchSafe);
+
+    if (!preg_match('/^".*"$/', $searchSafe)) {
+        $searchSafe = str_replace(' ', '.*', $searchSafe);
+    } else {
+        $searchSafe = preg_replace('/^"|"$/', '', $searchSafe);
+    }
+
+    $products = preg_grep('/.*'.$searchSafe.'.*/i',$products);
+
+    $tableTitle = $translation['searchResults'].': '.$search;
+    $noItems = $translation['searchNoResults'];
+} else {
+    $tableTitle = $translation['prodSelect'];
+    $noItems = $translation['noProducts'];
+}
+
 styleTop('downloads');
 
 echo '<h1>'.$translation['tbDumpDownload']."</h1>\n";
 echo "<h3><span class=\"glyphicon glyphicon-th-list\" aria-hidden=\"true\"></span> $selectedCategory</h3>\n";
 echo '<table class="table table-striped">';
-echo '<thead><tr><th>'.$translation['prodSelect']."</th></tr></thead>\n";
+echo '<thead><tr><th>'.$tableTitle."</th></tr></thead>\n";
 
 if(empty($products)) {
-    echo '<tr><td>'.$translation['noProducts'].'</td></tr>';
+    echo '<tr><td>'.$noItems.'</td></tr>';
 } else {
     foreach ($products as $key => &$curr) {
         echo '<tr><td><a href="./langs.php?id='.$key.'&'.$langParam.'">'.$curr .' ['.$translation['idName'].': '.$key."]</a></td></tr>\n";
