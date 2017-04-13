@@ -86,7 +86,6 @@ echo '<h1>'.$translation['tbDump'].' <span class="badge">v'.$websiteVersion.'</s
     </form>
 </div>
 
-
 <div class="row" style="margin-top: -1.25em;">
     <div class="col-md-6 prod-btn"><a class="btn btn-primary btn-lg btn-block" href="./products.php?prod=win7&amp;<?php echo $langParam;?>">
         <div class="prod-btn-title"><?php echo $translation['win7'];?></div>

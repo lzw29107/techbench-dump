@@ -19,6 +19,7 @@ if (empty($lang)) {
 
 require 'langs/en-US.php';
 $lang = strtolower($lang);
+
 switch ($lang) {
     case 'en-us':
         require 'langs/en-US.php';
