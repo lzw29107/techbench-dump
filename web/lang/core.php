@@ -67,21 +67,32 @@ switch ($lang) {
 
 date_default_timezone_set($translation['timeZone']);
 $langParam='lang='.$translation['langCode'];
+
+$request=explode('?', $_SERVER['REQUEST_URI'], 2);
+$loc=$request[0].'?';
+foreach ($_GET as $key => $value) {
+    if ($key != 'lang')
+        $loc=$loc.$key.'='.$value.'&';
+}
+unset($request, $key, $value);
+
+$loc=htmlentities($loc.'lang=');
 $langCore_menu = '<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" role="button"><img src="lang/flags/'.$translation['langCode'].'.png" style="margin-top: -2px;"> '.$translation['langNameLocal'].' <span class="caret"></span></a>
                             <ul class="dropdown-menu">
-                                <li><a href="./?lang=en-US"><img src="lang/flags/en-US.png">&nbsp;English (US)</a></li>
-                                <li><a href="./?lang=es-ES"><img src="lang/flags/es-ES.png">&nbsp;Español (España)</a></li>
-                                <li><a href="./?lang=fr-FR"><img src="lang/flags/fr-FR.png">&nbsp;Français</a></li>
-                                <li><a href="./?lang=it-IT"><img src="lang/flags/it-IT.png">&nbsp;Italiano</a></li>
-                                <li><a href="./?lang=nl-NL"><img src="lang/flags/nl-NL.png">&nbsp;Nederlands</a></li>
-                                <li><a href="./?lang=pl-PL"><img src="lang/flags/pl-PL.png">&nbsp;Polski</a></li>
-                                <li><a href="./?lang=ru-RU"><img src="lang/flags/ru-RU.png">&nbsp;Русский</a></li>
-                                <li><a href="./?lang=ar-EG"><img src="lang/flags/ar-EG.png">&nbsp;العربية</a></li>
-                                <li><a href="./?lang=th-TH"><img src="lang/flags/th-TH.png">&nbsp;ภาษาไทย</a></li>
-                                <li><a href="./?lang=ja-JP"><img src="lang/flags/ja-JP.png">&nbsp;日本語</a></li>
-                                <li><a href="./?lang=zh-CN"><img src="lang/flags/zh-CN.png">&nbsp;简体中文</a></li>
-                                <li><a href="./?lang=zh-TW"><img src="lang/flags/zh-TW.png">&nbsp;繁體中文</a></li>
-                                <li><a href="./?lang=qps-ploc"><img src="lang/flags/qps-ploc.png">&nbsp;[ !!! Ƥşḗŭḓǿ !!! ]</a></li>
+                                <li><a href="'.$loc.'en-US"><img src="lang/flags/en-US.png">&nbsp;English (US)</a></li>
+                                <li><a href="'.$loc.'es-ES"><img src="lang/flags/es-ES.png">&nbsp;Español (España)</a></li>
+                                <li><a href="'.$loc.'fr-FR"><img src="lang/flags/fr-FR.png">&nbsp;Français</a></li>
+                                <li><a href="'.$loc.'it-IT"><img src="lang/flags/it-IT.png">&nbsp;Italiano</a></li>
+                                <li><a href="'.$loc.'nl-NL"><img src="lang/flags/nl-NL.png">&nbsp;Nederlands</a></li>
+                                <li><a href="'.$loc.'pl-PL"><img src="lang/flags/pl-PL.png">&nbsp;Polski</a></li>
+                                <li><a href="'.$loc.'ru-RU"><img src="lang/flags/ru-RU.png">&nbsp;Русский</a></li>
+                                <li><a href="'.$loc.'ar-EG"><img src="lang/flags/ar-EG.png">&nbsp;العربية</a></li>
+                                <li><a href="'.$loc.'th-TH"><img src="lang/flags/th-TH.png">&nbsp;ภาษาไทย</a></li>
+                                <li><a href="'.$loc.'ja-JP"><img src="lang/flags/ja-JP.png">&nbsp;日本語</a></li>
+                                <li><a href="'.$loc.'zh-CN"><img src="lang/flags/zh-CN.png">&nbsp;简体中文</a></li>
+                                <li><a href="'.$loc.'zh-TW"><img src="lang/flags/zh-TW.png">&nbsp;繁體中文</a></li>
+                                <li><a href="'.$loc.'qps-ploc"><img src="lang/flags/qps-ploc.png">&nbsp;[ !!! Ƥşḗŭḓǿ !!! ]</a></li>
                             </ul>
                   </li>';
+unset($loc);
 ?>
