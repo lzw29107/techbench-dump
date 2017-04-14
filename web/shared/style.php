@@ -13,7 +13,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-$websiteVersion = '2.3.3';
+$websiteVersion = '2.3.4';
 function styleTop($pageType = 'home') {
     global $translation, $langCore_menu, $langParam;
 
@@ -60,6 +60,11 @@ function styleTop($pageType = 'home') {
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <meta property="og:title" content="'.$pageTitle.'">
+        <meta property="og:type" content="website">
+        <meta property="og:description" content="'.$translation['aboutPageContent'].'">
+        <meta property="og:image" content="http://i.imgur.com/ES6JymB.png">
 
         <title>'.$pageTitle.'</title>
 
