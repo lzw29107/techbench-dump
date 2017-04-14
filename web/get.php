@@ -17,8 +17,12 @@ $skuId = isset($_GET['skuId']) ? $_GET['skuId'] : '6PC-00020';
 $lang = isset($_GET['lang']) ? $_GET['lang'] : 'en-us';
 
 $requestScheme = (isset($_SERVER['HTTPS'])) ? 'https' : 'http';
-$baseDir = preg_replace('/\/$/', '', dirname($_SERVER['REQUEST_URI']));
-$baseUrl=$requestScheme.'://'.$_SERVER['SERVER_NAME'].$baseDir.'/';
+$baseDir = preg_replace('/\/$|\\\$/', '', dirname($_SERVER['REQUEST_URI']));
+
+$srvPort = $_SERVER['SERVER_PORT'];
+$portString = ($srvPort == 80 || $srvPort == 443) ? '' : ':'.$srvPort;
+
+$baseUrl=$requestScheme.'://'.$_SERVER['SERVER_NAME'].$portString.$baseDir.'/';
 
 require 'lang/core.php';
 require 'shared/get.php';
