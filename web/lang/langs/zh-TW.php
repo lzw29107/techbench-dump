@@ -11,13 +11,13 @@ $translation['timeZone']               = 'Asia/Taipei';
 
 // Navigation bar
 $translation['tbDump']                 = 'TechBench dump';
-$translation['tbDumpDownload']         = 'TechBench downloads';
+$translation['tbDumpDownload']         = 'TechBench 下載';
 $translation['homePage']               = '首頁';
 $translation['downloads']              = '下載';
 $translation['moreMenu']               = '更多';
 $translation['aboutPage']              = '關於';
 $translation['githubGist']             = 'Gist';
-$translation['markdownFile']           = 'Markdown file';
+$translation['markdownFile']           = 'Markdown 檔案';
 $translation['githubRepoScript']       = 'GitHub repository (腳本)';
 $translation['githubRepoWeb']          = 'GitHub repository (網站)';
 
@@ -25,9 +25,9 @@ $translation['githubRepoWeb']          = 'GitHub repository (網站)';
 $translation['techInfo']               = '技術資訊';
 $translation['lastUpdate']             = '最後更新';
 $translation['productsNumber']         = '產品數量';
-$translation['searchBar']              = 'Search...';
-$translation['searchResults']          = 'Results for';
-$translation['searchNoResults']        = 'There are no results for this search.';
+$translation['searchBar']              = '搜尋...';
+$translation['searchResults']          = '搜尋結果';
+$translation['searchNoResults']        = '此搜尋無結果。';
 $translation['prodSelect']             = '這一類別的可用產品';
 $translation['prodLangSelect']         = '這個產品的可用語言';
 $translation['noProducts']             = '此類別中沒有產品。';
@@ -35,20 +35,20 @@ $translation['linkExpireTitle']        = '連結失效';
 $translation['linkExpire1']            = '連結自建立起 24 小時內有效。';
 $translation['linkExpire2']            = '連結到期時間';
 $translation['directLinksTitle']       = '直接下載連結';
-$translation['directLinksLine1']       = '需要與其他人共用一個直接連結？使用下面這些連結，產生新的下載連結。';
+$translation['directLinksLine1']       = '需要與其他人共用一個直接連結？使用下面這些連結，即可產生新的下載連結。';
 $translation['linkNotChecked']         = '本網站<b>不會</b>檢查微軟伺服器上是否存在該檔案';
 $translation['footerNotice']           = '<abbr title="TechBench dump website">TBDW</abbr> <a href="https://forums.mydigitallife.info/threads/72165">contributors</a>';
 
 // About page
 $translation['aboutPageTitle']         = '關於此頁';
 $translation['aboutPageContent']       = '此網站是以簡單的方式建立的。在這裡，你可以輕鬆地直接下載微軟產品。<br>
-本網站或其譯者不隸屬於微軟公司。';
+本網站或其作者不隸屬於微軟公司。';
 $translation['aboutThanksTitle']       = '感謝';
 $translation['aboutThanksContent']     = '感謝大家對此專案作出貢獻，透過翻譯或以其他方式。';
 $translation['aboutTranslationsTitle'] = '翻譯';
 $translation['language']               = '語言';
-$translation['authors']                = '譯者';
-$translation['aboutLicenseTitle']      = 'License';
+$translation['authors']                = '作者';
+$translation['aboutLicenseTitle']      = '授權';
 
 // Product names
 $translation['win7']                   = 'Windows 7';
