@@ -15,7 +15,7 @@
 
 // Get download by SKU ID
 function getDownload($skuId = '6PC-00020') {
-    $req = curl_init("http://www.microsoft.com/en-us/api/controls/contentinclude/html?pageId=cfa9e580-a81e-4a4b-a846-7b21bf4e2e5b&host=www.microsoft.com&segments=software-download,windows10ISO&query=&action=GetProductDownloadLinksBySku&skuId=" . urlencode($skuId));
+    $req = curl_init("http://www.microsoft.com/en-us/api/controls/contentinclude/html?pageId=cfa9e580-a81e-4a4b-a846-7b21bf4e2e5b&host=www.microsoft.com&segments=software-download,windows10ISO&query=&action=GetProductDownloadLinksBySku&sessionId=lol&skuId=" . urlencode($skuId));
 
     curl_setopt($req, CURLOPT_HEADER, 0);
     curl_setopt($req, CURLOPT_REFERER, "https://www.microsoft.com/en-us/software-download/windows10ISO");
@@ -73,7 +73,7 @@ function getDownload($skuId = '6PC-00020') {
 
 // Get download by File Name
 function getDownloadByName($fileName = 'Win7_Pro_SP1_English_x64.iso') {
-    $req = curl_init("http://www.microsoft.com/en-us/api/controls/contentinclude/html?pageId=160bb813-f54e-4e9f-bffc-38c6eb56e061&host=www.microsoft.com&segments=software-download%2cwindows10&query=&action=GetProductDownloadLinkForFriendlyFileName&friendlyFileName=" . urlencode($fileName));
+    $req = curl_init("http://www.microsoft.com/en-us/api/controls/contentinclude/html?pageId=160bb813-f54e-4e9f-bffc-38c6eb56e061&host=www.microsoft.com&segments=software-download%2cwindows10&query=&action=GetProductDownloadLinkForFriendlyFileName&sessionId=lol&friendlyFileName=" . urlencode($fileName));
 
     curl_setopt($req, CURLOPT_HEADER, 0);
     curl_setopt($req, CURLOPT_REFERER, "https://www.microsoft.com/en-us/software-download/windows10ISO");
@@ -110,7 +110,7 @@ function getDownloadByName($fileName = 'Win7_Pro_SP1_English_x64.iso') {
 
 // Get Language list
 function getLangOut($prodId = "4", $lang = "en-us") {
-    $req = curl_init("http://www.microsoft.com/". urlencode($lang) ."/api/controls/contentinclude/html?pageId=a8f8f489-4c7f-463a-9ca6-5cff94d8d041&host=www.microsoft.com&segments=software-download,windows10ISO&query=&action=getskuinformationbyproductedition&productEditionId=" . urlencode($prodId));
+    $req = curl_init("http://www.microsoft.com/". urlencode($lang) ."/api/controls/contentinclude/html?pageId=a8f8f489-4c7f-463a-9ca6-5cff94d8d041&host=www.microsoft.com&segments=software-download,windows10ISO&action=getskuinformationbyproductedition&sessionId=lol&productEditionId=" . urlencode($prodId));
 
     curl_setopt($req, CURLOPT_HEADER, 0);
     curl_setopt($req, CURLOPT_REFERER, "https://www.microsoft.com/en-us/software-download/windows10ISO");
