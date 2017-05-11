@@ -15,7 +15,7 @@
 # limitations under the License.
 
 minProdID=1
-maxProdID=400
+maxProdID=420
 
 legacyGen=0
 
