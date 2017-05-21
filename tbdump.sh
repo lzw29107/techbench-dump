@@ -52,6 +52,7 @@ warnHead="[WARNING]"
 errorHead="[ERROR]"
 
 noProductErr="The product key you provided is for a product not currently supported by this site or may be invalid"
+prodInfoErr="We encountered a problem processing your request."
 
 #URLs to all needed things
 getLangUrl="https://www.microsoft.com/en-us/api/controls/contentinclude/html?pageId=a8f8f489-4c7f-463a-9ca6-5cff94d8d041&host=www.microsoft.com&segments=software-download,windows10ISO&query=&action=getskuinformationbyproductedition&sessionId=lol"
@@ -112,9 +113,13 @@ function getProductName {
 
 	local result=$(curl -s "$getDownUrlLong&$(echo -n $tempLink)" -H "Referer: $refererUrl")
 
+	if echo "$result" | grep "$prodInfoErr" > /dev/null; then
+		return 1
+	fi
+	
 	echo "$result" | grep "Choose a link below to begin the download" > /dev/null
 	if [ $? -ne 0 ]; then
-		return 1
+		return 2
 	fi
 
 	productName=$(echo "$result" | grep -o '<h2>.*<\/h2>' | sed 's/.*<h2>/<h2>/g')
@@ -190,18 +195,23 @@ function mainWeb {
 			getLangErr=$?
 			if [ $getLangErr -eq 0 ]; then
 				echo "$infoHead Got language list!"
-				getErr=1
-				while [ $getErr -ne 0 ]; do
+				getErr=2
+				while [ $getErr -gt 1 ]; do
 					getProductName
 					getErr=$?
 				done;
 				
-				echo "$infoHead Writing..."
-				writeJson
-				writeMarkdown
+				if [ $getErr -eq 1 ]; then
+					echo "$errorHead Error in product info!"
+				else
+					echo "$infoHead Writing..."
+					writeJson
+					writeMarkdown
+					
+					let productsFound=productsFound+1
+					echo "$infoHead OK!"
+				fi
 				
-				let productsFound=productsFound+1
-				echo "$infoHead OK!"
 			elif [ $getLangErr -eq 1 ]; then
 				echo "$errorHead Product does not exist!"
 			fi
