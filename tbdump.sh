@@ -51,13 +51,13 @@ infoHead="[INFO]"
 warnHead="[WARNING]"
 errorHead="[ERROR]"
 
-noProductErr="The product key you provided is for a product not currently supported by this site or may be invalid"
+noProductErr="The product key you entered is invalid or not supported by this site"
 prodInfoErr="We encountered a problem processing your request."
 
 #URLs to all needed things
-getLangUrl="https://www.microsoft.com/en-us/api/controls/contentinclude/html?pageId=a8f8f489-4c7f-463a-9ca6-5cff94d8d041&host=www.microsoft.com&segments=software-download,windows10ISO&query=&action=getskuinformationbyproductedition&sessionId=lol"
-getDownUrlLong="https://www.microsoft.com/en-us/api/controls/contentinclude/html?pageId=cfa9e580-a81e-4a4b-a846-7b21bf4e2e5b&host=www.microsoft.com&segments=software-download,windows10ISO&query=&action=GetProductDownloadLinksBySku&sessionId=lol"
-getDownUrlShort="https://mdl-tb.ct8.pl/get.php"
+getLangUrl="https://www.microsoft.com/en-us/api/controls/contentinclude/html?pageId=cd06bda8-ff9c-4a6e-912a-b92a21f42526&host=www.microsoft.com&segments=software-download,windows10ISO&sessionId=eafe547d-8be3-4a05-95e6-e77b8d5065d6&query=&action=getskuinformationbyproductedition"
+getDownUrlLong="https://www.microsoft.com/en-us/api/controls/contentinclude/html?pageId=cfa9e580-a81e-4a4b-a846-7b21bf4e2e5b&host=www.microsoft.com&segments=software-download,windows10ISO&sessionId=eafe547d-8be3-4a05-95e6-e77b8d5065d6&query=&action=GetProductDownloadLinksBySku"
+getDownUrlShort="https://localhost/get.php"
 refererUrl="https://www.microsoft.com/en-us/software-download/windows10ISO"
 
 if ! type curl > /dev/null; then
@@ -76,7 +76,8 @@ fi
 #############################
 
 function getLangs {
-	local result=$(curl -s "$getLangUrl&productEditionId=$1" -H "Referer: $refererUrl")
+	langsPage=$(curl -s "$getLangUrl&productEditionId=$1" -H "Referer: $refererUrl")
+	local result="$langsPage"
 
 	if echo "$result" | grep "$noProductErr" > /dev/null; then
 		return 1
@@ -107,26 +108,13 @@ function identProduct {
 }
 
 function getProductName {
-	local tempLine=$(printf "$langList" | tail -n1 | tr -d '\r')
-	local tempLink=$(printf "$tempLine" | sed s/.language=.*//g)
-	tempLang=$(printf "$tempLine" | awk -F'[&= ]' '{print $4}')
+	local result="$langsPage"
 
-	local result=$(curl -s "$getDownUrlLong&$(echo -n $tempLink)" -H "Referer: $refererUrl")
-
-	if echo "$result" | grep "$prodInfoErr" > /dev/null; then
-		return 1
-	fi
-	
-	echo "$result" | grep "Choose a link below to begin the download" > /dev/null
-	if [ $? -ne 0 ]; then
-		return 2
-	fi
-
-	productName=$(echo "$result" | grep -o '<h2>.*<\/h2>' | sed 's/.*<h2>/<h2>/g')
-	
-	if [ "$productName" == "<h2></h2>" ]; then
+	productName=$(echo "$result" | grep -o '<i>The product key is eligible for.*<\/i>' | sed 's/The product key is eligible for //g')
+		
+	if [ "$productName" == "<i></i>" ]; then
 		echo "$warnHead Got empty product name!"
-		productName=$(echo "$result" | grep -o "https:..software.*\/pr\/.*\?t=" | sed "s/.*https.*\/pr\//<h2>/g;s/\?t=/ [?]<\/h2>/g")
+		productName="<i>Unknown</i>"
 	fi
 	
 	return 0
@@ -140,7 +128,7 @@ function writeMarkdown {
 	local appendVer="$(identProduct)"
 	echo "" >> "Techbench dump.md"
 	
-	echo "$productName" | sed "s/<h2>/### /g;s/ $tempLang.*<\/h2>/<\/h2>/g;s/<\/h2>/$appendVer [ID: $productID]/g" >> "Techbench dump.md"
+	echo "$productName" | sed "s/<i>/### /g;s/<\/i>/$appendVer [ID: $productID]/g" >> "Techbench dump.md"
 	if [ $? -ne 0 ]; then
 		return 1
 	fi
@@ -170,7 +158,7 @@ function headerMarkdown {
 function writeJson {
 	local appendVer="$(identProduct)"
 
-	echo "$productName" | sed "s/<h2>/\"$productID\":\"/g;s/ $tempLang.*<\/h2>/<\/h2>/g;s/<\/h2>/$appendVer\",/g" >> "dump.json"
+	echo "$productName" | sed "s/<i>/\"$productID\":\"/g;s/<\/i>/$appendVer\",/g" >> "dump.json"
 	if [ $? -ne 0 ]; then
 		return 1
 	fi
