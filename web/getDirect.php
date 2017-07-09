@@ -14,9 +14,17 @@
 // limitations under the License.
 
 $fileName = isset($_GET['fileName']) ? $_GET['fileName'] : 'Win7_Pro_SP1_English_x64.iso';
+$prodId = isset($_GET['id']) ? $_GET['id'] : '2';
 require 'shared/get.php';
 
-$downList = getDownloadByName($fileName);
+$guid = randStr(8).'-'.randStr(4).'-'.randStr(4).'-'.randStr(4).'-'.randStr(12);
+$langList = getLangList($prodId, "en-us", $guid);
+if(isset($langList['error'])) {
+    echo 'There was an error processing your request.';
+    die();
+}
+
+$downList = getDownloadByName($fileName, $guid);
 if(isset($downList['error'])) {
     echo 'There was an error processing your request.';
     die();

@@ -35,7 +35,6 @@ if(empty($products[$prodId]))
 }
 
 $guid = randStr(8).'-'.randStr(4).'-'.randStr(4).'-'.randStr(4).'-'.randStr(12);
-
 $langList = getLangList($prodId, $translation['langCodeMs'], $guid);
 if(isset($langList['error'])) {
     echo 'There was an error processing your request.';
@@ -49,7 +48,7 @@ echo "<h3><span class=\"glyphicon glyphicon-th-list\" aria-hidden=\"true\"></spa
 echo '<table class="table table-striped">';
 echo '<thead><tr><th>'.$translation['prodLangSelect']."</th></tr></thead>\n";
 foreach ($langList['langs'] as &$curr) {
-    echo '<tr><td><a href="./get.php?skuId='.$curr['id'].'&sessionId='.$guid.'&'.$langParam.'">' . $curr['langLocal'] . "</a></td></tr>\n";
+    echo '<tr><td><a href="./get.php?skuId='.$curr['id'].'&id='.$prodId.'&sessionId='.$guid.'&'.$langParam.'">' . $curr['langLocal'] . "</a></td></tr>\n";
 }
 echo '</table>';
 
