@@ -15,6 +15,8 @@
 
 $prodId = isset($_GET['id']) ? $_GET['id'] : '2';
 $lang = isset($_GET['lang']) ? $_GET['lang'] : 'en-us';
+$forceInsider = isset($_GET['insider']) ? $_GET['insider'] : false;
+
 require 'lang/core.php';
 require 'shared/get.php';
 require 'shared/style.php';
@@ -41,14 +43,40 @@ if(isset($langList['error'])) {
     die();
 }
 
+$msUrl = 'https://www.microsoft.com/'.$translation['langCodeMs'].'/api/controls/contentinclude/html?pageId=cfa9e580-a81e-4a4b-a846-7b21bf4e2e5b&host=www.microsoft.com&segments=software-download%2cwindows10ISO&query=&action=GetProductDownloadLinksBySku&sessionId='.$guid;
+
+if(preg_match('/Windows.*?Insider.?Preview/', $products)) {
+    $forceInsider = 1;
+}
+
 styleTop('downloads');
 
 echo '<h1>'.$translation['tbDumpDownload']."</h1>\n";
+
+if($forceInsider) {
+    echo '<div class="alert alert-danger" style="margin-top: 1.5em">
+    <h4><span class="glyphicon glyphicon glyphicon-warning-sign" aria-hidden="true"></span> '.$translation['warning'].'</h4>
+    <p>'.$translation['insiderNotice'].'</p>
+</div>
+<script>
+function openWindow(skuId, language) {
+    window.open("'.$msUrl.'&skuId="+skuId+"&language="+language, \'\', \'width=550, height=400\');
+}
+</script>'."\n";
+}
+
 echo "<h3><span class=\"glyphicon glyphicon-th-list\" aria-hidden=\"true\"></span> $products</h3>\n";
 echo '<table class="table table-striped">';
 echo '<thead><tr><th>'.$translation['prodLangSelect']."</th></tr></thead>\n";
-foreach ($langList['langs'] as &$curr) {
-    echo '<tr><td><a href="./get.php?skuId='.$curr['id'].'&id='.$prodId.'&sessionId='.$guid.'&'.$langParam.'">' . $curr['langLocal'] . "</a></td></tr>\n";
+
+if($forceInsider) {
+    foreach ($langList['langs'] as &$curr) {
+        echo '<tr><td><a href="#" onclick="openWindow(\''.$curr['id']."', '".urlencode($curr['language']).'\')">'.$curr['langLocal']."</a></td></tr>\n";
+    }
+} else {
+    foreach ($langList['langs'] as &$curr) {
+        echo '<tr><td><a href="./get.php?skuId='.$curr['id'].'&id='.$prodId.'&sessionId='.$guid.'&'.$langParam.'">' . $curr['langLocal'] . "</a></td></tr>\n";
+    }
 }
 echo '</table>';
 

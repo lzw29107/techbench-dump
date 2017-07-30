@@ -13,7 +13,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-$websiteVersion = '2.4.1';
+$websiteVersion = '2.5.0';
 function styleTop($pageType = 'home') {
     global $translation, $langCore_menu, $langParam;
 
@@ -94,14 +94,6 @@ function styleTop($pageType = 'home') {
                 <div id="navbar" class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-left">
                         '.$navbarLink1.'
-                        <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" role="button">'. $translation['moreMenu'] . ' <span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="https://gist.github.com/mkuba50/27c909501cbc2a4f169be4b4075a66ff">'.$translation['githubGist'].'</a></li>
-                                <li><a href="./dump.md">'.$translation['markdownFile'].'</a></li>
-                                <li><a href="https://github.com/techbench-dump/script">'.$translation['githubRepoScript'].'</a></li>
-                                <li><a href="https://github.com/techbench-dump/website">'.$translation['githubRepoWeb'].'</a></li>
-                            </ul>
-                        </li>
                         '.$navbarLink2.'
                     </ul>
                     <ul class="nav navbar-nav navbar-right">

@@ -51,34 +51,14 @@ echo '<h1>'.$translation['tbDump'].' <span class="badge">v'.$websiteVersion.'</s
                     <input type="radio" name="prod" value="all" checked> <?php echo $translation['allProd'];?>
                 </label>
             </div>
-            <div class="col-md-3">
-                <label class="radio-inline">
-                    <input type="radio" name="prod" value="win7"> <?php echo $translation['win7'];?>
-                </label>
-            </div>
-            <div class="col-md-3">
+            <div class="col-md-6">
                 <label class="radio-inline">
                     <input type="radio" name="prod" value="win81"> <?php echo $translation['win81'];?>
                 </label>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-6">
                 <label class="radio-inline">
                     <input type="radio" name="prod" value="win10"> <?php echo $translation['win10'];?>
-                </label>
-            </div>
-            <div class="col-md-3">
-                <label class="radio-inline">
-                    <input type="radio" name="prod" value="office2007"> <?php echo $translation['office2007'];?>
-                </label>
-            </div>
-            <div class="col-md-3">
-                <label class="radio-inline">
-                    <input type="radio" name="prod" value="office2010"> <?php echo $translation['office2010'];?>
-                </label>
-            </div>
-            <div class="col-md-3">
-                <label class="radio-inline">
-                    <input type="radio" name="prod" value="office2011"> <?php echo $translation['office2011'];?>
                 </label>
             </div>
         </div>
@@ -87,17 +67,10 @@ echo '<h1>'.$translation['tbDump'].' <span class="badge">v'.$websiteVersion.'</s
 </div>
 
 <div class="row" style="margin-top: -1.25em;">
-    <div class="col-md-6 prod-btn"><a class="btn btn-primary btn-lg btn-block" href="./products.php?prod=win7&amp;<?php echo $langParam;?>">
-        <div class="prod-btn-title"><?php echo $translation['win7'];?></div>
-        <div class="prod-btn-desc"><?php echo $translation['win7_desc'];?></div>
-    </a></div>
     <div class="col-md-6 prod-btn"><a class="btn btn-primary btn-lg btn-block" href="./products.php?prod=win81&amp;<?php echo $langParam;?>">
         <div class="prod-btn-title"><?php echo $translation['win81'];?></div>
         <div class="prod-btn-desc"><?php echo $translation['win81_desc'];?></div>
     </a></div>
-</div>
-
-<div class="row">
     <div class="col-md-6 prod-btn">
         <button class="btn btn-primary btn-block btn-lg dropdown-toggle dropd-toggle-btn" data-toggle="dropdown">
             <div class="prod-btn-title"><?php echo $translation['win10'];?></div>
@@ -114,21 +87,6 @@ echo '<h1>'.$translation['tbDump'].' <span class="badge">v'.$websiteVersion.'</s
             <li><a href="./products.php?prod=win10ip&amp;<?php echo $langParam;?>"><?php echo $translation['win10ip'];?></a></li>
         </ul>
     </div>
-    <div class="col-md-6 prod-btn"><a class="btn btn-primary btn-lg btn-block" href="./products.php?prod=office2007&amp;<?php echo $langParam;?>">
-        <div class="prod-btn-title"><?php echo $translation['office2007'];?></div>
-        <div class="prod-btn-desc"><?php echo $translation['office2007_desc'];?></div>
-    </a></div>
-</div>
-
-<div class="row">
-    <div class="col-md-6 prod-btn"><a class="btn btn-primary btn-lg btn-block" href="./products.php?prod=office2010&amp;<?php echo $langParam;?>">
-        <div class="prod-btn-title"><?php echo $translation['office2010'];?></div>
-        <div class="prod-btn-desc"><?php echo $translation['office2010_desc'];?></div>
-    </a></div>
-    <div class="col-md-6 prod-btn"><a class="btn btn-primary btn-lg btn-block" href="./products.php?prod=office2011&amp;<?php echo $langParam;?>">
-        <div class="prod-btn-title"><?php echo $translation['office2011'];?></div>
-        <div class="prod-btn-desc"><?php echo $translation['office2011_desc'];?></div>
-    </a></div>
 </div>
 
 <hr>
