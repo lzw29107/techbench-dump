@@ -14,7 +14,7 @@
 // limitations under the License.
 
 $skuId = isset($_GET['skuId']) ? $_GET['skuId'] : '6PC-00020';
-$sessionId = isset($_GET['sessionId']) ? $_GET['sessionId'] : 'lol';
+$sessionId = isset($_GET['sessionId']) ? $_GET['sessionId'] : false;
 $prodId = isset($_GET['id']) ? $_GET['id'] : '2';
 $lang = isset($_GET['lang']) ? $_GET['lang'] : 'en-us';
 
@@ -29,6 +29,15 @@ $baseUrl=$requestScheme.'://'.$_SERVER['SERVER_NAME'].$portString.$baseDir.'/';
 require 'lang/core.php';
 require 'shared/get.php';
 require 'shared/style.php';
+
+if(!$sessionId) {
+    $sessionId = randStr(8).'-'.randStr(4).'-'.randStr(4).'-'.randStr(4).'-'.randStr(12);
+    $langList = getLangList($prodId, "en-us", $sessionId);
+    if(isset($langList['error'])) {
+        echo 'There was an error processing your request.';
+        die();
+    }
+}
 
 $downList = getDownload($skuId, $sessionId);
 if(isset($downList['error'])) {

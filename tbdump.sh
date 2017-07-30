@@ -108,13 +108,24 @@ function identProduct {
 }
 
 function getProductName {
-	local result="$langsPage"
+	local tempLine=$(printf "$langList" | tail -n1 | tr -d '\r')
+	local tempLink=$(printf "$tempLine" | sed s/.language=.*//g)
 
-	productName=$(echo "$result" | grep -o '<i>The product key is eligible for.*<\/i>' | sed 's/The product key is eligible for //g')
+	local result=$(curl -s "$getDownUrlLong&$(echo -n $tempLink)" -H "Referer: $refererUrl")
+	local result2="$langsPage"
+	
+	productName=$(echo "$result2" | grep -o '<i>The product key is eligible for.*<\/i>' | sed 's/The product key is eligible for //g')
 		
 	if [ "$productName" == "<i></i>" ]; then
 		echo "$warnHead Got empty product name!"
 		productName="<i>Unknown</i>"
+	fi
+	
+	if echo "$result" | grep "$prodInfoErr" > /dev/null; then
+		if echo "$productName" | grep -E "Windows.*?Insider.?Preview" > /dev/null; then
+			return 0
+		fi
+		return 1
 	fi
 	
 	return 0
@@ -134,7 +145,7 @@ function writeMarkdown {
 	fi
 
 	echo "" >> "Techbench dump.md"
-	echo "$langList" | tr -d '\r' | awk -v url="$getDownUrl" -F'[&=]' '{print "* ["$4"]("url $2")"}' >> "Techbench dump.md"
+	echo "$langList" | tr -d '\r' | awk -v url="$getDownUrl" -v id="&id=$productID" -F'[&=]' '{print "* ["$4"]("url $2 id")"}' >> "Techbench dump.md"
 	return 0
 }
 
