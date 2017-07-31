@@ -39,8 +39,7 @@ $translation['directLinksTitle']       = 'Direct download links';
 $translation['directLinksLine1']       = 'Need to share a direct link with someone? Use these links below, which generate fresh download link on the fly.';
 $translation['linkNotChecked']         = 'This website <b>does not</b> check if file exists on Microsoft servers';
 $translation['footerNotice']           = '<abbr title="TechBench dump website">TBDW</abbr> <a href="https://forums.mydigitallife.info/threads/72165">contributors</a>';
-$translation['insiderNotice']          = 'You have choosen to download Windows Insider product. To be able to successfully retrieve download links you need to be logged on Windows Insider page.<br>
-You can chceck if you are logged in <b><a href="https://www.microsoft.com/en-us/software-download/windowsinsiderpreviewadvanced">here</a></b>.';
+$translation['insiderNotice']          = 'You have choosen to download Windows Insider product. To be able to successfully retrieve download links you need to be logged on <b><a href="https://www.microsoft.com/en-us/software-download/windowsinsiderpreviewadvanced">Windows Insider page</a></b>.';
 
 // About page
 $translation['aboutPageTitle']         = 'About this page';

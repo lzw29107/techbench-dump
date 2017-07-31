@@ -39,8 +39,7 @@ $translation['directLinksTitle']       = 'Bezpośrednie linki pobierania';
 $translation['directLinksLine1']       = 'Potrzebujesz udostępnić komuś link bezpośredni? Użyj linków poniżej, które generują świeży link pobrania w locie.';
 $translation['linkNotChecked']         = 'Ta strona <b>nie</b> sprawdza, czy plik istnieje na serwerach firmy Microsoft.';
 $translation['footerNotice']           = '<a href="https://forums.mydigitallife.info/threads/72165">Współtwórcy</a> <abbr title="TechBench dump website / Strona internetowa zbioru plików TechBench">TBDW</abbr>';
-$translation['insiderNotice']          = 'Wybrano opcję pobrania produktu Windows Insider. Aby pomyślnie uzyskać linki pobrania, należy być zalogowanym na stronie Windows Insider.<br>
-Możesz sprawdzić, czy jesteś zalogowany/a klikając <b><a href="https://www.microsoft.com/en-us/software-download/windowsinsiderpreviewadvanced">tutaj</a></b>.';
+$translation['insiderNotice']          = 'Wybrano opcję pobrania produktu Windows Insider. Aby pomyślnie uzyskać linki pobrania, należy być zalogowanym na <b><a href="https://www.microsoft.com/en-us/software-download/windowsinsiderpreviewadvanced">stronie Windows Insider</a></b>.';
 
 // About page
 $translation['aboutPageTitle']         = 'O tej stronie';
