@@ -27,7 +27,7 @@ if(!$sessionId) {
     }
 }
 
-$downList = getDownloadByName($fileName, $sessionId);
+$downList = getDownloadByName($fileName, $sessionId, $prodId);
 if(isset($downList['error'])) {
     echo 'There was an error processing your request.';
     die();

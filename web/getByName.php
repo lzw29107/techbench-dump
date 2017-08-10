@@ -13,8 +13,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-$fileName = isset($_GET['fileName']) ? $_GET['fileName'] : 'Win7_Pro_SP1_English_x64.iso';
-$prodId = isset($_GET['id']) ? $_GET['id'] : '2';
+$fileName = isset($_GET['fileName']) ? $_GET['fileName'] : 'Win7_Ult_SP1_English_x64.iso';
+$prodId = isset($_GET['id']) ? $_GET['id'] : '8';
 $lang = isset($_GET['lang']) ? $_GET['lang'] : 'en-us';
 
 $requestScheme = (isset($_SERVER['HTTPS'])) ? 'https' : 'http';
@@ -36,7 +36,7 @@ if(isset($langList['error'])) {
     die();
 }
 
-$downList = getDownloadByName($fileName, $guid);
+$downList = getDownloadByName($fileName, $guid, $prodId);
 if(isset($downList['error'])) {
     echo 'There was an error processing your request.';
     die();

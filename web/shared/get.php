@@ -14,8 +14,14 @@
 // limitations under the License.
 
 // Get download by SKU ID
-function getDownload($skuId = '6PC-00020', $sessionId = 'lol') {
-    $req = curl_init("http://www.microsoft.com/en-us/api/controls/contentinclude/html?pageId=cfa9e580-a81e-4a4b-a846-7b21bf4e2e5b&host=www.microsoft.com&segments=software-download,windows10ISO&query=&action=GetProductDownloadLinksBySku&sessionId=".urlencode($sessionId)."&skuId=".urlencode($skuId));
+function getDownload($skuId = 'GLC-01498', $sessionId = 'lol', $id = '8') {
+    $key = keyForId($id);
+
+    if(!$key) {
+        $key = '';
+    }
+
+    $req = curl_init("http://www.microsoft.com/en-us/api/controls/contentinclude/html?pageId=cfa9e580-a81e-4a4b-a846-7b21bf4e2e5b&host=www.microsoft.com&segments=software-download,windows10ISO&query=&action=GetProductDownloadLinksBySku&key=".urlencode($key)."&sessionId=".urlencode($sessionId)."&skuId=".urlencode($skuId));
 
     curl_setopt($req, CURLOPT_HEADER, 0);
     curl_setopt($req, CURLOPT_REFERER, "https://www.microsoft.com/en-us/software-download/windows10ISO");
@@ -72,8 +78,14 @@ function getDownload($skuId = '6PC-00020', $sessionId = 'lol') {
 }
 
 // Get download by File Name
-function getDownloadByName($fileName = 'Win7_Pro_SP1_English_x64.iso', $sessionId = 'lol') {
-    $req = curl_init("http://www.microsoft.com/en-us/api/controls/contentinclude/html?pageId=160bb813-f54e-4e9f-bffc-38c6eb56e061&host=www.microsoft.com&segments=software-download%2cwindows10&query=&action=GetProductDownloadLinkForFriendlyFileName&sessionId=".urlencode($sessionId)."&friendlyFileName=" . urlencode($fileName));
+function getDownloadByName($fileName = 'Win7_Ult_SP1_English_x64.iso', $sessionId = 'lol', $id = '8') {
+    $key = keyForId($id);
+
+    if(!$key) {
+        $key = '';
+    }
+
+    $req = curl_init("http://www.microsoft.com/en-us/api/controls/contentinclude/html?pageId=160bb813-f54e-4e9f-bffc-38c6eb56e061&host=www.microsoft.com&segments=software-download%2cwindows10&query=&action=GetProductDownloadLinkForFriendlyFileName&key=".urlencode($key)."&sessionId=".urlencode($sessionId)."&friendlyFileName=".urlencode($fileName));
 
     curl_setopt($req, CURLOPT_HEADER, 0);
     curl_setopt($req, CURLOPT_REFERER, "https://www.microsoft.com/en-us/software-download/windows10ISO");
@@ -110,7 +122,18 @@ function getDownloadByName($fileName = 'Win7_Pro_SP1_English_x64.iso', $sessionI
 
 // Get Language list
 function getLangOut($prodId = "4", $lang = "en-us", $sessionId = 'lol') {
-    $req = curl_init("http://www.microsoft.com/".urlencode($lang)."/api/controls/contentinclude/html?pageId=a8f8f489-4c7f-463a-9ca6-5cff94d8d041&host=www.microsoft.com&segments=software-download,windows10ISO&action=getskuinformationbyproductedition&sessionId=".urlencode($sessionId)."&productEditionId=".urlencode($prodId));
+    $urlId = "http://www.microsoft.com/".urlencode($lang)."/api/controls/contentinclude/html?pageId=a8f8f489-4c7f-463a-9ca6-5cff94d8d041&host=www.microsoft.com&segments=software-download,windows10ISO&action=getskuinformationbyproductedition&sessionId=".urlencode($sessionId)."&productEditionId=".urlencode($prodId);
+    $urlKey = "https://www.microsoft.com/".urlencode($lang)."/api/controls/contentinclude/html?pageId=cd06bda8-ff9c-4a6e-912a-b92a21f42526&host=www.microsoft.com&segments=software-download,windows7&query=&action=GetSkuInformationByKey&sessionId=".urlencode($sessionId)."&key=";
+
+    $key = keyForId($prodId);
+
+    if($key) {
+        $url = $urlKey.$key;
+    } else {
+        $url = $urlId;
+    }
+
+    $req = curl_init($url);
 
     curl_setopt($req, CURLOPT_HEADER, 0);
     curl_setopt($req, CURLOPT_REFERER, "https://www.microsoft.com/en-us/software-download/windows10ISO");
@@ -166,6 +189,18 @@ function randStr($length = 4) {
         $randomString .= $characters[rand(0, $charactersLength - 1)];
     }
     return $randomString;
+}
+
+function keyForId($id = 8) {
+    switch($id) {
+        case 8:
+            $key = 'XXXXX-XXXXX-XXXXX-XXXXX-XXXXX'; //Windows 7 Ultimate SP1
+            break;
+        
+        default:
+            $key = false;
+    }
+    return $key;
 }
 
 ?>

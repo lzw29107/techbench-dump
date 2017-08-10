@@ -39,7 +39,7 @@ if(!$sessionId) {
     }
 }
 
-$downList = getDownload($skuId, $sessionId);
+$downList = getDownload($skuId, $sessionId, $prodId);
 if(isset($downList['error'])) {
     echo 'There was an error processing your request.';
     die();
