@@ -60,6 +60,7 @@ $translation['win10th1']               = 'Windows 10 Threshold 1';
 $translation['win10th2']               = 'Windows 10 Threshold 2';
 $translation['win10rs1']               = 'Windows 10 Redstone 1';
 $translation['win10rs2']               = 'Windows 10 Redstone 2';
+$translation['win10rs3']               = 'Windows 10 Redstone 3';
 $translation['win10ip']                = 'Windows 10 Insider Preview';
 $translation['office2007']             = 'Office 2007';
 $translation['office2010']             = 'Office 2010';

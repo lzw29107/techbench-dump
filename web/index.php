@@ -84,6 +84,7 @@ echo '<h1>'.$translation['tbDump'].' <span class="badge">v'.$websiteVersion.'</s
             <li><a href="./products.php?prod=win10th2&amp;<?php echo $langParam;?>"><?php echo $translation['win10th2'];?></a></li>
             <li><a href="./products.php?prod=win10rs1&amp;<?php echo $langParam;?>"><?php echo $translation['win10rs1'];?></a></li> <!-- Windows 10 Redmond 1 -->
             <li><a href="./products.php?prod=win10rs2&amp;<?php echo $langParam;?>"><?php echo $translation['win10rs2'];?></a></li> <!-- Windows 10 Redmond 2 -->
+            <li><a href="./products.php?prod=win10rs3&amp;<?php echo $langParam;?>"><?php echo $translation['win10rs3'];?></a></li> <!-- Windows 10 Redmond 3 -->
             <li><a href="./products.php?prod=win10ip&amp;<?php echo $langParam;?>"><?php echo $translation['win10ip'];?></a></li>
         </ul>
     </div>
