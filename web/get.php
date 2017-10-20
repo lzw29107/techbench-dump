@@ -24,7 +24,10 @@ $baseDir = preg_replace('/\/$|\\\$/', '', dirname($_SERVER['REQUEST_URI']));
 $srvPort = $_SERVER['SERVER_PORT'];
 $portString = ($srvPort == 80 || $srvPort == 443) ? '' : ':'.$srvPort;
 
-$baseUrl=$requestScheme.'://'.$_SERVER['SERVER_NAME'].$portString.$baseDir.'/';
+$serverName = $_SERVER['SERVER_NAME'];
+if($serverName == '0.0.0.0') $serverName = '127.0.0.1';
+
+$baseUrl=$requestScheme.'://'.$serverName.$portString.$baseDir.'/';
 
 require 'lang/core.php';
 require 'shared/get.php';

@@ -50,7 +50,8 @@ function getDownload($skuId = 'GLC-01498', $sessionId = 'lol', $id = '8') {
     $downloadArray = array();
 
     foreach ($isoName as &$curr) {
-        $iso = preg_replace('/http.*com\/pr\/|\?t=.*/', '', $curr);
+        preg_match('/\/..\/.*$/', $curr, $iso);
+        $iso = preg_replace('/\/..\/|\?t=.*/', '', $iso[0]);
         $arch = preg_replace('/.*">/', '', $curr);
         $arch = strtolower($arch);
         $arch = str_replace('isox64', 'x64', $arch);
