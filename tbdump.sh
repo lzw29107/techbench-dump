@@ -15,7 +15,7 @@
 # limitations under the License.
 
 minProdID=1
-maxProdID=550
+maxProdID=575
 
 legacyGen=0
 
@@ -45,7 +45,7 @@ if [ -n "$2" -a -n "$3" ]; then
 	if [ $maxProdID -lt $minProdID ]; then echo "Last Product ID needs to be larger or equal to First Product ID"; exit 1; fi
 fi
 
-tbdumpVersion="20"
+tbdumpVersion="21"
 
 infoHead="[INFO]"
 warnHead="[WARNING]"
@@ -55,8 +55,8 @@ noProductErr="The product key you entered is invalid or not supported by this si
 prodInfoErr="We encountered a problem processing your request."
 
 #URLs to all needed things
-getLangUrl="https://www.microsoft.com/en-us/api/controls/contentinclude/html?pageId=cd06bda8-ff9c-4a6e-912a-b92a21f42526&host=www.microsoft.com&segments=software-download,windows10ISO&sessionId=eafe547d-8be3-4a05-95e6-e77b8d5065d6&query=&action=getskuinformationbyproductedition"
-getDownUrlLong="https://www.microsoft.com/en-us/api/controls/contentinclude/html?pageId=cfa9e580-a81e-4a4b-a846-7b21bf4e2e5b&host=www.microsoft.com&segments=software-download,windows10ISO&sessionId=eafe547d-8be3-4a05-95e6-e77b8d5065d6&query=&action=GetProductDownloadLinksBySku"
+getLangUrlClean="http://www.microsoft.com/en-us/api/controls/contentinclude/html?pageId=cd06bda8-ff9c-4a6e-912a-b92a21f42526&host=www.microsoft.com&segments=software-download,windows10ISO&query=&action=getskuinformationbyproductedition"
+getDownUrlLongClean="http://www.microsoft.com/en-us/api/controls/contentinclude/html?pageId=cfa9e580-a81e-4a4b-a846-7b21bf4e2e5b&host=www.microsoft.com&segments=software-download,windows10ISO&query=&action=GetProductDownloadLinksBySku"
 refererUrl="https://www.microsoft.com/en-us/software-download/windows10ISO"
 
 #Fix redirection on Windows and warn user, that Control-C is broken
@@ -131,6 +131,24 @@ function getProductName {
 	fi
 
 	return 0
+}
+
+function uuidGen {
+local tmp
+local i
+for i in $(seq 1 32); do
+	let tmp=$RANDOM%16
+
+	if [ $tmp == 10 ]; then tmp='a'; fi
+	if [ $tmp == 11 ]; then tmp='b'; fi
+	if [ $tmp == 12 ]; then tmp='c'; fi
+	if [ $tmp == 13 ]; then tmp='d'; fi
+	if [ $tmp == 14 ]; then tmp='e'; fi
+	if [ $tmp == 15 ]; then tmp='f'; fi
+	printf "$tmp"
+
+	if [ $i == 8 -o $i == 12 -o $i == 16 -o $i == 20 ]; then printf "-"; fi
+done
 }
 
 ########################################
@@ -307,6 +325,12 @@ function mainWeb {
 
 	for productID in $(seq $minProdID $maxProdID); do
 		echo "$infoHead Checking product ID: $productID"
+
+		uuid=$(uuidGen)
+		getLangUrl="$getLangUrlClean&sessionId=$uuid"
+		getDownUrlLong="$getDownUrlLongClean&sessionId=$uuid"
+		echo "$infoHead Using UUID: $uuid"
+
 		getLangErr=2
 		while [ $getLangErr -gt 1 ]; do
 			getLangs $productID
