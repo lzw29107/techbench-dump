@@ -45,7 +45,7 @@ if [ -n "$2" -a -n "$3" ]; then
 	if [ $maxProdID -lt $minProdID ]; then echo "Last Product ID needs to be larger or equal to First Product ID"; exit 1; fi
 fi
 
-tbdumpVersion="web"
+tbdumpVersion="20"
 
 infoHead="[INFO]"
 warnHead="[WARNING]"
@@ -170,6 +170,11 @@ function headerHTML {
                 margin-bottom: 0.5em;
             }
 
+            .title-text {
+                margin-top: -1em;
+                margin-bottom: 1em;
+            }
+
             .row-padded {
                 padding-bottom: 0.5em;
             }
@@ -234,6 +239,8 @@ function headerHTML {
 
     <body>
         <h1>TechBench Minidump</h1>
+        <p class="title-text"><i>Generated using TechBench dump script (tbdump-'$tbdumpVersion')</i></p>
+
         <p>Last update: <b>'$(date "+%Y-%m-%dT%H:%M:%S%z")'</b><br>
         Number of products: <b>!!productsNumberPlaceholder!!</b></p>
 
