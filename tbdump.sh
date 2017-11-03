@@ -59,7 +59,15 @@ getLangUrl="https://www.microsoft.com/en-us/api/controls/contentinclude/html?pag
 getDownUrlLong="https://www.microsoft.com/en-us/api/controls/contentinclude/html?pageId=cfa9e580-a81e-4a4b-a846-7b21bf4e2e5b&host=www.microsoft.com&segments=software-download,windows10ISO&sessionId=eafe547d-8be3-4a05-95e6-e77b8d5065d6&query=&action=GetProductDownloadLinksBySku"
 refererUrl="https://www.microsoft.com/en-us/software-download/windows10ISO"
 
-if ! type curl > /dev/null; then
+#Fix redirection on Windows and warn user, that Control-C is broken
+if [ "$WIN_WRAPPED" == "1" ]; then
+	nullRedirect="NUL"
+	echo -e "$warnHead Control-C does not work when using this script on Windows!\n"
+else
+	nullRedirect="/dev/null"
+fi
+
+if ! type curl > $nullRedirect; then
 	echo "$errorHead This scripts needs cUrl to be installed! Exiting" >&2
 	exit
 fi
@@ -72,11 +80,11 @@ function getLangs {
 	langsPage=$(curl -s "$getLangUrl&productEditionId=$1" -H "Referer: $refererUrl")
 	local result="$langsPage"
 
-	if echo "$result" | grep "$noProductErr" > /dev/null; then
+	if echo "$result" | grep "$noProductErr" > $nullRedirect; then
 		return 1
 	fi
 
-	echo "$result" | grep 'option value=.{&quot;id' > "/dev/null"
+	echo "$result" | grep 'option value=.{&quot;id' > $nullRedirect
 	if [ $? -ne 0 ]; then
 		return 2
 	fi
@@ -115,8 +123,8 @@ function getProductName {
 		productName="<i>Unknown</i>"
 	fi
 
-	if echo "$result" | grep "$prodInfoErr" > /dev/null; then
-		if echo "$productName" | grep -E "Windows.*?Insider.?Preview" > /dev/null; then
+	if echo "$result" | grep "$prodInfoErr" > $nullRedirect; then
+		if echo "$productName" | grep -E "Windows.*?Insider.?Preview" > $nullRedirect; then
 			return 0
 		fi
 		return 1

@@ -7,7 +7,20 @@ tbdump.sh - Shell script version of TechBench dump. Obtains links from API, and 
 
 Usage
 -----
-### Everything with bash support
+### Windows
+Simply run desired cmd script, it will generate everything automatically.<br>
+
+Command line usage:
+```
+<script.cmd> [first_id] [last_id]
+```
+
+Example command to create files used by Website with products from range between 242 and 247:
+```
+techbench.cmd 242 247
+```
+
+### Everything else with bash support
 Give execute permission to file and run it with desired parameters.<br>
 
 Command line usage:
