@@ -45,7 +45,7 @@ if [ -n "$2" -a -n "$3" ]; then
 	if [ $maxProdID -lt $minProdID ]; then echo "Last Product ID needs to be larger or equal to First Product ID"; exit 1; fi
 fi
 
-tbdumpVersion="22"
+tbdumpVersion="master"
 
 infoHead="[INFO]"
 warnHead="[WARNING]"
@@ -134,21 +134,31 @@ function getProductName {
 }
 
 function uuidGen {
-local tmp
-local i
-for i in $(seq 1 32); do
-	let tmp=$RANDOM%16
+	local tmp
+	local i=0
+	local string=
 
-	if [ $tmp == 10 ]; then tmp='a'; fi
-	if [ $tmp == 11 ]; then tmp='b'; fi
-	if [ $tmp == 12 ]; then tmp='c'; fi
-	if [ $tmp == 13 ]; then tmp='d'; fi
-	if [ $tmp == 14 ]; then tmp='e'; fi
-	if [ $tmp == 15 ]; then tmp='f'; fi
-	printf "$tmp"
+	while [ $i -lt 32 ]; do
+		i=$(( i+1 ))
+		tmp=$(( $RANDOM%16 ))
 
-	if [ $i == 8 -o $i == 12 -o $i == 16 -o $i == 20 ]; then printf "-"; fi
-done
+		case $tmp in
+		10) tmp='a' ;;
+		11) tmp='b' ;;
+		12) tmp='c' ;;
+		13) tmp='d' ;;
+		14) tmp='e' ;;
+		15) tmp='f' ;;
+		esac
+
+		case $i in
+		8|12|16|20) tmp=$tmp- ;;
+		esac
+
+		string=$string$tmp
+	done
+
+	printf "$string"
 }
 
 ########################################
