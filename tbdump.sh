@@ -45,7 +45,7 @@ if [ -n "$2" -a -n "$3" ]; then
 	if [ $maxProdID -lt $minProdID ]; then echo "Last Product ID needs to be larger or equal to First Product ID"; exit 1; fi
 fi
 
-tbdumpVersion="21"
+tbdumpVersion="22"
 
 infoHead="[INFO]"
 warnHead="[WARNING]"
@@ -173,6 +173,9 @@ function headerHTML {
         <script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.9.1.min.js"></script>
         <script type="text/javascript" src="https://c.s-microsoft.com/en-us/CMSScripts/script.jsx?k=517a7087-9636-e078-8b13-a173049192f5_4c905457-169a-061a-e153-0372577f2998_742bd11f-3d7c-9955-3df5-f02b66689699_525283c5-3d35-4dd2-5a96-acaf933fab61_49488e0d-6ae2-5101-c995-f4d56443b1d8_7dea7b90-4334-c043-b252-9f132d19ee19_38aa9ffb-ddb5-75be-6536-a58628f435f5_e3e65a0a-c133-43e7-571d-2293e03f85e6_4ca0e9dc-a4de-17ba-f0de-d1d346cb99e2_06310cd8-41c6-3b11-4645-b4884789ed70_5c27e8aa-9347-969e-39ac-37a4de428a8d_bedcf502-0395-ae0a-d3d4-b72978f0a6d9_be92d794-4118-193f-9871-58b72092a5ac_64c742e2-b29c-b6c1-fdd9-accf33ec40bd_cf2ceca9-3467-a5b3-d095-68958eee6d4c_cec39dd8-f1d3-56f1-abfc-a7db34ff7b46_ec5fa2c9-3950-ff57-a5c3-1fa77e0db190_d19f9592-65df-bcc9-e30e-439b875c3381_76a3d06f-f11f-77ef-9bfd-6227ba750200_28ef6180-55bc-102c-3ba8-678e92875e6b_c2dceda8-20b4-7d3f-13b6-9cac67d7df17_914fa41b-cc86-d3b0-4e15-2fdfa357bcc7_40c6c884-da6e-7c2c-081f-4a7dfe7c7245_35f9df4f-1b4f-752c-4522-e2f2a8d2a77f_dd708766-2c4c-f068-79b0-121081b8621c_a5201e55-aa32-d778-3300-0a557fd39f8c_26d1ef17-d0f5-2db9-fe2d-ced935bb409f_8653737a-ece8-1b56-0c26-ac582c3738d4_ef37e36f-3037-c8f0-eaa1-a5f4a643fc0d_f8a0d07f-49e8-dca2-07d3-a7b0861d21f9_1fa77585-d5dc-d975-bd87-48d017a6c87e"></script>
 
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/css/select2.min.css" rel="stylesheet">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/js/select2.min.js"></script>
+
         <style>
             body {
                 background-color: #fff;
@@ -229,11 +232,10 @@ function headerHTML {
 
             #product-languages, #product-edition {
                 margin-top: 0.25em;
-                margin-bottom: 1em;
                 min-width: 100%;
                 color: #000;
                 background-color: #fff;
-                cursor: default;
+                cursor: pointer;
                 border: 1px;
                 border-color: #aaa;
                 border-style: solid;
@@ -241,6 +243,10 @@ function headerHTML {
                 padding: 0.5em;
                 text-decoration: none;
                 transition: border-color 150ms;
+            }
+
+            #product-languages, .prod {
+                margin-bottom: 1em;
             }
 
             #product-languages:hover, #product-edition:hover {
@@ -265,14 +271,20 @@ function headerHTML {
         <h2>Select product</h2>
         <p>Select an edition from the drop down menu. To be able to successfully retrieve download links for Windows Insider products you need to be logged on <b><a href="https://www.microsoft.com/en-us/software-download/windowsinsiderpreviewadvanced">Windows Insider page</a></b>.</p>
 
-        <select id="product-edition" href="#product-info-content">
+        <div class="prod"><select id="product-edition" style="width: 100%;">
             <option value="" selected="selected">Select edition</option>' > "dump.html"
 }
 
 function footerHTML {
-	echo '        </select>
-        <br>
-        <button class="button-flat button-purple button-main" id="submit-product-edition">Confirm</button>
+	echo '        </select></div>
+        <button class="button-flat button-purple button-main" id="submit-product-edition">
+            Confirm
+        </button>
+
+        <script>
+            document.getElementById('"'product-edition'"').style.visibility = "hidden";
+            document.getElementById('"'submit-product-edition'"').style.visibility = "hidden";
+        </script>
 
         <div id="progress-modal"><p><center>Please wait...</center></p></div>
 
@@ -289,6 +301,13 @@ function footerHTML {
             data-ControlAttributesMapping="" data-Host="www.microsoft.com" data-host-segments="software-download%2cwindows10ISO"
             data-host-querystring="" data-AjaxQuery=""></div>
         </div>
+
+        <script>
+        $(document).ready(function() {
+            $('"'#product-edition'"').select2();
+            document.getElementById('"'submit-product-edition'"').style.visibility = "visible";
+        });
+        </script>
 
         <script type="text/javascript">
             MSCom.CMS.Mashup.ContentInclude=function(n,t,i,r,u,f,e,o){e||(e="");this._url="https://www.microsoft.com/api/controls/contentinclude/"+e;this._collection=getQueryValue(window.location.href,"CollectionId");this._locale=i;this._pageId=t;this._ppaId=r;this._controlAttributeMapping=u;this._siteContextName=f;this._action=e;this._query=o};MSCom.CMS.Mashup.ContentInclude.prototype={render:function(n){var t,i;this._divToRender=n;t=this._url+"?locale="+this._locale+"&pageId="+this._pageId+"&site="+this._siteContextName;this._collection&&(t+="&CollectionId="+this._collection);this._ppaId&&(t+="&ProgrammableContentArea="+this._ppaId);for(i in this._query)
