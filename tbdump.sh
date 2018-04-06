@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Copyright 2017 mkuba50
+# Copyright 2018 mkuba50
 
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
 # limitations under the License.
 
 minProdID=1
-maxProdID=575
+maxProdID=700
 
 legacyGen=0
 
@@ -45,7 +45,7 @@ if [ -n "$2" -a -n "$3" ]; then
 	if [ $maxProdID -lt $minProdID ]; then echo "Last Product ID needs to be larger or equal to First Product ID"; exit 1; fi
 fi
 
-tbdumpVersion="master"
+tbdumpVersion="23"
 
 infoHead="[INFO]"
 warnHead="[WARNING]"
@@ -124,7 +124,7 @@ function getProductName {
 	fi
 
 	if echo "$result" | grep "$prodInfoErr" > $nullRedirect; then
-		if echo "$productName" | grep -E "Windows.*?Insider.?Preview" > $nullRedirect; then
+		if echo "$productName" | grep -E "Windows.*?Insider.?Preview|RS4" > $nullRedirect; then
 			return 0
 		fi
 		return 1
