@@ -1,5 +1,5 @@
 /*
-Copyright 2017 mkuba50
+Copyright 2019 whatever127
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -53,4 +53,18 @@ body {
   bottom: 0px;
   right: 30px;
   height: 50%;
+}
+
+.CSPvNext h2 {
+  font-size: 18px;
+  margin-top: 1rem;
+}
+
+.CSPvNext {
+  margin: 0;
+}
+
+.CSPvNext .row-fluid,
+.CSPvNext #product-languages {
+  width: 100%;
 }

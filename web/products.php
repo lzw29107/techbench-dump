@@ -1,5 +1,5 @@
 <?php
-// Copyright 2017 mkuba50
+// Copyright 2019 whatever127
 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -60,6 +60,14 @@ switch ($prodName) {
     case 'win10rs3':
         $products = preg_grep('/Windows.10.*?1709/',$out['products']);
         $selectedCategory = $translation['win10rs3'];
+        break;
+    case 'win10rs4':
+        $products = preg_grep('/Windows.10.*?1803/',$out['products']);
+        $selectedCategory = $translation['win10rs4'];
+        break;
+    case 'win10rs5':
+        $products = preg_grep('/Windows.10.*?1809/',$out['products']);
+        $selectedCategory = $translation['win10rs5'];
         break;
     case 'win10ip':
         $products = preg_grep('/Windows.*?Insider.?Preview/',$out['products']);
@@ -141,10 +149,9 @@ if(empty($products)) {
     echo '<tr><td>'.$noItems.'</td></tr>';
 } else {
     foreach ($products as $key => &$curr) {
-        echo '<tr><td><a href="./langs.php?id='.$key.'&'.$langParam.'">'.$curr .' ['.$translation['idName'].': '.$key."]</a></td></tr>\n";
+        echo '<tr><td><a href="./get.php?id='.$key.'&'.$langParam.'">'.$curr .' ['.$translation['idName'].': '.$key."]</a></td></tr>\n";
     }
 }
 
 echo '</table>';
 styleBottom();
-?>

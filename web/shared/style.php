@@ -1,5 +1,5 @@
 <?php
-// Copyright 2017 mkuba50
+// Copyright 2019 whatever127
 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,7 +13,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-$websiteVersion = '2.6.2';
+$websiteVersion = '2.7.0';
 function styleTop($pageType = 'home') {
     global $translation, $langCore_menu, $langParam;
 
@@ -42,7 +42,7 @@ function styleTop($pageType = 'home') {
     echo '<!DOCTYPE html>
 <html>
     <!--
-    Copyright 2017 mkuba50
+    Copyright 2019 whatever127
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.

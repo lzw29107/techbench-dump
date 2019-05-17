@@ -61,6 +61,8 @@ $translation['win10th2']               = 'Windows 10 Threshold 2';
 $translation['win10rs1']               = 'Windows 10 Redstone 1';
 $translation['win10rs2']               = 'Windows 10 Redstone 2';
 $translation['win10rs3']               = 'Windows 10 Redstone 3';
+$translation['win10rs4']               = 'Windows 10 Redstone 4';
+$translation['win10rs5']               = 'Windows 10 Redstone 5';
 $translation['win10ip']                = 'Windows 10 Insider Preview';
 $translation['office2007']             = 'Office 2007';
 $translation['office2010']             = 'Office 2010';
@@ -84,4 +86,7 @@ $translation['idName']                 = 'ID';
 $translation['archx64']                = '64-bit';
 $translation['archx86']                = '32-bit';
 $translation['downloadName']           = 'Download';
+$translation['waitTitle']              = 'Please wait...';
+$translation['waitText']               = 'Please wait while we are retrieving a list of available languages...';
+$translation['jsRequired']             = 'This page requires JavaScript working to communicate with Microsoft servers.';
 ?>

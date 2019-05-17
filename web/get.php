@@ -1,5 +1,5 @@
 <?php
-// Copyright 2017 mkuba50
+// Copyright 2019 whatever127
 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,82 +13,150 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-$skuId = isset($_GET['skuId']) ? $_GET['skuId'] : '6PC-00020';
-$sessionId = isset($_GET['sessionId']) ? $_GET['sessionId'] : false;
 $prodId = isset($_GET['id']) ? $_GET['id'] : '2';
 $lang = isset($_GET['lang']) ? $_GET['lang'] : 'en-us';
-
-$requestScheme = (isset($_SERVER['HTTPS'])) ? 'https' : 'http';
-$baseDir = preg_replace('/\/$|\\\$/', '', dirname($_SERVER['REQUEST_URI']));
-
-$srvPort = $_SERVER['SERVER_PORT'];
-$portString = ($srvPort == 80 || $srvPort == 443) ? '' : ':'.$srvPort;
-
-$serverName = $_SERVER['SERVER_NAME'];
-if($serverName == '0.0.0.0') $serverName = '127.0.0.1';
-
-$baseUrl=$requestScheme.'://'.$serverName.$portString.$baseDir.'/';
+$forceInsider = isset($_GET['insider']) ? $_GET['insider'] : false;
 
 require 'lang/core.php';
-require 'shared/get.php';
 require 'shared/style.php';
 
-if(!$sessionId) {
-    $sessionId = randStr(8).'-'.randStr(4).'-'.randStr(4).'-'.randStr(4).'-'.randStr(12);
-    $langList = getLangList($prodId, "en-us", $sessionId);
-    if(isset($langList['error'])) {
-        echo 'There was an error processing your request.';
-        die();
-    }
+function genUUID() {
+    return sprintf('%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
+        rand(0, 0xffff),
+        rand(0, 0xffff),
+
+        rand(0, 0xffff),
+
+        rand(0, 0x0fff) | 0x4000,
+
+        rand(0, 0x3fff) | 0x8000,
+
+        rand(0, 0xffff),
+        rand(0, 0xffff),
+        rand(0, 0xffff)
+    );
 }
 
-$downList = getDownload($skuId, $sessionId, $prodId);
-if(isset($downList['error'])) {
-    echo 'There was an error processing your request.';
-    die();
+$out = @file_get_contents('dump.json');
+if(empty($out)) {
+    $out = array('products' => null);
+} else {
+    $out = json_decode($out, true);
+}
+
+$products = $out['products'];
+if(empty($products[$prodId]))
+{
+    $products = $translation['unknownName'] .' ['.$translation['idName'].': '.$prodId.']';
+} else {
+    $products = $products[$prodId];
+}
+
+$guid = genUUID();
+$msUrl = 'https://www.microsoft.com/'.$translation['langCodeMs'].'/api/controls/contentinclude/html';
+$langsUrl = "https://www.microsoft.com/{$translation['langCodeMs']}/api/controls/contentinclude/html?pageId=cd06bda8-ff9c-4a6e-912a-b92a21f42526&host=www.microsoft.com&segments=software-download%2cwindows10ISO&query=&action=getskuinformationbyproductedition&sessionId=$guid&productEditionId=$prodId&sdVersion=2";
+
+if(preg_match('/Windows.*?Insider.?Preview/', $products)) {
+    $forceInsider = 1;
 }
 
 styleTop('downloads');
 
 echo '<h1>'.$translation['tbDumpDownload']."</h1>\n";
-echo "<h3><span class=\"glyphicon glyphicon-file\" aria-hidden=\"true\"></span> ".$downList['osName']."</h3>\n";
-$index = 0;
-foreach ($downList['downloadLinks'] as &$curr) {
-    if ($index == 0) {
-        $btnType = 'btn-primary';
-    } else {
-        $btnType = 'btn-default';
-    }
-    switch ($curr['architecture']) {
-        case 'x64':
-            $btnText = $translation['archx64'];
-            break;
-        case 'x86':
-            $btnText = $translation['archx86'];
-            break;
-        default:
-            $btnText = $translation['downloadName'];
-            break;
-    }
-    echo '<a class="btn '.$btnType.'" href="'.$curr['url'].'"><span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> '.$btnText."</a>\n";
-    $index++;
+
+if($forceInsider) {
+    echo '<div class="alert alert-danger" style="margin-top: 1.5em">
+    <h4><span class="glyphicon glyphicon glyphicon-warning-sign" aria-hidden="true"></span> '.$translation['warning'].'</h4>
+    <p>'.$translation['insiderNotice'].'</p>
+</div>'."\n";
 }
+
+echo "<h3><span class=\"glyphicon glyphicon-th-list\" aria-hidden=\"true\"></span> $products</h3>\n";
 ?>
 
-<div class="alert alert-success" style="margin-top: 1.5em">
-    <h4><span class="glyphicon glyphicon-time" aria-hidden="true"></span> <?php echo $translation['linkExpireTitle'];?></h4>
-    <p><?php echo $translation['linkExpire1'];?><br>
-    <?php echo $translation['linkExpire2'].': <b>'.date("Y-m-d H:i:s T", $downList['expiration']); ?></b></p>
-</div>
+<form action="<?php echo $msUrl; ?>" target="_blank">
+    <input name="pageId" type="hidden" value="cfa9e580-a81e-4a4b-a846-7b21bf4e2e5b">
+    <input name="host" type="hidden" value="www.microsoft.com">
+    <input name="segments" type="hidden" value="software-download,windows10ISO">
+    <input name="query" type="hidden" value="">
+    <input name="action" type="hidden" value="GetProductDownloadLinksBySku">
+    <input name="sessionId" type="hidden" value="<?php echo $guid; ?>">
+    <input id="skuId" name="skuId" type="hidden" value="">
+    <input id="lang" name="language" type="hidden" value="">
+    <input name="sdVersion" type="hidden" value="2">
 
-<div class="alert alert-info" style="margin-top: 1.5em">
-    <h4><span class="glyphicon glyphicon-link" aria-hidden="true"></span> <?php echo $translation['directLinksTitle'];?></h4>
-    <p><?php echo $translation['directLinksLine1'];?></p>
-    <pre style="margin-top: 1em"><code><?php
-        foreach ($downList['downloadLinks'] as &$iso) {
-            echo "{$baseUrl}getDirect.php?fileName=".$iso['fileName'].'&id='.$prodId."\n";
+    <div id="msContent" style="display: none;">
+        <h4>
+            <?php echo $translation['waitTitle']; ?>
+        </h4>
+        <p>
+            <?php echo $translation['waitText']; ?>
+        </p>
+    </div>
+
+    <noscript>
+        <h4>
+            <?php echo $translation['warning']; ?>
+        </h4>
+        <p>
+            <?php echo $translation['jsRequired']; ?>
+        </p>
+    </noscript>
+</form>
+
+<script>
+var msContent = document.getElementById('msContent');
+msContent.style.display = "block";
+
+var xmlhttp = new XMLHttpRequest();
+xmlhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+        msContent.innerHTML = this.responseText;
+
+        var errorMessage = document.getElementById('errorModalMessage');
+
+        if(errorMessage) {
+            var errorTitle = document.getElementById('errorModalTitle');
+            msContent.innerHTML = "<h4>" + errorTitle.innerHTML + "</h4><p>" +
+                                errorMessage.innerHTML + "</p>";
+
+            return;
         }
-    ?></code></pre>
-</div>
 
-<?php styleBottom(); ?>
+        var prodLang = document.getElementById('product-languages');
+        var submitSku = document.getElementById('submit-sku');
+        var prodErr = document.getElementById('product-languages-error');
+        prodErr.style = "margin-top: 1em;";
+        prodErr.style.display = "block";
+
+        prodLang.setAttribute("onChange", "updateVars()");
+        prodLang.classList.add("form-control");
+        prodLang.style = "margin-top: 0.5em;";
+
+        submitSku.classList.add("btn");
+        submitSku.classList.add("btn-block");
+        submitSku.classList.add("btn-primary");
+        submitSku.style = "margin-top: 0.5rem;";
+
+        updateVars();
+    }
+};
+xmlhttp.open("GET", "<?php echo $langsUrl; ?>", true);
+xmlhttp.send();
+
+function updateVars() {
+    var id = document.getElementById('product-languages').value;
+    if(id == "") {
+        document.getElementById('submit-sku').disabled = 1;
+        return;
+    }
+
+    id = JSON.parse(id);
+    document.getElementById('skuId').value = id['id'];
+    document.getElementById('lang').value = id['language'];
+    document.getElementById('submit-sku').disabled = 0;
+}
+</script>
+
+<?php
+styleBottom();

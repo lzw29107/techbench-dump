@@ -1,5 +1,5 @@
 <?php
-// Copyright 2017 mkuba50
+// Copyright 2019 whatever127
 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -85,6 +85,8 @@ echo '<h1>'.$translation['tbDump'].' <span class="badge">v'.$websiteVersion.'</s
             <li><a href="./products.php?prod=win10rs1&amp;<?php echo $langParam;?>"><?php echo $translation['win10rs1'];?></a></li> <!-- Windows 10 Redmond 1 -->
             <li><a href="./products.php?prod=win10rs2&amp;<?php echo $langParam;?>"><?php echo $translation['win10rs2'];?></a></li> <!-- Windows 10 Redmond 2 -->
             <li><a href="./products.php?prod=win10rs3&amp;<?php echo $langParam;?>"><?php echo $translation['win10rs3'];?></a></li> <!-- Windows 10 Redmond 3 -->
+            <li><a href="./products.php?prod=win10rs4&amp;<?php echo $langParam;?>"><?php echo $translation['win10rs4'];?></a></li> <!-- Windows 10 Redmond 4 -->
+            <li><a href="./products.php?prod=win10rs5&amp;<?php echo $langParam;?>"><?php echo $translation['win10rs5'];?></a></li> <!-- Windows 10 Redmond 5 -->
             <li><a href="./products.php?prod=win10ip&amp;<?php echo $langParam;?>"><?php echo $translation['win10ip'];?></a></li>
         </ul>
     </div>
