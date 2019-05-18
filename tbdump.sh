@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Copyright 2018 mkuba50
+# Copyright 2019 whatever127
 
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
 # limitations under the License.
 
 minProdID=1
-maxProdID=700
+maxProdID=1300
 
 legacyGen=0
 
@@ -406,7 +406,7 @@ function mainWeb {
 #######################
 
 echo "$infoHead TechBench dump script (tbdump-$tbdumpVersion)"
-echo "$infoHead Copyright 2017 mkuba50
+echo "$infoHead Copyright 2019 whatever127
 
 $infoHead Licensed under the Apache License, Version 2.0 (the \"License\");
 $infoHead you may not use this file except in compliance with the License.
