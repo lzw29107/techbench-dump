@@ -55,6 +55,15 @@ body {
   height: 50%;
 }
 
+#msContent, #msContent2 {
+    margin-top: 2rem;
+}
+
+#msContent2 .CSPvNext .span,
+#msContent2 .CSPvNext .row-fluid {
+  display: inline;
+}
+
 .CSPvNext h2 {
   font-size: 18px;
   margin-top: 1rem;

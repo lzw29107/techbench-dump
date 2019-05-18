@@ -88,6 +88,7 @@ $translation['archx64']                = 'Wersja 64-bitowa';
 $translation['archx86']                = 'Wersja 32-bitowa';
 $translation['downloadName']           = 'Pobierz';
 $translation['waitTitle']              = 'Proszę czekać...';
-$translation['waitText']               = 'Proszę czekać podczas gdy uzyskujemy listę języków...';
+$translation['waitLangText']           = 'Proszę czekać podczas gdy uzyskujemy listę języków...';
+$translation['waitDlText']             = 'Proszę czekać podczas gdy uzyskujemy pliki do pobrania...';
 $translation['jsRequired']             = 'Ta strona wymaga JavaScript do komunikacji z serwerami firmy Microsoft.';
 ?>
