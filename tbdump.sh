@@ -55,8 +55,8 @@ noProductErr="The product key you entered is invalid or not supported by this si
 prodInfoErr="We encountered a problem processing your request."
 
 #URLs to all needed things
-getLangUrlClean="http://www.microsoft.com/en-us/api/controls/contentinclude/html?pageId=cd06bda8-ff9c-4a6e-912a-b92a21f42526&host=www.microsoft.com&segments=software-download,windows10ISO&query=&action=getskuinformationbyproductedition"
-getDownUrlLongClean="http://www.microsoft.com/en-us/api/controls/contentinclude/html?pageId=cfa9e580-a81e-4a4b-a846-7b21bf4e2e5b&host=www.microsoft.com&segments=software-download,windows10ISO&query=&action=GetProductDownloadLinksBySku"
+getLangUrlClean="https://www.microsoft.com/en-us/api/controls/contentinclude/html?pageId=cd06bda8-ff9c-4a6e-912a-b92a21f42526&host=www.microsoft.com&segments=software-download,windows10ISO&query=&action=getskuinformationbyproductedition"
+getDownUrlLongClean="https://www.microsoft.com/en-us/api/controls/contentinclude/html?pageId=cfa9e580-a81e-4a4b-a846-7b21bf4e2e5b&host=www.microsoft.com&segments=software-download,windows10ISO&query=&action=GetProductDownloadLinksBySku"
 refererUrl="https://www.microsoft.com/en-us/software-download/windows10ISO"
 
 #Fix redirection on Windows and warn user, that Control-C is broken
@@ -77,7 +77,7 @@ fi
 #############################
 
 function getLangs {
-	langsPage=$(curl -s "$getLangUrl&productEditionId=$1" -H "Referer: $refererUrl")
+	langsPage=$(curl -L -s "$getLangUrl&productEditionId=$1" -H "Referer: $refererUrl")
 	local result="$langsPage"
 
 	if echo "$result" | grep "$noProductErr" > $nullRedirect; then
@@ -113,7 +113,7 @@ function getProductName {
 	local tempLine=$(printf "$langList" | tail -n1 | tr -d '\r')
 	local tempLink=$(printf "$tempLine" | sed s/.language=.*//g)
 
-	local result=$(curl -s "$getDownUrlLong&$(echo -n $tempLink)" -H "Referer: $refererUrl")
+	local result=$(curl -L -s "$getDownUrlLong&$(echo -n $tempLink)" -H "Referer: $refererUrl")
 	local result2="$langsPage"
 
 	productName=$(echo "$result2" | grep -o '<i>The product key is eligible for.*<\/i>' | sed 's/The product key is eligible for //g')
