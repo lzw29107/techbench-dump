@@ -1,21 +1,22 @@
 <?php
-// Copyright 2019 whatever127
+/*
+Copyright 2019 whatever127
 
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
 
-//    http://www.apache.org/licenses/LICENSE-2.0
+   http://www.apache.org/licenses/LICENSE-2.0
 
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
 
 $prodName = isset($_GET['prod']) ? $_GET['prod'] : 'all';
 $search = isset($_GET['search']) ? $_GET['search'] : null;
-$lang = isset($_GET['lang']) ? $_GET['lang'] : 'en-us';
 
 require 'lang/core.php';
 require 'shared/style.php';
@@ -50,7 +51,7 @@ switch ($prodName) {
         $selectedCategory = $translation['win10th2'];
         break;
     case 'win10rs1':
-        $products = preg_grep('/Windows.10.*?Redstone.1|Windows.*?Build 14393/',$out['products']);
+        $products = preg_grep('/Windows.10.*?Redstone.1|Windows.*? 14393/',$out['products']);
         $selectedCategory = $translation['win10rs1'];
         break;
     case 'win10rs2':
@@ -58,19 +59,19 @@ switch ($prodName) {
         $selectedCategory = $translation['win10rs2'];
         break;
     case 'win10rs3':
-        $products = preg_grep('/Windows.10.*?1709/',$out['products']);
+        $products = preg_grep('/Windows.10.*?1709|Windows.*? 16299/',$out['products']);
         $selectedCategory = $translation['win10rs3'];
         break;
     case 'win10rs4':
-        $products = preg_grep('/Windows.10.*?1803/',$out['products']);
+        $products = preg_grep('/Windows.10.*?1803|Windows.*? 17134/',$out['products']);
         $selectedCategory = $translation['win10rs4'];
         break;
     case 'win10rs5':
-        $products = preg_grep('/Windows.10.*?1809/',$out['products']);
+        $products = preg_grep('/Windows.10.*?1809|Windows.*? 17763/',$out['products']);
         $selectedCategory = $translation['win10rs5'];
         break;
     case 'win10rs6':
-        $products = preg_grep('/Windows.10.*?1903/',$out['products']);
+        $products = preg_grep('/Windows.10.*?1903|Windows.*? 18362/',$out['products']);
         $selectedCategory = $translation['win10rs6'];
         break;
     case 'win10ip':
@@ -110,23 +111,7 @@ switch ($prodName) {
 }
 
 if(!empty($search)) {
-    $searchSafe = str_replace('\\', '\\\\', $search);
-    $searchSafe = str_replace('/', '\/', $searchSafe);
-    $searchSafe = str_replace('.', '\.', $searchSafe);
-    $searchSafe = str_replace('^', '\^', $searchSafe);
-    $searchSafe = str_replace('$', '\$', $searchSafe);
-    $searchSafe = str_replace('*', '\*', $searchSafe);
-    $searchSafe = str_replace('+', '\+', $searchSafe);
-    $searchSafe = str_replace('-', '\-', $searchSafe);
-    $searchSafe = str_replace('?', '\?', $searchSafe);
-    $searchSafe = str_replace('(', '\(', $searchSafe);
-    $searchSafe = str_replace(')', '\)', $searchSafe);
-    $searchSafe = str_replace('[', '\[', $searchSafe);
-    $searchSafe = str_replace(']', '\]', $searchSafe);
-    $searchSafe = str_replace('{', '\{', $searchSafe);
-    $searchSafe = str_replace('}', '\}', $searchSafe);
-    $searchSafe = str_replace('|', '\|', $searchSafe);
-
+    $searchSafe = preg_quote($search, '/');
     if (!preg_match('/^".*"$/', $searchSafe)) {
         $searchSafe = str_replace(' ', '.*', $searchSafe);
     } else {
@@ -153,7 +138,7 @@ if(empty($products)) {
     echo '<tr><td>'.$noItems.'</td></tr>';
 } else {
     foreach ($products as $key => &$curr) {
-        echo '<tr><td><a href="./get.php?id='.$key.'&'.$langParam.'">'.$curr .' ['.$translation['idName'].': '.$key."]</a></td></tr>\n";
+        echo '<tr><td><a href="./get.php?id='.$key.'">'.$curr .' ['.$translation['idName'].': '.$key."]</a></td></tr>\n";
     }
 }
 

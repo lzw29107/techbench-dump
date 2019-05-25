@@ -91,4 +91,5 @@ $translation['waitTitle']              = 'Proszę czekać...';
 $translation['waitLangText']           = 'Proszę czekać podczas gdy uzyskujemy listę języków...';
 $translation['waitDlText']             = 'Proszę czekać podczas gdy uzyskujemy pliki do pobrania...';
 $translation['jsRequired']             = 'Ta strona wymaga JavaScript do komunikacji z serwerami firmy Microsoft.';
+$translation['fileReady']              = 'Plik jest gotowy do pobrania';
 ?>

@@ -55,7 +55,7 @@ body {
   height: 50%;
 }
 
-#msContent, #msContent2 {
+#msContent, #msContent2, #fileDownload {
     margin-top: 2rem;
 }
 

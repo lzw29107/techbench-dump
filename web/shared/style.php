@@ -1,37 +1,39 @@
 <?php
-// Copyright 2019 whatever127
+/*
+Copyright 2019 whatever127
 
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
 
-//    http://www.apache.org/licenses/LICENSE-2.0
+   http://www.apache.org/licenses/LICENSE-2.0
 
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
 
-$websiteVersion = '2.8.0';
+$websiteVersion = '2.9.0';
 function styleTop($pageType = 'home') {
-    global $translation, $langCore_menu, $langParam;
+    global $translation, $langCore_menu;
 
     switch ($pageType) {
     case 'home':
         $pageTitle = $translation['tbDump'];
         $navbarLink1 = '<li class="active"><a href="#">'.$translation['homePage'].'</a></li>';
-        $navbarLink2 = '<li><a href="./about.php?'.$langParam.'">'.$translation['aboutPage'].'</a></li>';
+        $navbarLink2 = '<li><a href="./about.php">'.$translation['aboutPage'].'</a></li>';
         break;
     case 'downloads':
         $pageTitle = $translation['tbDumpDownload'];
-        $navbarLink1 = '<li><a href="./?'.$langParam.'">'.$translation['homePage'].'</a></li>
+        $navbarLink1 = '<li><a href="./">'.$translation['homePage'].'</a></li>
                         <li class="active"><a href="#">'.$translation['downloads'].'</a></li>';
-        $navbarLink2 = '<li><a href="./about.php?'.$langParam.'">'.$translation['aboutPage'].'</a></li>';
+        $navbarLink2 = '<li><a href="./about.php">'.$translation['aboutPage'].'</a></li>';
         break;
     case 'about':
         $pageTitle = $translation['tbDump'];
-        $navbarLink1 = '<li><a href="./?'.$langParam.'">'.$translation['homePage'].'</a></li>';
+        $navbarLink1 = '<li><a href="./">'.$translation['homePage'].'</a></li>';
         $navbarLink2 = '<li class="active"><a href="#">'.$translation['aboutPage'].'</a></li>';
         break;
     default:
@@ -53,7 +55,7 @@ function styleTop($pageType = 'home') {
 
         <title>'.$pageTitle.'</title>
 
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
         <link rel="stylesheet" href="shared/style.css">
 
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -74,7 +76,7 @@ function styleTop($pageType = 'home') {
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="./?'.$langParam.'">'.$translation['tbDump'].'</a>
+                    <a class="navbar-brand" href="./">'.$translation['tbDump'].'</a>
                 </div>
                 <div id="navbar" class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-left">
@@ -101,8 +103,8 @@ function styleBottom() {
                 <p>'.$translation['tbDump'].' v'.$websiteVersion.' &copy; '.date('Y').' '.$translation['footerNotice'].'</p>
             </div></div>
         </div><!-- /.container -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
     </body>
 </html>';
 }

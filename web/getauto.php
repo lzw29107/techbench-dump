@@ -15,7 +15,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-$prodId = isset($_GET['id']) ? $_GET['id'] : '2';
+$prodId = isset($_GET['id']) ? $_GET['id'] : '52';
+$fileName = isset($_GET['file']) ? $_GET['file'] : 'Win8.1_English_x64.iso';
 $forceInsider = isset($_GET['insider']) ? $_GET['insider'] : false;
 
 require 'lang/core.php';
@@ -39,7 +40,7 @@ if(empty($products[$prodId]))
 
 $guid = genUUID();
 $langsUrl = "https://www.microsoft.com/{$translation['langCodeMs']}/api/controls/contentinclude/html?pageId=cd06bda8-ff9c-4a6e-912a-b92a21f42526&host=www.microsoft.com&segments=software-download%2cwindows10ISO&query=&action=getskuinformationbyproductedition&sessionId=$guid&productEditionId=$prodId&sdVersion=2";
-$downUrl = "https://www.microsoft.com/{$translation['langCodeMs']}/api/controls/contentinclude/html?pageId=cfa9e580-a81e-4a4b-a846-7b21bf4e2e5b&host=www.microsoft.com&segments=software-download%2Cwindows10ISO&query=&action=GetProductDownloadLinksBySku&sessionId=$guid&sdVersion=2";
+$downUrl = "https://www.microsoft.com/en-us/api/controls/contentinclude/html?pageId=160bb813-f54e-4e9f-bffc-38c6eb56e061&host=www.microsoft.com&segments=software-download,dac&query=&action=GetProductDownloadLinkForFriendlyFileName&sessionId=$guid&friendlyFileName=".urlencode($fileName)."&sdVersion=2";
 
 if(preg_match('/Windows.*?Insider.?Preview/', $products)) {
     $forceInsider = 1;
@@ -56,19 +57,28 @@ if($forceInsider) {
 </div>'."\n";
 }
 
-echo "<h3><span class=\"glyphicon glyphicon-th-list\" aria-hidden=\"true\"></span> $products</h3>\n";
+echo "<h3><span class=\"glyphicon glyphicon-file\" aria-hidden=\"true\"></span> $fileName</h3>\n";
 ?>
 
 <div id="msContent" style="display: none;">
     <h4>
         <?php echo $translation['waitTitle']; ?>
     </h4>
-    <p>
-        <?php echo $translation['waitLangText']; ?>
-    </p>
 </div>
 
-<div id="msContent2" style="display: none;"></div>
+<div class="progress" id="progress">
+    <div class="progress-bar progress-bar-striped active" id="progressBar"></div>
+</div>
+
+<div id="fileDownload" style="display: none;">
+    <h4>
+        <?php echo $translation['fileReady']; ?>
+    </h4>
+    <a id="downloadBtn" class="btn btn-primary btn-block btn-lg">
+        <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>
+        <?php echo $translation['downloadName']; ?>
+    </a>
+</div>
 
 <noscript>
     <h4>
@@ -81,7 +91,10 @@ echo "<h3><span class=\"glyphicon glyphicon-th-list\" aria-hidden=\"true\"></spa
 
 <script>
 var msContent = document.getElementById('msContent');
-var msContent2 = document.getElementById('msContent2');
+var fileDownload = document.getElementById('fileDownload');
+var progressBar = document.getElementById('progressBar');
+var progress = document.getElementById('progress');
+
 msContent.style.display = "block";
 
 var xhr = new XMLHttpRequest();
@@ -97,106 +110,61 @@ xhr.onreadystatechange = function() {
                                   "</h4><p>" + errorMessage.innerHTML +
                                   "</p>";
 
+            progress.style.display = "none";
             return;
         }
 
-        var prodLang = document.getElementById('product-languages');
-        var submitSku = document.getElementById('submit-sku');
-        var prodErr = document.getElementById('product-languages-error');
-        prodErr.style = "margin-top: 1em;";
-        prodErr.style.display = "block";
-
-        document.getElementById('submit-sku').setAttribute(
-            "onClick",
-            "getDownload()"
-        );
-
-        prodLang.setAttribute("onChange", "updateVars()");
-        prodLang.classList.add("form-control");
-        prodLang.style = "margin-top: 0.5em;";
-
-        submitSku.classList.add("btn");
-        submitSku.classList.add("btn-block");
-        submitSku.classList.add("btn-primary");
-        submitSku.style = "margin-top: 0.5rem;";
-
-        updateVars();
+        progressBar.style.width = "50%";
+        getDownload();
     }
 };
+
 xhr.open("GET", "<?php echo $langsUrl; ?>", true);
 xhr.send();
 
-function updateVars() {
-    var id = document.getElementById('product-languages').value;
-    if(id == "") {
-        document.getElementById('submit-sku').disabled = 1;
-        return;
-    }
-
-    id = JSON.parse(id);
-    document.getElementById('submit-sku').disabled = 0;
-
-    return id;
-}
-
 function getDownload() {
-    msContent2.style.display = "block";
-    msContent2.innerHTML = "<h4><?php echo $translation['waitTitle']; ?></h4>" +
-                           "<p><?php echo $translation['waitDlText']; ?></p>";
+    msContent.style.display = "block";
+    msContent.innerHTML = "<h4><?php echo $translation['waitTitle']; ?></h4>";
 
-    id = updateVars();
     var xhr = new XMLHttpRequest();
 
     xhr.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-            msContent2.innerHTML = this.responseText;
+            msContent.innerHTML = this.responseText;
 
             var errorMessage = document.getElementById('errorModalMessage');
 
             if(errorMessage) {
                 var errorTitle = document.getElementById('errorModalTitle');
-                msContent2.innerHTML = "<h4>" + errorTitle.innerHTML +
+                msContent.innerHTML = "<h4>" + errorTitle.innerHTML +
                                        "</h4><p>" + errorMessage.innerHTML +
                                        "</p>";
 
+                progress.style.display = "none";
                 return;
             }
 
-            var btn = msContent2.querySelectorAll(".button");
-            for(i = 0; i < btn.length; i++) {
-                btn[i].innerHTML = btn[i].innerHTML.replace(
-                    /.*(<span.*\/span>).*/i,
-                    "<span class=\"glyphicon glyphicon-download-alt\""+
-                    "aria-hidden=\"true\"></span> $1"
-                );
+            var msScript = msContent.innerHTML.match(
+                /\/\*<!\[CDATA\[\*\/.*\/\*\]\]>\*\//i,
+            );
 
-                btn[i].classList.add("btn");
-                if(i == 0) {
-                    btn[i].classList.add("btn-primary");
-                } else {
-                    btn[i].classList.add("btn-default");
-                }
-            }
+            eval(msScript[0]);
+            var url = softwareDownload.productDownload.uri;
+            progressBar.style.width = "100%";
 
-            var type = msContent2.querySelectorAll(".product-download-type");
-            for(i = 0; i < type.length; i++) {
-                type[i].innerHTML = type[i].innerHTML.replace(
-                    /.*X86/i,
-                    "<?php echo $translation['archx86']; ?>"
-                );
+            document.getElementById('downloadBtn').href = encodeURI(url);
 
-                type[i].innerHTML = type[i].innerHTML.replace(
-                    /.*X64/i,
-                    "<?php echo $translation['archx64']; ?>"
-                );
-            }
+            fileDownload.style.display = "block";
+            msContent.style.display = "none";
+            progress.style.display = "none";
+
+            window.location.href = url;
         }
     };
 
     xhr.open(
         "GET",
-        "<?php echo $downUrl; ?>&skuId=" + encodeURIComponent(id['id']) +
-        "&language=" + encodeURIComponent(id['language']),
+        "<?php echo $downUrl; ?>",
         true
     );
 

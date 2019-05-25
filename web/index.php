@@ -1,19 +1,20 @@
 <?php
-// Copyright 2019 whatever127
+/*
+Copyright 2019 whatever127
 
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
 
-//    http://www.apache.org/licenses/LICENSE-2.0
+   http://www.apache.org/licenses/LICENSE-2.0
 
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
 
-$lang = isset($_GET['lang']) ? $_GET['lang'] : 'en-us';
 require 'lang/core.php';
 require 'shared/style.php';
 
@@ -67,7 +68,7 @@ echo '<h1>'.$translation['tbDump'].' <span class="badge">v'.$websiteVersion.'</s
 </div>
 
 <div class="row" style="margin-top: -1.25em;">
-    <div class="col-md-6 prod-btn"><a class="btn btn-primary btn-lg btn-block" href="./products.php?prod=win81&amp;<?php echo $langParam;?>">
+    <div class="col-md-6 prod-btn"><a class="btn btn-primary btn-lg btn-block" href="./products.php?prod=win81">
         <div class="prod-btn-title"><?php echo $translation['win81'];?></div>
         <div class="prod-btn-desc"><?php echo $translation['win81_desc'];?></div>
     </a></div>
@@ -78,17 +79,17 @@ echo '<h1>'.$translation['tbDump'].' <span class="badge">v'.$websiteVersion.'</s
             <span class="caret dropd-icon"></span>
         </button>
         <ul class="dropdown-menu dropd-menu-right">
-            <li><a href="./products.php?prod=win10&amp;<?php echo $langParam;?>"><?php echo $translation['win10'];?></a></li>
+            <li><a href="./products.php?prod=win10"><?php echo $translation['win10'];?></a></li>
             <li role="separator" class="divider"></li>
-            <li><a href="./products.php?prod=win10th1&amp;<?php echo $langParam;?>"><?php echo $translation['win10th1'];?></a></li>
-            <li><a href="./products.php?prod=win10th2&amp;<?php echo $langParam;?>"><?php echo $translation['win10th2'];?></a></li>
-            <li><a href="./products.php?prod=win10rs1&amp;<?php echo $langParam;?>"><?php echo $translation['win10rs1'];?></a></li> <!-- Windows 10 Redmond 1 -->
-            <li><a href="./products.php?prod=win10rs2&amp;<?php echo $langParam;?>"><?php echo $translation['win10rs2'];?></a></li> <!-- Windows 10 Redmond 2 -->
-            <li><a href="./products.php?prod=win10rs3&amp;<?php echo $langParam;?>"><?php echo $translation['win10rs3'];?></a></li> <!-- Windows 10 Redmond 3 -->
-            <li><a href="./products.php?prod=win10rs4&amp;<?php echo $langParam;?>"><?php echo $translation['win10rs4'];?></a></li> <!-- Windows 10 Redmond 4 -->
-            <li><a href="./products.php?prod=win10rs5&amp;<?php echo $langParam;?>"><?php echo $translation['win10rs5'];?></a></li> <!-- Windows 10 Redmond 5 -->
-            <li><a href="./products.php?prod=win10rs6&amp;<?php echo $langParam;?>"><?php echo $translation['win10rs6'];?></a></li> <!-- Windows 10 Redmond 6 -->
-            <li><a href="./products.php?prod=win10ip&amp;<?php echo $langParam;?>"><?php echo $translation['win10ip'];?></a></li>
+            <li><a href="./products.php?prod=win10th1"><?php echo $translation['win10th1'];?></a></li>
+            <li><a href="./products.php?prod=win10th2"><?php echo $translation['win10th2'];?></a></li>
+            <li><a href="./products.php?prod=win10rs1"><?php echo $translation['win10rs1'];?></a></li> <!-- Windows 10 Redmond 1 -->
+            <li><a href="./products.php?prod=win10rs2"><?php echo $translation['win10rs2'];?></a></li> <!-- Windows 10 Redmond 2 -->
+            <li><a href="./products.php?prod=win10rs3"><?php echo $translation['win10rs3'];?></a></li> <!-- Windows 10 Redmond 3 -->
+            <li><a href="./products.php?prod=win10rs4"><?php echo $translation['win10rs4'];?></a></li> <!-- Windows 10 Redmond 4 -->
+            <li><a href="./products.php?prod=win10rs5"><?php echo $translation['win10rs5'];?></a></li> <!-- Windows 10 Redmond 5 -->
+            <li><a href="./products.php?prod=win10rs6"><?php echo $translation['win10rs6'];?></a></li> <!-- Windows 10 Redmond 6 -->
+            <li><a href="./products.php?prod=win10ip"><?php echo $translation['win10ip'];?></a></li>
         </ul>
     </div>
 </div>
@@ -96,11 +97,11 @@ echo '<h1>'.$translation['tbDump'].' <span class="badge">v'.$websiteVersion.'</s
 <hr>
 
 <div class="row" style="margin-top: -1.25em;">
-    <div class="col-md-6 prod-btn"><a class="btn btn-default btn-lg btn-block" href="./products.php?prod=all&amp;<?php echo $langParam;?>">
+    <div class="col-md-6 prod-btn"><a class="btn btn-default btn-lg btn-block" href="./products.php?prod=all">
         <div class="prod-btn-title"><?php echo $translation['allProd'];?></div>
         <div class="prod-btn-desc"><?php echo $translation['allProd_desc'];?></div>
     </a></div>
-    <div class="col-md-6 prod-btn"><a class="btn btn-default btn-lg btn-block" href="./products.php?prod=other&amp;<?php echo $langParam;?>">
+    <div class="col-md-6 prod-btn"><a class="btn btn-default btn-lg btn-block" href="./products.php?prod=other">
         <div class="prod-btn-title"><?php echo $translation['otherProd'];?></div>
         <div class="prod-btn-desc"><?php echo $translation['otherProd_desc'];?></div>
     </a></div>
