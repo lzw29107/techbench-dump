@@ -15,8 +15,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-$prodId = isset($_GET['id']) ? $_GET['id'] : '52';
-$fileName = isset($_GET['file']) ? $_GET['file'] : 'Win8.1_English_x64.iso';
+$prodId = isset($_GET['id']) ? $_GET['id'] : null;
+$fileName = isset($_GET['file']) ? $_GET['file'] : null;
 $forceInsider = isset($_GET['insider']) ? $_GET['insider'] : false;
 
 require 'lang/core.php';
@@ -49,6 +49,24 @@ $downUrl = "https://www.microsoft.com/en-us/api/controls/contentinclude/html?pag
 styleTop('downloads');
 
 echo '<h1>'.$translation['tbDumpDownload']."</h1>\n";
+
+if($prodId == null || $fileName == null) {
+    echo <<<EOD
+<form>
+    <div class="form-group">
+        <label>Product ID</label>
+        <input type="text" class="form-control" placeholder="ID" name="id">
+    </div>
+    <div class="form-group">
+        <label>Filename</label>
+        <input type="text" class="form-control" placeholder="Filename" name="file">
+    </div>
+    <button type="submit" class="btn btn-primary btn-block">OK</button>
+</form>
+EOD;
+    styleBottom();
+    die();
+}
 
 if($forceInsider) {
     echo '<div class="alert alert-danger" style="margin-top: 1.5em">
