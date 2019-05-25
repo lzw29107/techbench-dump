@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-$websiteVersion = '2.9.0';
+$websiteVersion = '2.9.1';
 function styleTop($pageType = 'home') {
     global $translation, $langCore_menu;
 

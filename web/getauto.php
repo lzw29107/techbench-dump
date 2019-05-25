@@ -38,13 +38,13 @@ if(empty($products[$prodId]))
     $products = $products[$prodId];
 }
 
-$guid = genUUID();
-$langsUrl = "https://www.microsoft.com/{$translation['langCodeMs']}/api/controls/contentinclude/html?pageId=cd06bda8-ff9c-4a6e-912a-b92a21f42526&host=www.microsoft.com&segments=software-download%2cwindows10ISO&query=&action=getskuinformationbyproductedition&sessionId=$guid&productEditionId=$prodId&sdVersion=2";
-$downUrl = "https://www.microsoft.com/en-us/api/controls/contentinclude/html?pageId=160bb813-f54e-4e9f-bffc-38c6eb56e061&host=www.microsoft.com&segments=software-download,dac&query=&action=GetProductDownloadLinkForFriendlyFileName&sessionId=$guid&friendlyFileName=".urlencode($fileName)."&sdVersion=2";
-
 if(preg_match('/Windows.*?Insider.?Preview/', $products)) {
     $forceInsider = 1;
 }
+
+$guid = genUUID();
+$langsUrl = "https://www.microsoft.com/{$translation['langCodeMs']}/api/controls/contentinclude/html?pageId=cd06bda8-ff9c-4a6e-912a-b92a21f42526&host=www.microsoft.com&segments=software-download%2cwindows10ISO&query=&action=getskuinformationbyproductedition&sessionId=$guid&productEditionId=$prodId&sdVersion=2";
+$downUrl = "https://www.microsoft.com/en-us/api/controls/contentinclude/html?pageId=160bb813-f54e-4e9f-bffc-38c6eb56e061&host=www.microsoft.com&segments=software-download%2cwindows10ISO&query=&action=GetProductDownloadLinkForFriendlyFileName&sessionId=$guid&friendlyFileName=".urlencode($fileName)."&sdVersion=2";
 
 styleTop('downloads');
 
@@ -66,7 +66,7 @@ echo "<h3><span class=\"glyphicon glyphicon-file\" aria-hidden=\"true\"></span> 
     </h4>
 </div>
 
-<div class="progress" id="progress">
+<div class="progress" id="progress" style="display: none;">
     <div class="progress-bar progress-bar-striped active" id="progressBar"></div>
 </div>
 
@@ -96,6 +96,7 @@ var progressBar = document.getElementById('progressBar');
 var progress = document.getElementById('progress');
 
 msContent.style.display = "block";
+progress.style.display = "block";
 
 var xhr = new XMLHttpRequest();
 xhr.onreadystatechange = function() {
