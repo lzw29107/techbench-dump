@@ -1,6 +1,7 @@
 <?php
 /*
-Copyright 2019 whatever127
+TechBench dump
+Copyright (C) 2024 TechBench dump website authors and contributors
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -18,8 +19,8 @@ limitations under the License.
 $prodName = isset($_GET['prod']) ? $_GET['prod'] : 'all';
 $search = isset($_GET['search']) ? $_GET['search'] : null;
 
-require 'lang/core.php';
-require 'shared/style.php';
+require_once 'shared/lang.php';
+require_once 'shared/style.php';
 
 $out = @file_get_contents('dump.json');
 if(empty($out)) {
@@ -28,84 +29,108 @@ if(empty($out)) {
     $out = json_decode($out, true);
 }
 
-$prodName = strtolower($prodName);
+if(isset($s[$prodName])) $selectedCategory = $s[$prodName];
 switch ($prodName) {
     case 'win7':
         $products = preg_grep('/Windows.7/',$out['products']);
-        $selectedCategory = $translation['win7'];
         break;
     case 'win81':
         $products = preg_grep('/Windows.8\.1/',$out['products']);
-        $selectedCategory = $translation['win81'];
         break;
     case 'win10':
         $products = preg_grep('/Windows.10/',$out['products']);
-        $selectedCategory = $translation['win10'];
         break;
     case 'win10th1':
         $products = preg_grep('/Windows.10.*?Threshold.1/',$out['products']);
-        $selectedCategory = $translation['win10th1'];
         break;
     case 'win10th2':
         $products = preg_grep('/Windows.10.*?Threshold.2/',$out['products']);
-        $selectedCategory = $translation['win10th2'];
         break;
     case 'win10rs1':
-        $products = preg_grep('/Windows.10.*?Redstone.1|Windows.*? 14393/',$out['products']);
-        $selectedCategory = $translation['win10rs1'];
+        $products = preg_grep('/Windows.10.*?Redstone.1|Windows.*?Build 14393/',$out['products']);
         break;
     case 'win10rs2':
-        $products = preg_grep('/Windows.10.*?Redstone.2|Windows.*? 15063/',$out['products']);
-        $selectedCategory = $translation['win10rs2'];
+        $products = preg_grep('/Windows.10.*?Redstone.2|Windows.*?Build 15063/',$out['products']);
         break;
     case 'win10rs3':
-        $products = preg_grep('/Windows.10.*?1709|Windows.*? 16299/',$out['products']);
-        $selectedCategory = $translation['win10rs3'];
+        $products = preg_grep('/Windows.10.*?1709|Windows.*?Build 16299/',$out['products']);
         break;
     case 'win10rs4':
-        $products = preg_grep('/Windows.10.*?1803|Windows.*? 17134/',$out['products']);
-        $selectedCategory = $translation['win10rs4'];
+        $products = preg_grep('/Windows.10.*?1803|Windows.*?Build 17134/',$out['products']);
         break;
     case 'win10rs5':
-        $products = preg_grep('/Windows.10.*?1809|Windows.*? 17763/',$out['products']);
-        $selectedCategory = $translation['win10rs5'];
+        $products = preg_grep('/Windows.10.*?1809|Windows.*?Build 17763/',$out['products']);
         break;
     case 'win10rs6':
-        $products = preg_grep('/Windows.10.*?1903|Windows.*? 18362/',$out['products']);
-        $selectedCategory = $translation['win10rs6'];
+        $products = preg_grep('/Windows.10.*?1903|Windows.*?Build 18362/',$out['products']);
+        break;
+    case 'win10_19h2':
+        $products = preg_grep('/Windows.10.*?1909|Windows.*?Build 18363/',$out['products']);
+        break;
+    case 'win10vb':
+        $products = preg_grep('/Windows.10.*?2004|Windows.*?Build 19041/',$out['products']);
+        break;
+    case 'win10_20h2':
+        $products = preg_grep('/Windows.10.*?20H2|Windows.*?Build 19042/',$out['products']);
+        break;
+    case 'win10_21h1':
+        $products = preg_grep('/Windows.10.*?21H1|Windows.*?Build 19043/',$out['products']);
+        break;
+    case 'win10_21h2':
+        $products = preg_grep('/Windows.10.*?21H2|Windows.*?Build 19044/',$out['products']);
+        break;
+    case 'win10_22h2':
+        $products = preg_grep('/Windows.10.*?22H2|Windows.*?Build 19045/',$out['products']);
         break;
     case 'win10ip':
-        $products = preg_grep('/Windows.*?Insider.?Preview/',$out['products']);
-        $selectedCategory = $translation['win10ip'];
+        $products = preg_grep('/Windows.*10.*?Insider.?Preview/',$out['products']);
+        break;
+    case 'win11':
+        $products = preg_grep('/Windows.11/',$out['products']);
+        break;
+    case 'win11co':
+        $products = preg_grep('/Windows.11.*?21H2|Windows.*?Build 22000/',$out['products']);
+        break;
+    case 'win11ni':
+        $products = preg_grep('/Windows.11.*?22H2|Windows.*?Build 22621/',$out['products']);
+        break;
+    case 'win11_23h2':
+        $products = preg_grep('/Windows.11.*?23H2|Windows.*?Build 22631/',$out['products']);
+        break;
+    case 'win11ip':
+        $products = preg_grep('/Windows.*11.*?Insider.?Preview/',$out['products']);
+        break;
+    case 'winsrvip':
+        $products = preg_grep('/Windows.*Server.*/',$out['products']);
         break;
     case 'office2007':
         $products = preg_grep('/ 2007/',$out['products']);
-        $selectedCategory = $translation['office2007'];
+        $selectedCategory = $s['office2007'];
         break;
     case 'office2010':
         $products = preg_grep('/ 2010/',$out['products']);
-        $selectedCategory = $translation['office2010'];
+        $selectedCategory = $s['office2010'];
         break;
     case 'office2011':
         $products = preg_grep('/ 2011/',$out['products']);
-        $selectedCategory = $translation['office2011'];
+        $selectedCategory = $s['office2011'];
         break;
     case 'all':
-        $selectedCategory = $translation['allProd'];
+        $selectedCategory = $s['allProd'];
         $products = $out['products'];
         break;
     case 'other':
-        $selectedCategory = $translation['otherProd'];
+        $selectedCategory = $s['otherProd'];
         $products = $out['products'];
         foreach($products as $key => &$curr){
-            $check = preg_match('/Windows.7|Windows.8\.1|Windows.10| 2007| 2010| 2011/', $curr);
-            if($check){
+            $check = preg_match('/Windows.7|Windows.8\.1|Windows.10|Windows.11| 2007| 2010| 2011/', $curr);
+            if($check) {
               unset($products[$key]);
             }
         }
         break;
     default:
-        $selectedCategory = $translation['allProd'];
+        $selectedCategory = $s['allProd'];
         $products = $out['products'];
         break;
 }
@@ -120,16 +145,16 @@ if(!empty($search)) {
 
     $products = preg_grep('/.*'.$searchSafe.'.*/i',$products);
 
-    $tableTitle = $translation['searchResults'].': '.$search;
-    $noItems = $translation['searchNoResults'];
+    $tableTitle = $s['searchResults'].': '.$search;
+    $noItems = $s['searchNoResults'];
 } else {
-    $tableTitle = $translation['prodSelect'];
-    $noItems = $translation['noProducts'];
+    $tableTitle = $s['prodSelect'];
+    $noItems = $s['noProducts'];
 }
 
 styleTop('downloads');
 
-echo '<h1>'.$translation['tbDumpDownload']."</h1>\n";
+echo '<h1>'.$s['tbDumpDownload']."</h1>\n";
 echo "<h3><span class=\"glyphicon glyphicon-th-list\" aria-hidden=\"true\"></span> $selectedCategory</h3>\n";
 echo '<table class="table table-striped">';
 echo '<thead><tr><th>'.$tableTitle."</th></tr></thead>\n";
@@ -138,9 +163,10 @@ if(empty($products)) {
     echo '<tr><td>'.$noItems.'</td></tr>';
 } else {
     foreach ($products as $key => &$curr) {
-        echo '<tr><td><a href="./get.php?id='.$key.'">'.$curr .' ['.$translation['idName'].': '.$key."]</a></td></tr>\n";
+        echo '<tr><td><a href="./get.php?id='.$key.'">'.$curr .' ['.$s['idName'].': '.$key."]</a></td></tr>\n";
     }
 }
 
 echo '</table>';
 styleBottom();
+?>

@@ -1,84 +1,89 @@
 <?php
 // TechBench dump website translation file. Fully supported in version 2.3 and newer.
 // Translation information
-$translation['langName']               = 'Pseudo';
-$translation['langNameLocal']          = '[ !!! Ƥşḗŭḓǿ !!! ]';
-$translation['langCode']               = 'qps-ploc';
-$translation['authorName']             = 'mkuba50';
-$translation['authorLink']             = 'https://forums.mydigitallife.info/members/317641-mkuba50';
-$translation['langCodeMs']             = 'en-us'; //used internally when connecting to Microsoft API
-$translation['timeZone']               = 'UTC';
+$s['langName']               = 'Pseudo';
+$s['langNameLocal']          = '[ !!! Ƥşḗŭḓǿ !!! ]';
+$s['langCode']               = 'qps-ploc';
+$s['authorName']             = 'mkuba50';
+$s['authorLink']             = 'https://forums.mydigitallife.net/members/317641';
+$s['langCodeMs']             = 'en-us'; //used internally when connecting to Microsoft API
+$s['timeZone']               = 'UTC';
 
 // Navigation bar
-$translation['tbDump']                 = '[ !!! ŦḗƈħƁḗƞƈħ ḓŭḿƥ !!! ]';
-$translation['tbDumpDownload']         = '[ !!! ŦḗƈħƁḗƞƈħ ḓǿẇƞŀǿȧḓş !!! ]';
-$translation['homePage']               = '[ !!! Ħǿḿḗ !!! ]';
-$translation['downloads']              = '[ !!! Ḓǿẇƞŀǿȧḓş !!! ]';
-$translation['moreMenu']               = '[ !!! Ḿǿřḗ !!! ]';
-$translation['aboutPage']              = '[ !!! Ȧƀǿŭŧ !!! ]';
-$translation['githubGist']             = '[ !!! Ɠīşŧ !!! ]';
-$translation['markdownFile']           = '[ !!! Ḿȧřķḓǿẇƞ ƒīŀḗ !!! ]';
-$translation['githubRepoScript']       = '[ !!! ƓīŧĦŭƀ řḗƥǿşīŧǿřẏ (şƈřīƥŧ) !!! ]';
-$translation['githubRepoWeb']          = '[ !!! ƓīŧĦŭƀ řḗƥǿşīŧǿřẏ (ẇḗƀşīŧḗ) !!! ]';
+$s['tbDump']                 = '[ !!! ŦḗƈħƁḗƞƈħ ḓŭḿƥ !!! ]';
+$s['tbDumpDownload']         = '[ !!! ŦḗƈħƁḗƞƈħ ḓǿẇƞŀǿȧḓş !!! ]';
+$s['homePage']               = '[ !!! Ħǿḿḗ !!! ]';
+$s['downloads']              = '[ !!! Ḓǿẇƞŀǿȧḓş !!! ]';
+$s['moreMenu']               = '[ !!! Ḿǿřḗ !!! ]';
+$s['aboutPage']              = '[ !!! Ȧƀǿŭŧ !!! ]';
 
 // Main strings
-$translation['techInfo']               = '[ !!! Ŧḗƈħƞīƈȧŀ īƞƒǿřḿȧŧīǿƞ !!! ]';
-$translation['lastUpdate']             = '[ !!! Ŀȧşŧ ŭƥḓȧŧḗ !!! ]';
-$translation['productsNumber']         = '[ !!! Ƞŭḿƀḗř ǿƒ ƥřǿḓŭƈŧş !!! ]';
-$translation['searchBar']              = '[ !!! Şḗȧřƈħ... !!! ]';
-$translation['searchResults']          = '[ !!! Řḗşŭŀŧş ƒǿř !!! ]';
-$translation['searchNoResults']        = '[ !!! Ŧħḗřḗ ȧřḗ ƞǿ řḗşŭŀŧş ƒǿř ŧħīş şḗȧřƈħ. !!! ]';
-$translation['prodSelect']             = '[ !!! Ȧṽȧŀīȧƀŀḗ ƥřǿḓŭƈŧş ƒǿř ŧħīş ƈȧŧḗɠǿřẏ !!! ]';
-$translation['prodLangSelect']         = '[ !!! Ȧṽȧŀīȧƀŀḗ ŀȧƞɠŭȧɠḗş ƒǿř ŧħīş ƥřǿḓŭƈŧ !!! ]';
-$translation['noProducts']             = '[ !!! Ŧħḗřḗ ȧřḗ ƞǿ ƥřǿḓŭƈŧş īƞ ŧħīş ƈȧŧḗɠǿřẏ. !!! ]';
-$translation['linkExpireTitle']        = '[ !!! Ḗẋƥīřȧŧīǿƞ ǿƒ ŀīƞķş !!! ]';
-$translation['linkExpire1']            = '[ !!! Ŀīƞķş ȧřḗ ṽȧŀīḓ ƒǿř 24 ħǿŭřş ƒřǿḿ ŧīḿḗ ǿƒ ƈřḗȧŧīǿƞ. !!! ]';
-$translation['linkExpire2']            = '[ !!! Ŀīƞķş ẇīŀŀ ḗẋƥīřḗ !!! ]';
-$translation['directLinksTitle']       = '[ !!! Ḓīřḗƈŧ ḓǿẇƞŀǿȧḓ ŀīƞķş !!! ]';
-$translation['directLinksLine1']       = '[ !!! Ƞḗḗḓ ŧǿ şħȧřḗ ȧ ḓīřḗƈŧ ŀīƞķ ẇīŧħ şǿḿḗǿƞḗ? Ŭşḗ ŧħḗşḗ ŀīƞķş ƀḗŀǿẇ, ẇħīƈħ ɠḗƞḗřȧŧḗ ƒřḗşħ ḓǿẇƞŀǿȧḓ ŀīƞķ ǿƞ ŧħḗ ƒŀẏ. !!! ]';
-$translation['linkNotChecked']         = '[ !!! Ŧħīş ẇḗƀşīŧḗ <b>ḓǿḗş ƞǿŧ</b> ƈħḗƈķ īƒ ƒīŀḗ ḗẋīşŧş ǿƞ Ḿīƈřǿşǿƒŧ şḗřṽḗřş !!! ]';
-$translation['footerNotice']           = '[ !!! <abbr title="TechBench dump website">ŦƁḒẆ</abbr> <a href="https://forums.mydigitallife.info/threads/72165">ƈǿƞŧřīƀŭŧǿřş</a> !!! ]';
+$s['techInfo']               = '[ !!! Ŧḗƈħƞīƈȧŀ īƞƒǿřḿȧŧīǿƞ !!! ]';
+$s['lastUpdate']             = '[ !!! Ŀȧşŧ ŭƥḓȧŧḗ !!! ]';
+$s['productsNumber']         = '[ !!! Ƞŭḿƀḗř ǿƒ ƥřǿḓŭƈŧş !!! ]';
+$s['searchBar']              = '[ !!! Şḗȧřƈħ... !!! ]';
+$s['searchResults']          = '[ !!! Řḗşŭŀŧş ƒǿř !!! ]';
+$s['searchNoResults']        = '[ !!! Ŧħḗřḗ ȧřḗ ƞǿ řḗşŭŀŧş ƒǿř ŧħīş şḗȧřƈħ. !!! ]';
+$s['prodSelect']             = '[ !!! Ȧṽȧŀīȧƀŀḗ ƥřǿḓŭƈŧş ƒǿř ŧħīş ƈȧŧḗɠǿřẏ !!! ]';
+$s['prodLangSelect']         = '[ !!! Ȧṽȧŀīȧƀŀḗ ŀȧƞɠŭȧɠḗş ƒǿř ŧħīş ƥřǿḓŭƈŧ !!! ]';
+$s['noProducts']             = '[ !!! Ŧħḗřḗ ȧřḗ ƞǿ ƥřǿḓŭƈŧş īƞ ŧħīş ƈȧŧḗɠǿřẏ. !!! ]';
+$s['linkExpireTitle']        = '[ !!! Ḗẋƥīřȧŧīǿƞ ǿƒ ŀīƞķş !!! ]';
+$s['linkExpire1']            = '[ !!! Ŀīƞķş ȧřḗ ṽȧŀīḓ ƒǿř 24 ħǿŭřş ƒřǿḿ ŧīḿḗ ǿƒ ƈřḗȧŧīǿƞ. !!! ]';
+$s['linkExpire2']            = '[ !!! Ŀīƞķş ẇīŀŀ ḗẋƥīřḗ !!! ]';
+$s['directLinksTitle']       = '[ !!! Ḓīřḗƈŧ ḓǿẇƞŀǿȧḓ ŀīƞķş !!! ]';
+$s['directLinksLine1']       = '[ !!! Ƞḗḗḓ ŧǿ şħȧřḗ ȧ ḓīřḗƈŧ ŀīƞķ ẇīŧħ şǿḿḗǿƞḗ? Ŭşḗ ŧħḗşḗ ŀīƞķş ƀḗŀǿẇ, ẇħīƈħ ɠḗƞḗřȧŧḗ ƒřḗşħ ḓǿẇƞŀǿȧḓ ŀīƞķ ǿƞ ŧħḗ ƒŀẏ. !!! ]';
+$s['linkNotChecked']         = '[ !!! Ŧħīş ẇḗƀşīŧḗ <b>ḓǿḗş ƞǿŧ</b> ƈħḗƈķ īƒ ƒīŀḗ ḗẋīşŧş ǿƞ Ḿīƈřǿşǿƒŧ şḗřṽḗřş !!! ]';
 
 // About page
-$translation['aboutPageTitle']         = '[ !!! Ȧƀǿŭŧ ŧħīş ƥȧɠḗ !!! ]';
-$translation['aboutPageContent']       = '[ !!! Ŧħīş ẇḗƀşīŧḗ ẇȧş ƈřḗȧŧḗḓ ẇīŧħ şīḿƥŀīƈīŧẏ īƞ ḿīƞḓ. Ħḗřḗ ẏǿŭ ƈȧƞ ḗȧşīŀẏ ḓǿẇƞŀǿȧḓ ƥřǿḓŭƈŧş ḓīřḗƈŧŀẏ ƒřǿḿ Ḿīƈřǿşǿƒŧ.<br>
+$s['aboutPageTitle']         = '[ !!! Ȧƀǿŭŧ ŧħīş ƥȧɠḗ !!! ]';
+$s['aboutPageContent']       = '[ !!! Ŧħīş ẇḗƀşīŧḗ ẇȧş ƈřḗȧŧḗḓ ẇīŧħ şīḿƥŀīƈīŧẏ īƞ ḿīƞḓ. Ħḗřḗ ẏǿŭ ƈȧƞ ḗȧşīŀẏ ḓǿẇƞŀǿȧḓ ƥřǿḓŭƈŧş ḓīřḗƈŧŀẏ ƒřǿḿ Ḿīƈřǿşǿƒŧ.<br>
 Ŧħīş ẇḗƀşīŧḗ ƞḗīŧħḗř īŧş ȧŭŧħǿř ȧřḗ ƞǿŧ ȧƒƒīŀīȧŧḗḓ ẇīŧħ Ḿīƈřǿşǿƒŧ Ƈǿřƥǿřȧŧīǿƞ. !!! ]';
-$translation['aboutThanksTitle']       = '[ !!! Ŧħȧƞķş !!! ]';
-$translation['aboutThanksContent']     = '[ !!! Ŧħȧƞķş ŧǿ ḗṽḗřẏǿƞḗ ẇħǿ ƈǿƞŧřīƀŭŧḗḓ ŧǿ ŧħīş ƥřǿĵḗƈŧ ƀẏ ŧřȧƞşŀȧŧīƞɠ īŧ ǿř ƀẏ ǿŧħḗř ḿḗȧƞş. !!! ]';
-$translation['aboutTranslationsTitle'] = '[ !!! Ŧřȧƞşŀȧŧīǿƞş !!! ]';
-$translation['language']               = '[ !!! Ŀȧƞɠŭȧɠḗ !!! ]';
-$translation['authors']                = '[ !!! Ȧŭŧħǿřş !!! ]';
-$translation['aboutLicenseTitle']      = '[ !!! Ŀīƈḗƞşḗ !!! ]';
+$s['aboutThanksTitle']       = '[ !!! Ŧħȧƞķş !!! ]';
+$s['aboutThanksContent']     = '[ !!! Ŧħȧƞķş ŧǿ ḗṽḗřẏǿƞḗ ẇħǿ ƈǿƞŧřīƀŭŧḗḓ ŧǿ ŧħīş ƥřǿĵḗƈŧ ƀẏ ŧřȧƞşŀȧŧīƞɠ īŧ ǿř ƀẏ ǿŧħḗř ḿḗȧƞş. !!! ]';
+$s['aboutTranslationsTitle'] = '[ !!! Ŧřȧƞşŀȧŧīǿƞş !!! ]';
+$s['language']               = '[ !!! Ŀȧƞɠŭȧɠḗ !!! ]';
+$s['authors']                = '[ !!! Ȧŭŧħǿřş !!! ]';
+$s['aboutLicenseTitle']      = '[ !!! Ŀīƈḗƞşḗ !!! ]';
 
 // Product names
-$translation['win7']                   = '[ !!! Ẇīƞḓǿẇş 7 !!! ]';
-$translation['win81']                  = '[ !!! Ẇīƞḓǿẇş 8.1 !!! ]';
-$translation['win10']                  = '[ !!! Ẇīƞḓǿẇş 10 !!! ]';
-$translation['win10th1']               = '[ !!! Ẇīƞḓǿẇş 10 Ŧħřḗşħǿŀḓ 1 !!! ]';
-$translation['win10th2']               = '[ !!! Ẇīƞḓǿẇş 10 Ŧħřḗşħǿŀḓ 2 !!! ]';
-$translation['win10rs1']               = '[ !!! Ẇīƞḓǿẇş 10 Řḗḓşŧǿƞḗ 1 !!! ]';
-$translation['win10rs2']               = '[ !!! Ẇīƞḓǿẇş 10 Řḗḓşŧǿƞḗ 2 !!! ]';
-$translation['win10ip']                = '[ !!! Ẇīƞḓǿẇş 10 Īƞşīḓḗř Ƥřḗṽīḗẇ !!! ]';
-$translation['office2007']             = '[ !!! Ǿƒƒīƈḗ 2007 !!! ]';
-$translation['office2010']             = '[ !!! Ǿƒƒīƈḗ 2010 !!! ]';
-$translation['office2011']             = '[ !!! Ǿƒƒīƈḗ 2011 ƒǿř Ḿȧƈ !!! ]';
-$translation['allProd']                = '[ !!! Ȧŀŀ ƥřǿḓŭƈŧş !!! ]';
-$translation['otherProd']              = '[ !!! Ǿŧħḗř ƥřǿḓŭƈŧş !!! ]';
+$s['win7']                   = '[ !!! Ẇīƞḓǿẇş 7 !!! ]';
+$s['win81']                  = '[ !!! Ẇīƞḓǿẇş 8.1 !!! ]';
+$s['win10']                  = '[ !!! Ẇīƞḓǿẇş 10 !!! ]';
+$s['win10th1']               = '[ !!! Ẇīƞḓǿẇş 10 Ŧħřḗşħǿŀḓ 1 !!! ]';
+$s['win10th2']               = '[ !!! Ẇīƞḓǿẇş 10 Ŧħřḗşħǿŀḓ 2 !!! ]';
+$s['win10rs1']               = '[ !!! Ẇīƞḓǿẇş 10 Řḗḓşŧǿƞḗ 1 !!! ]';
+$s['win10rs2']               = '[ !!! Ẇīƞḓǿẇş 10 Řḗḓşŧǿƞḗ 2 !!! ]';
+$s['win10rs3']               = '[ !!! Ẇīƞḓǿẇş 10 Řḗḓşŧǿƞḗ 3 !!! ]';
+$s['win10rs4']               = '[ !!! Ẇīƞḓǿẇş 10 Řḗḓşŧǿƞḗ 4 !!! ]';
+$s['win10rs5']               = '[ !!! Ẇīƞḓǿẇş 10 Řḗḓşŧǿƞḗ 5 !!! ]';
+$s['win10rs6']               = 'Windows 10 19H1[ !!! Ẇīƞḓǿẇş 10 Řḗḓşŧǿƞḗ 1 !!! ]';
+$s['win10_19h2']             = 'Windows 10 19H2[ !!! Ẇīƞḓǿẇş 10 Řḗḓşŧǿƞḗ 1 !!! ]';
+$s['win10vb']                = 'Windows 10 Vibranium[ !!! Ẇīƞḓǿẇş 10 Řḗḓşŧǿƞḗ 1 !!! ]';
+$s['win10_20h2']             = 'Windows 10 20H2[ !!! Ẇīƞḓǿẇş 10 Řḗḓşŧǿƞḗ 1 !!! ]';
+$s['win10_21h1']             = 'Windows 10 21H1[ !!! Ẇīƞḓǿẇş 10 Řḗḓşŧǿƞḗ 1 !!! ]';
+$s['win10_21h2']             = 'Windows 10 21H2[ !!! Ẇīƞḓǿẇş 10 Řḗḓşŧǿƞḗ 1 !!! ]';
+$s['win10_22h2']             = 'Windows 10 22H2[ !!! Ẇīƞḓǿẇş 10 Řḗḓşŧǿƞḗ 1 !!! ]';
+$s['win11co']                = 'Windows 11 Cobalt[ !!! Ẇīƞḓǿẇş 10 Řḗḓşŧǿƞḗ 1 !!! ]';
+$s['win11ni']                = 'Windows 11 Nickel[ !!! Ẇīƞḓǿẇş 10 Řḗḓşŧǿƞḗ 1 !!! ]';
+$s['win11_23h2']             = 'Windows 11 23H2[ !!! Ẇīƞḓǿẇş 10 Řḗḓşŧǿƞḗ 1 !!! ]';
+$s['win10ip']                = '[ !!! Ẇīƞḓǿẇş 10 Īƞşīḓḗř Ƥřḗṽīḗẇ !!! ]';
+$s['win11ip']                = '[ !!! Ẇīƞḓǿẇş 11 Īƞşīḓḗř Ƥřḗṽīḗẇ !!! ]';
+$s['office2007']             = '[ !!! Ǿƒƒīƈḗ 2007 !!! ]';
+$s['office2010']             = '[ !!! Ǿƒƒīƈḗ 2010 !!! ]';
+$s['office2011']             = '[ !!! Ǿƒƒīƈḗ 2011 ƒǿř Ḿȧƈ !!! ]';
+$s['allProd']                = '[ !!! Ȧŀŀ ƥřǿḓŭƈŧş !!! ]';
+$s['otherProd']              = '[ !!! Ǿŧħḗř ƥřǿḓŭƈŧş !!! ]';
 
 // Product descriptions
-$translation['win7_desc']              = '[ !!! Ƞȧḿḗḓ ƀẏ ḿȧƞẏ ȧş ŧħḗ ƀḗşŧ Ẇīƞḓǿẇş !!! ]';
-$translation['win81_desc']             = '[ !!! Ƒīẋḗḓ ṽḗřşīǿƞ ǿƒ Ẇīƞḓǿẇş 8 !!! ]';
-$translation['win10_desc']             = '[ !!! Ŧħḗ ḿǿşŧ ƈǿƞŧřǿṽḗřşīȧŀ Ẇīƞḓǿẇş ḗṽḗř !!! ]';
-$translation['office2007_desc']        = '[ !!! Ḿīƈřǿşǿƒŧ Ǿƒƒīƈḗ şŭīŧḗ ƒřǿḿ ẏḗȧř 2007 !!! ]';
-$translation['office2010_desc']        = '[ !!! Ḿīƈřǿşǿƒŧ Ǿƒƒīƈḗ şŭīŧḗ ƒřǿḿ ẏḗȧř 2010 !!! ]';
-$translation['office2011_desc']        = '[ !!! Ḿīƈřǿşǿƒŧ Ǿƒƒīƈḗ 2011 ƒǿř Ȧƥƥŀḗ ḿȧƈǾŞ !!! ]';
-$translation['allProd_desc']           = '[ !!! Şħǿẇ ȧŀŀ ƥřǿḓŭƈŧş ƒřǿḿ ȧŀŀ ƈȧŧḗɠǿřīḗş īƞ ǿƞḗ ŀīşŧ !!! ]';
-$translation['otherProd_desc']         = '[ !!! Ƥřǿḓŭƈŧş ŧħȧŧ ḓǿ ƞǿŧ ḿȧŧƈħ ȧƞẏ ƈȧŧḗɠǿřẏ ȧƀǿṽḗ !!! ]';
+$s['win81_desc']             = '[ !!! Ƒīẋḗḓ ṽḗřşīǿƞ ǿƒ Ẇīƞḓǿẇş 8 !!! ]';
+$s['win10_desc']             = '[ !!! Ŧħḗ ḿǿşŧ ƈǿƞŧřǿṽḗřşīȧŀ Ẇīƞḓǿẇş ḗṽḗř !!! ]';
+$s['allProd_desc']           = '[ !!! Şħǿẇ ȧŀŀ ƥřǿḓŭƈŧş ƒřǿḿ ȧŀŀ ƈȧŧḗɠǿřīḗş īƞ ǿƞḗ ŀīşŧ !!! ]';
+$s['otherProd_desc']         = '[ !!! Ƥřǿḓŭƈŧş ŧħȧŧ ḓǿ ƞǿŧ ḿȧŧƈħ ȧƞẏ ƈȧŧḗɠǿřẏ ȧƀǿṽḗ !!! ]';
 
 // Other strings
-$translation['unknownName']            = '[ !!! Ŭƞķƞǿẇƞ ƥřǿḓŭƈŧ ƞȧḿḗ !!! ]';
-$translation['idName']                 = '[ !!! ĪḒ !!! ]';
-$translation['archx64']                = '[ !!! 64-ƀīŧ !!! ]';
-$translation['archx86']                = '[ !!! 32-ƀīŧ !!! ]';
-$translation['downloadName']           = '[ !!! Ḓǿẇƞŀǿȧḓ !!! ]';
+$s['unknownName']            = '[ !!! Ŭƞķƞǿẇƞ ƥřǿḓŭƈŧ ƞȧḿḗ !!! ]';
+$s['idName']                 = '[ !!! ĪḒ !!! ]';
+$s['archx64']                = '[ !!! 64-ƀīŧ !!! ]';
+$s['archx86']                = '[ !!! 32-ƀīŧ !!! ]';
+$s['downloadName']           = '[ !!! Ḓǿẇƞŀǿȧḓ !!! ]';
 ?>

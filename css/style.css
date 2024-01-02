@@ -1,5 +1,5 @@
 /*
-Copyright 2019 whatever127
+Copyright 2023 TechBench dump website authors and contributors
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@ limitations under the License.
 */
 
 body {
-  font-family: "Segoe UI", "Microsoft JhengHei", "Microsoft YaHei" ,"Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Segoe UI", "Microsoft YaHei" ,"Helvetica Neue", Helvetica, Arial, sans-serif;
   padding-top: 50px;
 }
 
@@ -77,3 +77,8 @@ body {
 .CSPvNext #product-languages {
   width: 100%;
 }
+
+.notice {
+  text-align: center;
+}
+

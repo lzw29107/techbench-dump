@@ -1,6 +1,7 @@
 <?php
 /*
-Copyright 2019 whatever127
+TechBench dump
+Copyright (C) 2024 TechBench dump website authors and contributors
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -19,9 +20,9 @@ $prodId = isset($_GET['id']) ? $_GET['id'] : null;
 $fileName = isset($_GET['file']) ? $_GET['file'] : null;
 $forceInsider = isset($_GET['insider']) ? $_GET['insider'] : false;
 
-require 'lang/core.php';
-require 'shared/style.php';
-require 'shared/utils.php';
+require_once 'shared/lang.php';
+require_once 'shared/style.php';
+require_once 'shared/utils.php';
 
 $out = @file_get_contents('dump.json');
 if(empty($out)) {
@@ -33,7 +34,7 @@ if(empty($out)) {
 $products = $out['products'];
 if(empty($products[$prodId]))
 {
-    $products = $translation['unknownName'] .' ['.$translation['idName'].': '.$prodId.']';
+    $products = $s['unknownName'] .' ['.$s['idName'].': '.$prodId.']';
 } else {
     $products = $products[$prodId];
 }
@@ -42,13 +43,13 @@ if(preg_match('/Windows.*?Insider.?Preview/', $products)) {
     $forceInsider = 1;
 }
 
-$guid = genUUID();
-$langsUrl = "https://www.microsoft.com/{$translation['langCodeMs']}/api/controls/contentinclude/html?pageId=cd06bda8-ff9c-4a6e-912a-b92a21f42526&host=www.microsoft.com&segments=software-download%2cwindows10ISO&query=&action=getskuinformationbyproductedition&sessionId=$guid&productEditionId=$prodId&sdVersion=2";
-$downUrl = "https://www.microsoft.com/en-us/api/controls/contentinclude/html?pageId=160bb813-f54e-4e9f-bffc-38c6eb56e061&host=www.microsoft.com&segments=software-download%2cwindows10ISO&query=&action=GetProductDownloadLinkForFriendlyFileName&sessionId=$guid&friendlyFileName=".urlencode($fileName)."&sdVersion=2";
+$SessionID = SessionIDInit();
+if($prodId) $langsUrl = "https://www.microsoft.com/{$s['langCodeMs']}/api/controls/contentinclude/html?pageId=cd06bda8-ff9c-4a6e-912a-b92a21f42526&host=www.microsoft.com&segments=software-download%2cwindows11&query=&action=getskuinformationbyproductedition&sessionId=$SessionID&productEditionId=$prodId&sdVersion=2";
+if($fileName) $downUrl = "https://www.microsoft.com/en-us/api/controls/contentinclude/html?pageId=160bb813-f54e-4e9f-bffc-38c6eb56e061&host=www.microsoft.com&segments=software-download%2cwindows11&query=&action=GetProductDownloadLinkForFriendlyFileName&sessionId=$SessionID&friendlyFileName=".urlencode($fileName)."&sdVersion=2";
 
 styleTop('downloads');
 
-echo '<h1>'.$translation['tbDumpDownload']."</h1>\n";
+echo '<h1>'.$s['tbDumpDownload']."</h1>\n";
 
 if($prodId == null || $fileName == null) {
     echo <<<EOD
@@ -65,14 +66,15 @@ if($prodId == null || $fileName == null) {
 </form>
 EOD;
     styleBottom();
-    die();
+    exit();
 }
 
 if($forceInsider) {
     echo '<div class="alert alert-danger" style="margin-top: 1.5em">
-    <h4><span class="glyphicon glyphicon glyphicon-warning-sign" aria-hidden="true"></span> '.$translation['warning'].'</h4>
-    <p>'.$translation['insiderNotice'].'</p>
-</div>'."\n";
+    <h4><span class="glyphicon glyphicon glyphicon-warning-sign" aria-hidden="true"></span> '.$s['warning'].'</h4>
+    <p>'.sprintf($s['insiderNotice'], 'https://www.microsoft.com/en-us/software-download/windowsinsiderpreviewiso').'</p>
+</div>
+';
 }
 
 echo "<h3><span class=\"glyphicon glyphicon-file\" aria-hidden=\"true\"></span> $fileName</h3>\n";
@@ -80,7 +82,7 @@ echo "<h3><span class=\"glyphicon glyphicon-file\" aria-hidden=\"true\"></span> 
 
 <div id="msContent" style="display: none;">
     <h4>
-        <?php echo $translation['waitTitle']; ?>
+        <?php echo $s['waitTitle']; ?>
     </h4>
 </div>
 
@@ -90,20 +92,20 @@ echo "<h3><span class=\"glyphicon glyphicon-file\" aria-hidden=\"true\"></span> 
 
 <div id="fileDownload" style="display: none;">
     <h4>
-        <?php echo $translation['fileReady']; ?>
+        <?php echo $s['fileReady']; ?>
     </h4>
     <a id="downloadBtn" class="btn btn-primary btn-block btn-lg">
         <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>
-        <?php echo $translation['downloadName']; ?>
+        <?php echo $s['downloadName']; ?>
     </a>
 </div>
 
 <noscript>
     <h4>
-        <?php echo $translation['warning']; ?>
+        <?php echo $s['warning']; ?>
     </h4>
     <p>
-        <?php echo $translation['jsRequired']; ?>
+        <?php echo $s['jsRequired']; ?>
     </p>
 </noscript>
 
@@ -143,7 +145,7 @@ xhr.send();
 
 function getDownload() {
     msContent.style.display = "block";
-    msContent.innerHTML = "<h4><?php echo $translation['waitTitle']; ?></h4>";
+    msContent.innerHTML = "<h4><?php echo $s['waitTitle']; ?></h4>";
 
     var xhr = new XMLHttpRequest();
 

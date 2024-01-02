@@ -1,41 +1,11 @@
-Info
-----
-This script obtains links from Microsoft's API and then writes them to file.<br>
-Currently it is based on cUrl and Bash.
-
-tbdump.sh - Shell script version of TechBench dump. Obtains links from API, and then writes them to formatted file<br>
-
-Usage
------
-### Windows
-Simply run desired cmd script, it will generate everything automatically.<br>
-
-Command line usage:
-```
-<script.cmd> [first_id] [last_id]
-```
-
-Example command to create files used by Website with products from range between 242 and 247:
-```
-techbench.cmd 242 247
-```
-
-### Everything else with bash support
-Give execute permission to file and run it with desired parameters.<br>
-
-Command line usage:
-```
-<./script.sh> generator [first_id] [last_id]
-```
-
-Example command to create files used by Website with products from range between 242 and 247:
-```
-./tbdump.sh web 242 247
-```
+TechBench dump
+--------------
+Website: https://tb.lzw29107.repl.co/<br>
+Full script: https://github.com/lzw29107/techbench-dump-script/
 
 License
 -------
-Copyright 2017 mkuba50<br><br>
+Copyright 2023 Techbench dump website authors and contributors<br><br>
 
 Licensed under the Apache License, Version 2.0 (the "License");<br>
 you may not use this file except in compliance with the License.<br>

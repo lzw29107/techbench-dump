@@ -1,6 +1,7 @@
 <?php
 /*
-Copyright 2019 whatever127
+TechBench dump
+Copyright (C) 2024 TechBench dump website authors and contributors
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -15,96 +16,117 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-$lang = 'en-us';
+require_once dirname(__FILE__).'/../contrib/langconf.php';
+require_once dirname(__FILE__).'/../contrib/langs/en-US.php';
+require_once 'shared/utils.php';
 
+if($_SERVER['SERVER_NAME'] == '0.0.0.0') {
+    $domain = preg_replace('/:.*/', '', $_SERVER['HTTP_HOST']);
+} else {
+    $domain = $_SERVER['SERVER_NAME'];
+}
+
+$pageLanguageOptions = array(
+    'expires' => time()+60*60*24*30,
+    'path' => '/',
+    'domain' => $domain,
+    'secure' => isset($_SERVER['HTTPS']) ? true : false,
+    'httponly' => true,
+    'samesite' => 'Strict'
+);
+
+$sendCookie = false;
 if(isset($_GET['lang'])) {
     $lang = strtolower($_GET['lang']);
-    setcookie('Page-Language', $lang, time()+2592000);
+    $sendCookie = true;
 } elseif(isset($_COOKIE['Page-Language'])) {
     $lang = strtolower($_COOKIE['Page-Language']);
-    setcookie('Page-Language', $lang, time()+2592000);
+    $sendCookie = true;
+} elseif(isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) && strlen($_SERVER['HTTP_ACCEPT_LANGUAGE']) > 0) {
+    // regex inspired from @GabrielAnderson on http://stackoverflow.com/questions/6038236/http-accept-language
+    $acceptLanguage = preg_replace('/-han[st]/', '', strtolower($_SERVER['HTTP_ACCEPT_LANGUAGE']));
+    preg_match_all('/([a-z]{1,8}(-[a-z]{1,8})*)\s*(;\s*q\s*=\s*(1|0\.[0-9]+))?/i', $acceptLanguage, $lang_parse);
+    $languageArray = $lang_parse[1];
+    $q = $lang_parse[4];
+    $lcount = count($languageArray); 
+    $qualityfactor = array();
+    for($i=0; $i<$lcount; $i++) {
+      if(isset($languageArray[$i]) && preg_match('/^[^-]*$/', $languageArray[$i])) {
+      $languageArray[$i] = str_replace(array_keys($autoLangMappings), $autoLangMappings, $languageArray[$i]);
+        }
+      $languageArray = array_unique($languageArray);
+      if(isset($languageArray[$i])) {
+      $qualityfactor[$languageArray[$i]] = (float) (!empty($q[$i]) ? $q[$i] : 1);
+      }
+    }
+        // comparison function for uksort (inspired from @200_success on https://codereview.stackexchange.com/questions/54948/detect-prefered-language)
+    $cmpLangs = function ($a, $b) use ($qualityfactor) {
+        if ($qualityfactor[$a] > $qualityfactor[$b])
+            return -1;
+        elseif ($qualityfactor[$a] < $qualityfactor[$b])
+            return 1;
+        elseif (strlen($a) > strlen($b))
+            return -1;
+        elseif (strlen($a) < strlen($b))
+            return 1;
+        else
+            return 0;
+    };
+
+        // sort the languages by qualityfactor
+    uksort($qualityfactor, $cmpLangs);
+
+    $LangArray = array_keys($qualityfactor);
+    $langcount = count($qualityfactor); 
+    if(isset($langcount)) {
+        for($langnum = 0; $langnum<$langcount; ++$langnum) {
+            if(in_array($LangArray[$langnum], $supportedLangs)) break;
+        }
+        if(isset($LangArray[$langnum])) {
+            $lang = $LangArray[$langnum];
+        }
+    }
+} else {
+  $lang = 'en-us';
 }
 
-require 'langs/en-US.php';
-$lang = strtolower($lang);
-
-switch ($lang) {
-    case 'en-us':
-        require 'langs/en-US.php';
-        break;
-    case 'pl-pl':
-        require 'langs/pl-PL.php';
-        break;
-    case 'pt-br': 
-        require 'langs/pt-BR.php';
-        break; 
-        
-    case 'nl-nl':
-        require 'langs/nl-NL.php';
-        break;
-    case 'es-es':
-        require 'langs/es-ES.php';
-        break;
-    case 'ru-ru':
-        require 'langs/ru-RU.php';
-        break;
-    case 'fr-fr':
-        require 'langs/fr-FR.php';
-        break;
-    case 'ja-jp':
-        require 'langs/ja-JP.php';
-        break;
-    case 'th-th':
-        require 'langs/th-TH.php';
-        break;
-    case 'it-it':
-        require 'langs/it-IT.php';
-        break;
-    case 'zh-cn':
-        require 'langs/zh-CN.php';
-        break;
-    case 'zh-tw':
-        require 'langs/zh-TW.php';
-        break;
-    case 'ar-eg':
-        require 'langs/ar-EG.php';
-        break;
-    case 'qps-ploc':
-        require 'langs/qps-ploc.php';
-        break;
-    default:
-        require 'langs/en-US.php';
-        break;
+if(!in_array("$lang", $supportedLangs)) {
+    $lang = 'en-us';
 }
 
-date_default_timezone_set($translation['timeZone']);
+$lang = preg_replace_callback('/-[a-z]{2}$/', function($matches) {
+    return strtoupper($matches[0]);
+}, $lang);
 
-$request=explode('?', $_SERVER['REQUEST_URI'], 2);
-$loc=$request[0].'?';
-foreach ($_GET as $key => $value) {
-    if ($key != 'lang')
-        $loc=$loc.$key.'='.$value.'&';
+require_once "contrib/langs/$lang.php";
+
+if($sendCookie) {
+    setcookie('Page-Language', $lang, $pageLanguageOptions);
 }
-unset($request, $key, $value);
 
-$loc=htmlentities($loc.'lang=');
-$langCore_menu = '<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" role="button"><img src="lang/flags/'.$translation['langCode'].'.png" style="margin-top: -2px;"> '.$translation['langNameLocal'].' <span class="caret"></span></a>
+$url = htmlentities(getUrlWithoutParam('lang'));
+date_default_timezone_set($s['timeZone']);
+
+$langCore_menu = <<<EOD
+<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" role="button"><img src="contrib/flags/{$s['langCode']}.png" style="margin-top: -2px;"> {$s['langNameLocal']} <span class="caret"></span></a>
                             <ul class="dropdown-menu">
-                                <li><a href="'.$loc.'en-US"><img src="lang/flags/en-US.png">&nbsp;English (US)</a></li>
-                                <li><a href="'.$loc.'es-ES"><img src="lang/flags/es-ES.png">&nbsp;Español (España)</a></li>
-                                <li><a href="'.$loc.'fr-FR"><img src="lang/flags/fr-FR.png">&nbsp;Français</a></li>
-                                <li><a href="'.$loc.'it-IT"><img src="lang/flags/it-IT.png">&nbsp;Italiano</a></li>
-                                <li><a href="'.$loc.'nl-NL"><img src="lang/flags/nl-NL.png">&nbsp;Nederlands</a></li>
-                                <li><a href="'.$loc.'pl-PL"><img src="lang/flags/pl-PL.png">&nbsp;Polski</a></li>
-                                <li><a href="'.$loc.'pt-BR"><img src="lang/flags/pt-BR.png">&nbsp;Portugues-Brasil</a></li>
-                                <li><a href="'.$loc.'ru-RU"><img src="lang/flags/ru-RU.png">&nbsp;Русский</a></li>
-                                <li><a href="'.$loc.'ar-EG"><img src="lang/flags/ar-EG.png">&nbsp;العربية</a></li>
-                                <li><a href="'.$loc.'th-TH"><img src="lang/flags/th-TH.png">&nbsp;ภาษาไทย</a></li>
-                                <li><a href="'.$loc.'ja-JP"><img src="lang/flags/ja-JP.png">&nbsp;日本語</a></li>
-                                <li><a href="'.$loc.'zh-CN"><img src="lang/flags/zh-CN.png">&nbsp;简体中文</a></li>
-                                <li><a href="'.$loc.'zh-TW"><img src="lang/flags/zh-TW.png">&nbsp;繁體中文</a></li>
-                                <li><a href="'.$loc.'qps-ploc"><img src="lang/flags/qps-ploc.png">&nbsp;[ !!! Ƥşḗŭḓǿ !!! ]</a></li>
+                            <li><a href="{$url}lang=de-DE"><img src="contrib/flags/de-DE.png">&nbsp;Deutsch</a></li>
+                            <li><a href="{$url}lang=en-US"><img src="contrib/flags/en-US.png">&nbsp;English (US)</a></li>
+                            <li><a href="{$url}lang=es-ES"><img src="contrib/flags/es-ES.png">&nbsp;Español (España)</a></li>
+                            <li><a href="{$url}lang=fr-FR"><img src="contrib/flags/fr-FR.png">&nbsp;Français</a></li>
+                            <li><a href="{$url}lang=it-IT"><img src="contrib/flags/it-IT.png">&nbsp;Italiano</a></li>
+                            <li><a href="{$url}lang=nl-NL"><img src="contrib/flags/nl-NL.png">&nbsp;Nederlands</a></li>
+                            <li><a href="{$url}lang=pl-PL"><img src="contrib/flags/pl-PL.png">&nbsp;Polski</a></li>
+                            <li><a href="{$url}lang=pt-BR"><img src="contrib/flags/pt-BR.png">&nbsp;Português (Brasil)</a></li>
+                            <li><a href="{$url}lang=ru-RU"><img src="contrib/flags/ru-RU.png">&nbsp;Русский</a></li>
+                            <li><a href="{$url}lang=ar-EG"><img src="contrib/flags/ar-EG.png">&nbsp;العربية</a></li>
+                            <li><a href="{$url}lang=th-TH"><img src="contrib/flags/th-TH.png">&nbsp;ภาษาไทย</a></li>
+                            <li><a href="{$url}lang=ja-JP"><img src="contrib/flags/ja-JP.png">&nbsp;日本語</a></li>
+                            <li><a href="{$url}lang=zh-CN"><img src="contrib/flags/zh-CN.png">&nbsp;中文（简体）</a></li>
+                            <li><a href="{$url}lang=zh-TW"><img src="contrib/flags/zh-TW.png">&nbsp;中文（繁體）</a></li>
+                            <li><a href="{$url}lang=qps-ploc"><img src="contrib/flags/qps-ploc.png">&nbsp;[ !!! Ƥşḗŭḓǿ !!! ]</a></li>
                             </ul>
-                  </li>';
-unset($loc);
+                  </li>
+EOD;
+
 ?>

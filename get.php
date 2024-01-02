@@ -1,6 +1,7 @@
 <?php
 /*
-Copyright 2019 whatever127
+TechBench dump
+Copyright (C) 2024 TechBench dump website authors and contributors
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -15,12 +16,12 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-$prodId = isset($_GET['id']) ? $_GET['id'] : '2';
+$prodId = isset($_GET['id']) ? $_GET['id'] : '0';
 $forceInsider = isset($_GET['insider']) ? $_GET['insider'] : false;
 
-require 'lang/core.php';
-require 'shared/style.php';
-require 'shared/utils.php';
+require_once 'shared/lang.php';
+require_once 'shared/utils.php';
+require_once 'shared/style.php';
 
 $out = @file_get_contents('dump.json');
 if(empty($out)) {
@@ -32,51 +33,53 @@ if(empty($out)) {
 $products = $out['products'];
 if(empty($products[$prodId]))
 {
-    $products = $translation['unknownName'] .' ['.$translation['idName'].': '.$prodId.']';
+    $products = $s['unknownName'] .' ['.$s['idName'].': '.$prodId.']';
 } else {
     $products = $products[$prodId];
 }
+if(strpos($products, 'Language Pack')) {
+    $s['langCodeMs'] = 'en-us';
+}
 
-$guid = genUUID();
-$langsUrl = "https://www.microsoft.com/{$translation['langCodeMs']}/api/controls/contentinclude/html?pageId=cd06bda8-ff9c-4a6e-912a-b92a21f42526&host=www.microsoft.com&segments=software-download%2cwindows10ISO&query=&action=getskuinformationbyproductedition&sessionId=$guid&productEditionId=$prodId&sdVersion=2";
-$downUrl = "https://www.microsoft.com/{$translation['langCodeMs']}/api/controls/contentinclude/html?pageId=cfa9e580-a81e-4a4b-a846-7b21bf4e2e5b&host=www.microsoft.com&segments=software-download%2Cwindows10ISO&query=&action=GetProductDownloadLinksBySku&sessionId=$guid&sdVersion=2";
+$SessionID = SessionIDInit();
+$langsUrl = "https://www.microsoft.com/{$s['langCodeMs']}/api/controls/contentinclude/html?pageId=cd06bda8-ff9c-4a6e-912a-b92a21f42526&host=www.microsoft.com&segments=software-download%2cwindows11&query=&action=getskuinformationbyproductedition&sessionId=$SessionID&productEditionId=$prodId&sdVersion=2";
+$downUrl = "https://www.microsoft.com/{$s['langCodeMs']}/api/controls/contentinclude/html?pageId=cfa9e580-a81e-4a4b-a846-7b21bf4e2e5b&host=www.microsoft.com&segments=software-download%2Cwindows11&query=&action=GetProductDownloadLinksBySku&sessionId=$SessionID&sdVersion=2";
 
 if(preg_match('/Windows.*?Insider.?Preview/', $products)) {
     $forceInsider = 1;
 }
 
-styleTop('downloads');
-
-echo '<h1>'.$translation['tbDumpDownload']."</h1>\n";
+$top = '<h1>'.$s['tbDumpDownload']."</h1>\n";
 
 if($forceInsider) {
-    echo '<div class="alert alert-danger" style="margin-top: 1.5em">
-    <h4><span class="glyphicon glyphicon glyphicon-warning-sign" aria-hidden="true"></span> '.$translation['warning'].'</h4>
-    <p>'.$translation['insiderNotice'].'</p>
-</div>'."\n";
+    $top .= '<div class="alert alert-danger" style="margin-top: 1.5em">
+    <h4><span class="glyphicon glyphicon glyphicon-warning-sign" aria-hidden="true"></span> '.$s['warning'].'</h4>
+    <p>'.sprintf($s['insiderNotice'], 'https://www.microsoft.com/en-us/software-download/windowsinsiderpreviewiso').'</p>
+</div>
+';
 }
 
-echo "<h3><span class=\"glyphicon glyphicon-th-list\" aria-hidden=\"true\"></span> $products</h3>\n";
-?>
+styleTop('downloads');
+
+echo <<<HTML
+$top
+
+<h3><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> $products</h3>
 
 <div id="msContent" style="display: none;">
     <h4>
-        <?php echo $translation['waitTitle']; ?>
-    </h4>
+        {$s['waitTitle']}    </h4>
     <p>
-        <?php echo $translation['waitLangText']; ?>
-    </p>
+        {$s['waitLangText']}    </p>
 </div>
 
 <div id="msContent2" style="display: none;"></div>
 
 <noscript>
     <h4>
-        <?php echo $translation['warning']; ?>
-    </h4>
+    {$s['warning']}    </h4>
     <p>
-        <?php echo $translation['jsRequired']; ?>
-    </p>
+    {$s['jsRequired']}    </p>
 </noscript>
 
 <script>
@@ -88,6 +91,11 @@ var xhr = new XMLHttpRequest();
 xhr.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
         msContent.innerHTML = this.responseText;
+
+        var bottom = document.getElementsByClassName('row-padded-bottom row-fluid')[0];
+        if(typeof bottom !== 'undefined') {
+            bottom.style.display = "none";
+        }
 
         var errorMessage = document.getElementById('errorModalMessage');
 
@@ -123,7 +131,7 @@ xhr.onreadystatechange = function() {
         updateVars();
     }
 };
-xhr.open("GET", "<?php echo $langsUrl; ?>", true);
+xhr.open('GET', '$langsUrl');
 xhr.send();
 
 function updateVars() {
@@ -141,8 +149,8 @@ function updateVars() {
 
 function getDownload() {
     msContent2.style.display = "block";
-    msContent2.innerHTML = "<h4><?php echo $translation['waitTitle']; ?></h4>" +
-                           "<p><?php echo $translation['waitDlText']; ?></p>";
+    msContent2.innerHTML = "<h4>{$s['waitTitle']}</h4>" +
+                           "<p>{$s['waitDlText']}</p>";
 
     id = updateVars();
     var xhr = new XMLHttpRequest();
@@ -174,7 +182,7 @@ function getDownload() {
                 if(i == 0) {
                     btn[i].classList.add("btn-primary");
                 } else {
-                    btn[i].classList.add("btn-default");
+                    btn[i].classList.add("btn-info");
                 }
             }
 
@@ -182,28 +190,32 @@ function getDownload() {
             for(i = 0; i < type.length; i++) {
                 type[i].innerHTML = type[i].innerHTML.replace(
                     /.*X86/i,
-                    "<?php echo $translation['archx86']; ?>"
+                    "{$s['archx86']}"
                 );
 
                 type[i].innerHTML = type[i].innerHTML.replace(
                     /.*X64/i,
-                    "<?php echo $translation['archx64']; ?>"
+                    "{$s['archx64']}"
+                );
+
+                type[i].innerHTML = type[i].innerHTML.replace(
+                    /.*Unknown/i,
+                    "{$s['downloadName']}"
                 );
             }
         }
     };
 
     xhr.open(
-        "GET",
-        "<?php echo $downUrl; ?>&skuId=" + encodeURIComponent(id['id']) +
-        "&language=" + encodeURIComponent(id['language']),
-        true
+        'GET',
+        '$downUrl&skuId=' + encodeURIComponent(id['id']) +
+        "&language=" + encodeURIComponent(id['language'])
     );
 
     xhr.withCredentials = true;
     xhr.send();
 }
 </script>
-
-<?php
-styleBottom();
+HTML;
+?>
+<?php styleBottom(); ?>

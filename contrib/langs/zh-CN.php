@@ -1,84 +1,101 @@
 <?php
 // TechBench dump website translation file. Fully supported in version 2.3 and newer.
 // Translation information
-$translation['langName']               = 'Chinese Simplified';
-$translation['langNameLocal']          = '中文(简体)';
-$translation['langCode']               = 'zh-CN';
-$translation['authorName']             = 'TNEPlus';
-$translation['authorLink']             = 'https://forums.mydigitallife.info/members/623435-TNEPlus';
-$translation['langCodeMs']             = 'zh-cn'; //used internally when connecting to Microsoft API
-$translation['timeZone']               = 'Asia/Shanghai';
+$s['langName']               = 'Chinese Simplified';
+$s['langNameLocal']          = '中文(简体)';
+$s['langCode']               = 'zh-CN';
+$s['authorName']             = 'JRJSheep';
+$s['authorLink']             = 'https://forums.mydigitallife.net/members/690532';
+$s['langCodeMs']             = 'zh-cn'; //used internally when connecting to Microsoft API
+$s['timeZone']               = 'Asia/Shanghai';
 
 // Navigation bar
-$translation['tbDump']                 = 'TechBench dump';
-$translation['tbDumpDownload']         = 'TechBench下载';
-$translation['homePage']               = '主页';
-$translation['downloads']              = '下载';
-$translation['moreMenu']               = '更多';
-$translation['aboutPage']              = '关于';
-$translation['githubGist']             = 'Gist';
-$translation['markdownFile']           = 'Markdown file';
-$translation['githubRepoScript']       = 'GitHub库 (脚本)';
-$translation['githubRepoWeb']          = 'GitHub库 (网站)';
+$s['tbDump']                 = 'TechBench dump';
+$s['tbDumpDownload']         = 'TechBench 下载';
+$s['homePage']               = '主页';
+$s['downloads']              = '下载';
+$s['moreMenu']               = '更多';
+$s['aboutPage']              = '关于';
 
 // Main strings
-$translation['techInfo']               = '技术信息';
-$translation['lastUpdate']             = '最近更新';
-$translation['productsNumber']         = '产品数量';
-$translation['searchBar']              = '搜索';
-$translation['searchResults']          = '用于以下的搜索结果';
-$translation['searchNoResults']        = '没有搜索结果。';
-$translation['prodSelect']             = '此类别的可用产品';
-$translation['prodLangSelect']         = '此产品的可用语言';
-$translation['noProducts']             = '此类别没有产品。';
-$translation['linkExpireTitle']        = '链接到期';
-$translation['linkExpire1']            = '链接自创建时起 24 小时有效。';
-$translation['linkExpire2']            = '链接到期时间';
-$translation['directLinksTitle']       = '直接下载链接';
-$translation['directLinksLine1']       = '需要和他人分享直链？ 用下面的链接生成新鲜的下载链接。';
-$translation['linkNotChecked']         = '此网站 <b>不会</b> 检查文件是否存在于微软服务器上';
-$translation['footerNotice']           = '<abbr title="TechBench dump website">TBDW</abbr> <a href="https://forums.mydigitallife.info/threads/72165">contributors</a>';
+$s['techInfo']               = '技术信息';
+$s['lastUpdate']             = '最后更新';
+$s['productsNumber']         = '产品数量';
+$s['searchBar']              = '搜索';
+$s['searchResults']          = '搜索结果：';
+$s['warning']                = '警告';
+$s['searchNoResults']        = '没有搜索结果。';
+$s['prodSelect']             = '此类别的可用产品';
+$s['prodLangSelect']         = '此产品的可用语言';
+$s['noProducts']             = '此类别中没有产品。';
+$s['linkExpireTitle']        = '链接到期';
+$s['linkExpire1']            = '链接自创建时起 24 小时内有效。';
+$s['linkExpire2']            = '链接到期时间';
+$s['directLinksTitle']       = '直接下载链接';
+$s['directLinksLine1']       = '需要和他人分享直链？ 用下面的链接生成新的下载链接。';
+$s['linkNotChecked']         = '此网站 <b>不会</b> 检查文件是否存在于微软服务器上';
+$s['footerNotice']           = '© %d <abbr title="TechBench dump 网站">TBDW</abbr> %s。';
+$s['copyright']              = 'Copyright %d <abbr title="TechBench dump 网站">TBDW</abbr> %s';
+$s['contributors']           = '作者和贡献者们';
+$s['insiderNotice']          = '你已选择下载 Windows Insider 产品。获取下载链接前，请确保你已在 <b><a href="%s">Windows Insider 页面</a></b> 登录。<br>为了在向 Microsoft 发送请求时能正确附带你的登录信息，请不要将浏览器跟踪防护设置为严格，不要禁用第三方 Cookie。';
 
 // About page
-$translation['aboutPageTitle']         = '关于此页';
-$translation['aboutPageContent']       = '这个网站是源于简单的心态创建的。在这里你可以轻松的从微软直接下载产品。<br>
-此网站及作者不附属于微软公司。';
-$translation['aboutThanksTitle']       = '感谢';
-$translation['aboutThanksContent']     = '感谢每个通过翻译或其他方式对此项目做出贡献的人';
-$translation['aboutTranslationsTitle'] = '翻译';
-$translation['language']               = '语言';
-$translation['authors']                = '作者';
-$translation['aboutLicenseTitle']      = '许可';
+$s['aboutPageTitle']         = '关于此页面';
+$s['aboutPageContent']       = '此网站的创建考虑到了简单性。在这里，你可以轻松地直接从 Microsoft 下载产品。<br>本网站或其作者均不隶属于 Microsoft Corporation。';
+$s['aboutThanksTitle']       = '感谢';
+$s['aboutThanksContent']     = '感谢所有通过翻译或其他方式为此项目做出贡献的人。';
+$s['aboutTranslationsTitle'] = '翻译';
+$s['language']               = '语言';
+$s['authors']                = '作者';
+$s['aboutLicenseTitle']      = '许可条款';
 
 // Product names
-$translation['win7']                   = 'Windows 7';
-$translation['win81']                  = 'Windows 8.1';
-$translation['win10']                  = 'Windows 10';
-$translation['win10th1']               = 'Windows 10 Threshold 1';
-$translation['win10th2']               = 'Windows 10 Threshold 2';
-$translation['win10rs1']               = 'Windows 10 Redstone 1';
-$translation['win10rs2']               = 'Windows 10 Redstone 2';
-$translation['win10ip']                = 'Windows 10 Insider Preview';
-$translation['office2007']             = 'Office 2007';
-$translation['office2010']             = 'Office 2010';
-$translation['office2011']             = '用于Mac的Office 2011';
-$translation['allProd']                = '所有产品';
-$translation['otherProd']              = '其他产品';
+$s['win7']                   = 'Windows 7';
+$s['win81']                  = 'Windows 8.1';
+$s['win10']                  = 'Windows 10';
+$s['win11']                  = 'Windows 11';
+$s['win10th1']               = 'Windows 10 Threshold 1';
+$s['win10th2']               = 'Windows 10 Threshold 2';
+$s['win10rs1']               = 'Windows 10 Redstone 1';
+$s['win10rs2']               = 'Windows 10 Redstone 2';
+$s['win10rs3']               = 'Windows 10 Redstone 3';
+$s['win10rs4']               = 'Windows 10 Redstone 4';
+$s['win10rs5']               = 'Windows 10 Redstone 5';
+$s['win10rs6']               = 'Windows 10 19H1';
+$s['win10_19h2']             = 'Windows 10 19H2';
+$s['win10vb']                = 'Windows 10 Vibranium';
+$s['win10_20h2']             = 'Windows 10 20H2';
+$s['win10_21h1']             = 'Windows 10 21H1';
+$s['win10_21h2']             = 'Windows 10 21H2';
+$s['win10_22h2']             = 'Windows 10 22H2';
+$s['win11co']                = 'Windows 11 Cobalt';
+$s['win11ni']                = 'Windows 11 Nickel';
+$s['win11_23h2']             = 'Windows 11 23H2';
+$s['win10ip']                = 'Windows 10 Insider Preview';
+$s['win11ip']                = 'Windows 11 Insider Preview';
+$s['winsrvip']               = 'Windows Server Insider Preview';
+$s['office2007']             = 'Office 2007';
+$s['office2010']             = 'Office 2010';
+$s['office2011']             = 'Office 2011 for Mac';
+$s['allProd']                = '所有产品';
+$s['otherProd']              = '其他产品';
 
 // Product descriptions
-$translation['win7_desc']              = '被许多人视为最好的Windows';
-$translation['win81_desc']             = '修复版的Windows 8';
-$translation['win10_desc']             = '有史以来最具争议的 Windows';
-$translation['office2007_desc']        = '2007年的Microsoft Office套件';
-$translation['office2010_desc']        = '2010年的Microsoft Office套件';
-$translation['office2011_desc']        = '用于Apple macOS的Microsoft Office 2011';
-$translation['allProd_desc']           = '在一个列表中显示所有类别的产品';
-$translation['otherProd_desc']         = '不符合上述任何类别的产品';
+$s['win81_desc']             = 'Windows 8 的修复版本';
+$s['win10_desc']             = '有史以来最具争议的 Windows';
+$s['win11_desc']             = '操作系统界面的全面革新';
+$s['winsrvip_desc']          = 'Windows Server 的预览版本';
+$s['allProd_desc']           = '在单个列表中显示所有类别的所有产品';
+$s['otherProd_desc']         = '与上述任何类别均不符的产品';
 
 // Other strings
-$translation['unknownName']            = '产品名称未知';
-$translation['idName']                 = 'ID';
-$translation['archx64']                = '64位';
-$translation['archx86']                = '32位';
-$translation['downloadName']           = '下载';
+$s['unknownName']            = '未知产品名称';
+$s['idName']                 = 'ID';
+$s['archx64']                = '64 位';
+$s['archx86']                = '32 位';
+$s['downloadName']           = '下载';
+$s['waitTitle'] = '请稍候……';
+$s['waitLangText'] = '正在检索可用语言的列表，请稍候……';
+$s['waitDlText'] = '正在获取下载链接，请稍候……';
+$s['jsRequired'] = '此页面需要使用 JavaScript 与 Microsoft 服务器进行通信。';
 ?>

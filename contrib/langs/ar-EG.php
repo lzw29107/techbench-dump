@@ -1,83 +1,87 @@
 <?php
 // TechBench dump website translation file. Fully supported in version 2.3 and newer.
 // Translation information
-$translation['langName']               = 'Arabic';
-$translation['langNameLocal']          = 'العربية';
-$translation['langCode']               = 'ar-EG';
-$translation['authorName']             = 'ShoSh';
-$translation['authorLink']             = 'https://forums.mydigitallife.info/members/319699-cheetoslover';
-$translation['langCodeMs']             = 'ar-sa'; //used internally when connecting to Microsoft API
-$translation['timeZone']               = 'Africa/Cairo';
+$s['langName']               = 'Arabic (Egypt)';
+$s['langNameLocal']          = 'العربية';
+$s['langCode']               = 'ar-EG';
+$s['authorName']             = 'ShoSh';
+$s['authorLink']             = 'https://forums.mydigitallife.info/members/319699-cheetoslover';
+$s['langCodeMs']             = 'ar-sa'; //used internally when connecting to Microsoft API
+$s['timeZone']               = 'Africa/Cairo';
 
 // Navigation bar
-$translation['tbDump']                 = 'TechBench dump';
-$translation['tbDumpDownload']         = 'TechBench تحميلات';
-$translation['homePage']               = 'الرئيسية';
-$translation['downloads']              = 'التحميلات';
-$translation['moreMenu']               = 'المزيد';
-$translation['aboutPage']              = 'عن';
-$translation['githubGist']             = 'Gist';
-$translation['markdownFile']           = 'Markdown file';
-$translation['githubRepoScript']       = 'مستودع Github (الاسكربت)';
-$translation['githubRepoWeb']          = 'مستودع Github (الموقع)';
+$s['tbDump']                 = 'TechBench dump';
+$s['tbDumpDownload']         = 'TechBench تحميلات';
+$s['homePage']               = 'الرئيسية';
+$s['downloads']              = 'التحميلات';
+$s['aboutPage']              = 'عن';
 
 // Main strings
-$translation['techInfo']               = 'معلومات تقنية';
-$translation['lastUpdate']             = 'اخر تحديث';
-$translation['productsNumber']         = 'عدد المنتجات';
-$translation['searchBar']              = 'Search...';
-$translation['searchResults']          = 'Results for';
-$translation['searchNoResults']        = 'There are no results for this search.';
-$translation['prodSelect']             = 'المنتجات المتاحة لهذه الفئة';
-$translation['prodLangSelect']         = 'اللغات المتوفرة لهذا المنتج';
-$translation['noProducts']             = 'ليس هناك منتجات في هذه المجموعة.';
-$translation['linkExpireTitle']        = 'انتهاء صلاحية الروابط';
-$translation['linkExpire1']            = 'الروابط صالحة لمدة 24 ساعة من وقت الإنشاء.';
-$translation['linkExpire2']            = 'ستنتهي صلاحية الروابط';
-$translation['directLinksTitle']       = 'روابط التنزيل المباشرة';
-$translation['directLinksLine1']       = 'هل تريد مشاركة رابط مباشر مع شخص ما؟ استخدم هذه الروابط أدناه، والتي تولد رابط تحميل جديد متجدد.';
-$translation['linkNotChecked']         = 'هذا الموقع <b> لا </ b> يتحقق مما إذا كان الملف موجودا على خوادم ميكروسوفت أم لا';
-$translation['footerNotice']           = '<abbr title="TechBench dump website">TBDW</abbr> <a href="https://forums.mydigitallife.info/threads/72165">contributors</a>';
+$s['techInfo']               = 'معلومات تقنية';
+$s['lastUpdate']             = 'اخر تحديث';
+$s['productsNumber']         = 'عدد المنتجات';
+$s['searchBar']              = 'Search...';
+$s['searchResults']          = 'Results for';
+$s['searchNoResults']        = 'There are no results for this search.';
+$s['prodSelect']             = 'المنتجات المتاحة لهذه الفئة';
+$s['prodLangSelect']         = 'اللغات المتوفرة لهذا المنتج';
+$s['noProducts']             = 'ليس هناك منتجات في هذه المجموعة.';
+$s['linkExpireTitle']        = 'انتهاء صلاحية الروابط';
+$s['linkExpire1']            = 'الروابط صالحة لمدة 24 ساعة من وقت الإنشاء.';
+$s['linkExpire2']            = 'ستنتهي صلاحية الروابط';
+$s['directLinksTitle']       = 'روابط التنزيل المباشرة';
+$s['directLinksLine1']       = 'هل تريد مشاركة رابط مباشر مع شخص ما؟ استخدم هذه الروابط أدناه، والتي تولد رابط تحميل جديد متجدد.';
+$s['linkNotChecked']         = 'هذا الموقع <b> لا </ b> يتحقق مما إذا كان الملف موجودا على خوادم ميكروسوفت أم لا';
 
 // About page
-$translation['aboutPageTitle']         = 'حول هذه الصفحة';
-$translation['aboutPageContent']       = 'تم إنشاء هذا الموقع بشكل بسيط. هنا يمكنك بسهولة تنزيل المنتجات مباشرة من ميكروسوفت. <br>هذا الموقع أو المؤلف لا ينتمي الى شركة مايكروسوفت.';
-$translation['aboutThanksTitle']       = 'شكرا';
-$translation['aboutThanksContent']     = 'شكرا لكل من ساهم في هذا المشروع من خلال ترجمته أو بوسائل أخرى.';
-$translation['aboutTranslationsTitle'] = 'الترجمات';
-$translation['language']               = 'اللغة';
-$translation['authors']                = 'المؤلفون';
-$translation['aboutLicenseTitle']      = 'الرخصة';
+$s['aboutPageTitle']         = 'حول هذه الصفحة';
+$s['aboutPageContent']       = 'تم إنشاء هذا الموقع بشكل بسيط. هنا يمكنك بسهولة تنزيل المنتجات مباشرة من ميكروسوفت. <br>هذا الموقع أو المؤلف لا ينتمي الى شركة مايكروسوفت.';
+$s['aboutThanksTitle']       = 'شكرا';
+$s['aboutThanksContent']     = 'شكرا لكل من ساهم في هذا المشروع من خلال ترجمته أو بوسائل أخرى.';
+$s['aboutTranslationsTitle'] = 'الترجمات';
+$s['language']               = 'اللغة';
+$s['authors']                = 'المؤلفون';
+$s['aboutLicenseTitle']      = 'الرخصة';
 
 // Product names
-$translation['win7']                   = 'ويندوز 7';
-$translation['win81']                  = 'ويندوز 8.1';
-$translation['win10']                  = 'ويندوز 10';
-$translation['win10th1']               = 'ويندوز 10 Threshold 2';
-$translation['win10th2']               = 'ويندوز 10 Threshold 2';
-$translation['win10rs1']               = 'ويندوز 10 Redstone 1';
-$translation['win10rs2']               = 'ويندوز 10 Redstone 2';
-$translation['win10ip']                = 'ويندوز 10 Insider Preview';
-$translation['office2007']             = 'اوفيس 2007';
-$translation['office2010']             = 'اوفيس 2010';
-$translation['office2011']             = 'اوفيس 2011 for Mac';
-$translation['allProd']                = 'كل المنتجات';
-$translation['otherProd']              = 'منتجات اخرى';
+$s['win7']                   = 'ويندوز 7';
+$s['win81']                  = 'ويندوز 8.1';
+$s['win10']                  = 'ويندوز 10';
+$s['win10th1']               = 'ويندوز 10 Threshold 2';
+$s['win10th2']               = 'ويندوز 10 Threshold 2';
+$s['win10rs1']               = 'ويندوز 10 Redstone 1';
+$s['win10rs2']               = 'ويندوز 10 Redstone 2';
+$s['win10rs3']               = 'ويندوز 10 Redstone 3';
+$s['win10rs4']               = 'ويندوز 10 Redstone 4';
+$s['win10rs5']               = 'ويندوز 10 Redstone 5';
+$s['win10rs6']               = '19H1 ويندوز 10';
+$s['win10_19h2']             = '19H2 ويندوز 10';
+$s['win10vb']                = 'ويندوز 10 Vibranium';
+$s['win10_20h2']             = '20H2 ويندوز 10';
+$s['win10_21h1']             = '21H1 ويندوز 10';
+$s['win10_21h2']             = '21H2 ويندوز 10';
+$s['win10_22h2']             = '22H2 ويندوز 10';
+$s['win11co']                = 'ويندوز 11 Cobalt';
+$s['win11ni']                = 'ويندوز 11 Nickel';
+$s['win11_23h2']             = '23H2 ويندوز 11';
+$s['win10ip']                = 'ويندوز 10 Insider Preview';
+$s['win11ip']                = 'ويندوز 11 Insider Preview';
+$s['office2007']             = 'اوفيس 2007';
+$s['office2010']             = 'اوفيس 2010';
+$s['office2011']             = 'اوفيس 2011 for Mac';
+$s['allProd']                = 'كل المنتجات';
+$s['otherProd']              = 'منتجات اخرى';
 
 // Product descriptions
-$translation['win7_desc']              = 'تم اختياره كافضل ويندوز';
-$translation['win81_desc']             = 'الإصدار الثابت من ويندوز 8';
-$translation['win10_desc']             = 'اكثر ويندوز مثير للجدل';
-$translation['office2007_desc']        = 'Microsoft Office suite from year 2007';
-$translation['office2010_desc']        = 'Microsoft Office suite from year 2010';
-$translation['office2011_desc']        = 'Microsoft Office 2011 for Apple macOS';
-$translation['allProd_desc']           = 'عرض جميع المنتجات من جميع الفئات في قائمة واحدة';
-$translation['otherProd_desc']         = 'المنتجات التي لا تتطابق مع أي فئة أعلاه';
+$s['win81_desc']             = 'الإصدار الثابت من ويندوز 8';
+$s['win10_desc']             = 'اكثر ويندوز مثير للجدل';
+$s['allProd_desc']           = 'عرض جميع المنتجات من جميع الفئات في قائمة واحدة';
+$s['otherProd_desc']         = 'المنتجات التي لا تتطابق مع أي فئة أعلاه';
 
 // Other strings
-$translation['unknownName']            = 'اسم منتج غير معروف';
-$translation['idName']                 = 'ID';
-$translation['archx64']                = '64-بيت';
-$translation['archx86']                = '32-بيت';
-$translation['downloadName']           = 'تحميل';
+$s['unknownName']            = 'اسم منتج غير معروف';
+$s['idName']                 = 'ID';
+$s['archx64']                = '64-بيت';
+$s['archx86']                = '32-بيت';
+$s['downloadName']           = 'تحميل';
 ?>
