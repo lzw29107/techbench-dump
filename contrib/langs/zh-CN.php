@@ -98,4 +98,14 @@ $s['waitTitle'] = '请稍候……';
 $s['waitLangText'] = '正在检索可用语言的列表，请稍候……';
 $s['waitDlText'] = '正在获取下载链接，请稍候……';
 $s['jsRequired'] = '此页面需要使用 JavaScript 与 Microsoft 服务器进行通信。';
+$s['currentProd'] = '当前产品';
+$s['Name'] = '名称';
+$s['Validity'] = '有效性';
+$s['Valid'] = '有效';
+$s['Invalid'] = '无效';
+$s['Unknown'] = '未知';
+$s['Arch'] = '体系结构';
+$s['status'] = '状态：';
+$s['checking'] = '正在检查更新';
+$s['error'] = '错误';
 ?>

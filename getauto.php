@@ -24,24 +24,31 @@ require_once 'shared/lang.php';
 require_once 'shared/style.php';
 require_once 'shared/utils.php';
 
-$out = @file_get_contents('dump.json');
-if(empty($out)) {
-    $out = array('products' => null);
-} else {
-    $out = json_decode($out, true);
+if(is_file('dump.xml')) {
+    $dom = new DOMDocument('1.0', 'UTF-8');
+    @$dom->load('dump.xml');
+    if(libxml_get_last_error()) {
+        usleep(10000);
+        @$dom->load('dump.xml');
+    }
+    if(libxml_get_last_error()) exit('XML Load Error');
+    $Tech = $dom->getElementsByTagName('TechInfo')->item(0);
+    $Prod = $dom->getElementsByTagName('ProdInfo')->item(0);
+    $xpath = new DOMXPath($dom);
+    $prod = $xpath->query("./*[@ID=$prodId]", $Prod);
+    if($prod->item(0)) $ProdItem = $prod->item(0);
+    if(time() - $Tech->getAttribute('LastCheckUpdateTime') >= 3600) popen('php dump.php update &', 'r');
 }
 
-$products = $out['products'];
-if(empty($products[$prodId]))
-{
-    $products = $s['unknownName'] .' ['.$s['idName'].': '.$prodId.']';
-} else {
-    $products = $products[$prodId];
-}
+$ProductName = isset($ProdItem) ? "{$ProdItem->getAttribute('Name')}" : $s['unknownName'];
 
-if(preg_match('/Windows.*?Insider.?Preview/', $products)) {
-    $forceInsider = 1;
-}
+if(strpos($ProductName, 'Language Pack') !== false) $s['langCodeMs'] = 'en-us';
+if(strpos($ProductName, 'Build')) $forceInsider = true;
+
+$Notice = $forceInsider ? '<div class="alert alert-danger mt-4 pb-1">
+<h4><i class="bi bi-exclamation-triangle"></i> '.$s['warning'].'</h4>
+<p>'.sprintf($s['insiderNotice'], '<a class="link-underline link-underline-opacity-0" href="https://www.microsoft.com/en-us/software-download/windowsinsiderpreviewiso">').'</p>
+</div>' : '';
 
 $SessionID = SessionIDInit();
 if($prodId) $langsUrl = "https://www.microsoft.com/{$s['langCodeMs']}/api/controls/contentinclude/html?pageId=cd06bda8-ff9c-4a6e-912a-b92a21f42526&host=www.microsoft.com&segments=software-download%2cwindows11&query=&action=getskuinformationbyproductedition&sessionId=$SessionID&productEditionId=$prodId&sdVersion=2";
@@ -49,63 +56,63 @@ if($fileName) $downUrl = "https://www.microsoft.com/en-us/api/controls/contentin
 
 styleTop('downloads');
 
-echo '<h1>'.$s['tbDumpDownload']."</h1>\n";
-
 if($prodId == null || $fileName == null) {
     echo <<<EOD
+<div class="mt-5 mb-4">
+    <h1 class="fs-3">{$s['tbDumpDownload']}</h1>
+</div>
+
 <form>
-    <div class="form-group">
-        <label>Product ID</label>
-        <input type="text" class="form-control" placeholder="ID" name="id">
+    <div class="mb-3">
+    <label for="ID" class="form-label">Product ID</label>
+    <input type="text" class="form-control" id="ProdID" name="id" placeholder="ID">
     </div>
-    <div class="form-group">
-        <label>Filename</label>
-        <input type="text" class="form-control" placeholder="Filename" name="file">
+    <div class="mb-3">
+        <label for="file" class="form-label">Filename</label>
+        <input type="text" class="form-control" id="file" name="file" placeholder="Filename">
     </div>
-    <button type="submit" class="btn btn-primary btn-block">OK</button>
+    <button type="submit" class="btn btn-primary d-grid">OK</button>
 </form>
 EOD;
     styleBottom();
     exit();
 }
 
-if($forceInsider) {
-    echo '<div class="alert alert-danger" style="margin-top: 1.5em">
-    <h4><span class="glyphicon glyphicon glyphicon-warning-sign" aria-hidden="true"></span> '.$s['warning'].'</h4>
-    <p>'.sprintf($s['insiderNotice'], 'https://www.microsoft.com/en-us/software-download/windowsinsiderpreviewiso').'</p>
+echo <<<HTML
+<div class="mt-5 mb-4">
+    <h1 class="fs-3">{$s['tbDumpDownload']}</h1>
 </div>
-';
-}
 
-echo "<h3><span class=\"glyphicon glyphicon-file\" aria-hidden=\"true\"></span> $fileName</h3>\n";
-?>
+$Notice
+
+<h3><i class="bi bi-file-earmark"></i> $fileName</h3>
 
 <div id="msContent" style="display: none;">
     <h4>
-        <?php echo $s['waitTitle']; ?>
+                {$s['waitTitle']}    </h4>
     </h4>
 </div>
 
-<div class="progress" id="progress" style="display: none;">
-    <div class="progress-bar progress-bar-striped active" id="progressBar"></div>
+<div class="progress" id="progress" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="display: none;">
+  <div class="progress-bar progress-bar-striped progress-bar-animated" id="progressBar" style="width: 0%"></div>
 </div>
 
 <div id="fileDownload" style="display: none;">
     <h4>
-        <?php echo $s['fileReady']; ?>
+        {$s['fileReady']}
     </h4>
-    <a id="downloadBtn" class="btn btn-primary btn-block btn-lg">
-        <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>
-        <?php echo $s['downloadName']; ?>
+    <a id="downloadBtn" class="btn btn-primary d-grid">
+        <p class="mb-0"><i class="bi bi-download"></i>
+        {$s['downloadName']}</p>
     </a>
 </div>
 
 <noscript>
     <h4>
-        <?php echo $s['warning']; ?>
+            {$s['warning']}
     </h4>
     <p>
-        <?php echo $s['jsRequired']; ?>
+            {$s['jsRequired']}
     </p>
 </noscript>
 
@@ -116,12 +123,17 @@ var progressBar = document.getElementById('progressBar');
 var progress = document.getElementById('progress');
 
 msContent.style.display = "block";
-progress.style.display = "block";
+progress.style.display = '';
 
 var xhr = new XMLHttpRequest();
 xhr.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
         msContent.innerHTML = this.responseText;
+
+        var bottom = document.getElementsByClassName('row-padded-bottom row-fluid')[0];
+        if(typeof bottom !== 'undefined') {
+            bottom.style.display = "none";
+        }
 
         var errorMessage = document.getElementById('errorModalMessage');
 
@@ -136,16 +148,21 @@ xhr.onreadystatechange = function() {
         }
 
         progressBar.style.width = "50%";
+	progress.setAttribute('aria-valuenow', 50);
         getDownload();
     }
 };
 
-xhr.open("GET", "<?php echo $langsUrl; ?>", true);
-xhr.send();
+xhr.open('POST', '$langsUrl');
+
+xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded; charset=UTF-8");
+xhr.withCredentials = true;
+xhr.send('controlAttributeMapping=');
+
 
 function getDownload() {
     msContent.style.display = "block";
-    msContent.innerHTML = "<h4><?php echo $s['waitTitle']; ?></h4>";
+    msContent.innerHTML = "<h4>{$s['waitTitle']}</h4>";
 
     var xhr = new XMLHttpRequest();
 
@@ -172,6 +189,7 @@ function getDownload() {
             eval(msScript[0]);
             var url = softwareDownload.productDownload.uri;
             progressBar.style.width = "100%";
+	    progress.setAttribute('aria-valuenow', 100);
 
             document.getElementById('downloadBtn').href = encodeURI(url);
 
@@ -183,16 +201,12 @@ function getDownload() {
         }
     };
 
-    xhr.open(
-        "GET",
-        "<?php echo $downUrl; ?>",
-        true
-    );
-
+    xhr.open('POST', '$downUrl');
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded; charset=UTF-8");
     xhr.withCredentials = true;
-    xhr.send();
+    xhr.send('controlAttributeMapping=');
 }
 </script>
-
-<?php
-styleBottom();
+HTML;
+?>
+<?php styleBottom(); ?>

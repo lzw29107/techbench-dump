@@ -16,20 +16,45 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+$page = isset($_GET['p']) ? intval($_GET['p']) : 1;
 $prodName = isset($_GET['prod']) ? $_GET['prod'] : 'all';
-$search = isset($_GET['search']) ? $_GET['search'] : null;
+$search = isset($_GET['search']) ? $_GET['search'] : '';
 
 require_once 'shared/lang.php';
 require_once 'shared/style.php';
 
-$out = @file_get_contents('dump.json');
-if(empty($out)) {
-    $out = array('genTime' => null, 'productNumber' => '?', 'products' => array());
-} else {
-    $out = json_decode($out, true);
+$options = '';
+foreach(array('all', 'win81', 'win10', 'win11', 'winsrvip') as $opt) {
+   if($prodName == $opt) continue;
+   $optdesc = $opt == 'all' ? 'allProd' : $opt;
+   $options .= '<div class="form-check form-check-inline col-md">
+                   <input class="form-check-input" type="radio" name="prod" id="inlineRadio'.$opt.'" value="'.$opt.'">
+                   <label class="form-check-label text-nowrap" for="inlineRadio'.$opt.'">'.$s[$optdesc].'</label>
+               </div>';
 }
 
-if(isset($s[$prodName])) $selectedCategory = $s[$prodName];
+
+if(is_file('dump.xml')) {
+   $dom = new DOMDocument('1.0', 'UTF-8');
+   @$dom->load('dump.xml');
+   if(libxml_get_last_error()) {
+       usleep(10000);
+       @$dom->load('dump.xml');
+   }
+   if(libxml_get_last_error()) exit('XML Load Error');
+   $Tech = $dom->getElementsByTagName('TechInfo')->item(0);
+   $Prod = $dom->getElementsByTagName('ProdInfo')->item(0);
+   $ProductNumber = $Prod->childElementCount;
+   if(time() - $Tech->getAttribute('LastCheckUpdateTime') >= 3600) popen('php dump.php update &', 'r');
+   $out = array();
+   $out['products'] = array();
+   foreach($Prod->getElementsByTagName('ProdItem') as $prod) {
+       if(isset($_GET['ignoreInvalid']) && $prod->getAttribute('Validity') == 'Invalid') continue;
+       $out['products'][$prod->getAttribute('ID')] = array('Name' => $prod->getAttribute('Name'), 'Validity' => $prod->getAttribute('Validity'), 'Arch' => $prod->getAttribute('Arch'));
+   }
+   if(isset($_GET['reverse'])) $out['products'] = array_reverse($out['products'], true);
+}
+
 switch ($prodName) {
     case 'win7':
         $products = preg_grep('/Windows.7/',$out['products']);
@@ -105,37 +130,38 @@ switch ($prodName) {
         break;
     case 'office2007':
         $products = preg_grep('/ 2007/',$out['products']);
-        $selectedCategory = $s['office2007'];
         break;
     case 'office2010':
         $products = preg_grep('/ 2010/',$out['products']);
-        $selectedCategory = $s['office2010'];
         break;
     case 'office2011':
         $products = preg_grep('/ 2011/',$out['products']);
-        $selectedCategory = $s['office2011'];
         break;
     case 'all':
-        $selectedCategory = $s['allProd'];
+       $prodName = 'allProd';
         $products = $out['products'];
         break;
     case 'other':
-        $selectedCategory = $s['otherProd'];
+       $prodName = 'otherProd';
         $products = $out['products'];
-        foreach($products as $key => &$curr){
-            $check = preg_match('/Windows.7|Windows.8\.1|Windows.10|Windows.11| 2007| 2010| 2011/', $curr);
+       foreach($products as $key => $curr){
+           $check = preg_match('/Windows.7|Windows.8\.1|Windows.10|Windows.11| 2007| 2010| 2011/', $curr['Name']);
             if($check) {
               unset($products[$key]);
             }
         }
         break;
     default:
-        $selectedCategory = $s['allProd'];
+       $prodName = 'allProd';
         $products = $out['products'];
         break;
 }
 
-if(!empty($search)) {
+if(isset($s[$prodName])) {
+   $selectedCategory = $s[$prodName];
+}
+
+if($search != '') {
     $searchSafe = preg_quote($search, '/');
     if (!preg_match('/^".*"$/', $searchSafe)) {
         $searchSafe = str_replace(' ', '.*', $searchSafe);
@@ -154,19 +180,147 @@ if(!empty($search)) {
 
 styleTop('downloads');
 
-echo '<h1>'.$s['tbDumpDownload']."</h1>\n";
-echo "<h3><span class=\"glyphicon glyphicon-th-list\" aria-hidden=\"true\"></span> $selectedCategory</h3>\n";
-echo '<table class="table table-striped">';
-echo '<thead><tr><th>'.$tableTitle."</th></tr></thead>\n";
+echo <<<HTML
+<div class="mt-5 mb-4">
+   <h1 class="fs-3">{$s['tbDumpDownload']}</h1>
+</div>
 
-if(empty($products)) {
-    echo '<tr><td>'.$noItems.'</td></tr>';
+<div class="card text-bg-light border-light mb-3">
+   <div class="card-body pb-1">
+       <form action="./products.php">
+           <div class="input-group">
+               <input type="text" class="form-control input-lg" name="search"$search placeholder="{$s['searchBar']}">
+               <span class="input-group-btn">
+                   <button type="submit" class="btn btn-primary btn-lg">
+                       <i class="bi bi-search"></i>
+                   </button>
+               </span>
+           </div>
+           <div class="row mt-2 ms-1">
+               <div class="form-check col-me">
+                   <input class="form-check-input" type="radio" name="prod" id="Radio" value="$prodName" checked>
+                   <label class="form-check-label text-nowrap" for="Radio">{$s['currentProd']} ( $selectedCategory )</label>
+               </div>
+               $options
+         </div>
+      </form>
+   </div>
+</div>
+
+<div class="row">
+    <h3 class="col-md me-auto fs-4">
+        <i class="bi bi-list-ul"></i>
+        $selectedCategory
+    </h3>
+
+HTML;?>
+<?php if(empty($products)) {
+    echo '<p class="fs-1 text-center">'.$noItems.'</p>';
+    styleBottom();
+    exit();
 } else {
-    foreach ($products as $key => &$curr) {
-        echo '<tr><td><a href="./get.php?id='.$key.'">'.$curr .' ['.$s['idName'].': '.$key."]</a></td></tr>\n";
+    echo <<<EOD
+    <table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th class="text-center" scope="col">{$s['idName']}</th>
+            <th class="text-center" scope="col">{$s['Name']}</th>
+            <th class="text-center" scope="col">{$s['Validity']}</th>
+            <th class="text-center" scope="col">{$s['Arch']}</th>
+        </tr>
+    </thead>
+    <tbody class="table-group-divider">
+    EOD;
+    $perPage = 50;
+    $pages = ceil(count($products) / $perPage);
+    $startItem = ($page - 1) * $perPage;
+    $PageBaseUrl = getUrlWithoutParam('p').'p=';
+
+    $products = array_slice($products, $startItem, $perPage, true);
+
+    foreach ($products as $key => $curr) {
+        $Name = $curr['Name'];
+        $Validity = $curr['Validity'];
+        $Arch = $curr['Arch'];
+        echo '<tr>
+            <th class="text-center" scope="row">'.$key.'</th>
+            <td>
+                <a class="link-underline link-underline-opacity-0" href="./get.php?id='.$key.'">'.$Name.'</a>
+            </td>
+            <td class="text-center">'.$s[$Validity].'</td>
+            <td class="text-center">'.$Arch.'</td>
+        </tr>
+        ';
     }
 }
-
-echo '</table>';
-styleBottom();
+echo '</tbody>
+</table>';
 ?>
+<?php if($pages > 1): ?>
+<nav aria-label="Page navigation">
+   <ul class="pagination justify-content-center">
+   <?php if($pages <= 7): ?>
+       <?php foreach((range(1, $pages)) as $p): ?>
+           <?php if($page == $p): ?>
+       <li class="page-item active" aria-current="page">
+           <span class="page-link"><?= $p ?></span>
+       </li>
+           <?php else: ?>
+       <li class="page-item"><a class="page-link" href="<?= $PageBaseUrl.$p ?>"><?= $p ?></a></li>
+           <?php endif; ?>
+       <?php endforeach; ?>
+   <?php elseif($page <= 3): ?>
+       <?php foreach((range(1, 5)) as $p): ?>
+           <?php if($page == $p): ?>
+       <li class="page-item active" aria-current="page">
+           <span class="page-link"><?= $p ?></span>
+       </li>
+           <?php else: ?>
+       <li class="page-item"><a class="page-link" href="<?= $PageBaseUrl.$p ?>"><?= $p ?></a></li>
+           <?php endif; ?>
+       <?php endforeach; ?>
+       <li class="page-item disabled">
+           <a class="page-link">...</a>
+       </li>
+       <li class="page-item"><a class="page-link" href="<?= $PageBaseUrl.$pages ?>"><?= $pages ?></a></li>
+   <?php elseif($page >= ($pages - 2)): ?>
+       <li class="page-item"><a class="page-link" href="<?= $PageBaseUrl ?>1">1</a></li>
+       <li class="page-item disabled">
+           <a class="page-link">...</a>
+       </li>
+       <?php foreach((range($pages-4, $pages)) as $p): ?>
+           <?php if($page == $p): ?>
+       <li class="page-item active" aria-current="page">
+           <span class="page-link"><?= $p ?></span>
+       </li>
+           <?php else: ?>
+       <li class="page-item"><a class="page-link" href="<?= $PageBaseUrl.$p ?>"><?= $p ?></a></li>
+           <?php endif; ?>
+       <?php endforeach; ?>
+   <?php else: ?>
+       <li class="page-item"><a class="page-link" href="<?= $PageBaseUrl ?>1">1</a></li>
+       <?php if($page == 4): ?>
+       <li class="page-item"><a class="page-link" href="<?= $PageBaseUrl ?>2">2</a></li>
+       <?php else: ?>
+       <li class="page-item disabled">
+           <a class="page-link">...</a>
+       </li>
+       <?php endif; ?>
+       <li class="page-item"><a class="page-link" href="<?= $PageBaseUrl.($page - 1) ?>"><?= ($page - 1) ?></a></li>
+       <li class="page-item active" aria-current="page">
+           <span class="page-link"><?= $page ?></span>
+       </li>
+       <li class="page-item"><a class="page-link" href="<?= $PageBaseUrl.($page + 1) ?>"><?= ($page + 1) ?></a></li>
+       <?php if($page <= ($pages - 4)): ?>
+       <li class="page-item disabled">
+           <a class="page-link">...</a>
+       </li>
+       <?php else: ?>
+       <li class="page-item"><a class="page-link" href="<?= $PageBaseUrl.($pages - 1) ?>"><?= ($pages - 1) ?></a></li>
+       <?php endif; ?>
+       <li class="page-item"><a class="page-link" href="<?= $PageBaseUrl.$pages ?>"><?= $pages ?></a></li>
+   <?php endif; ?>
+   </ul>
+</nav>
+<?php endif; ?>
+<?php styleBottom(); ?>

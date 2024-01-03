@@ -98,4 +98,14 @@ $s['waitLangText']           = 'Please wait while we are retrieving a list of av
 $s['waitDlText']             = 'Please wait while we are retrieving downloads...';
 $s['jsRequired']             = 'This page requires JavaScript working to communicate with Microsoft servers.';
 $s['fileReady']              = 'File is ready to download';
+$s['currentProd'] = 'Current Product';
+$s['Name'] = 'Name';
+$s['Validity'] = 'Validity';
+$s['Valid'] = 'Valid';
+$s['Invalid'] = 'Invalid';
+$s['Unknown'] = 'Unknown';
+$s['Arch'] = 'Arch';
+$s['status'] = 'Status: ';
+$s['checking'] = 'Checking for updates...';
+$s['error'] = 'Error';
 ?>

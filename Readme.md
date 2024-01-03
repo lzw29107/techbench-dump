@@ -1,11 +1,11 @@
 TechBench dump
 --------------
-Website: https://tb.lzw29107.repl.co/<br>
+Website: https://tb.lzw29107.repl.co/preview/<br>
 Full script: https://github.com/lzw29107/techbench-dump-script/
 
 License
 -------
-Copyright 2023 Techbench dump website authors and contributors<br><br>
+Copyright 2024 Techbench dump website authors and contributors<br><br>
 
 Licensed under the Apache License, Version 2.0 (the "License");<br>
 you may not use this file except in compliance with the License.<br>
