@@ -24,6 +24,8 @@ require_once 'shared/lang.php';
 require_once 'shared/style.php';
 require_once 'shared/utils.php';
 
+$config = get_config();
+
 if(is_file('dump.xml')) {
     $dom = new DOMDocument('1.0', 'UTF-8');
     @$dom->load('dump.xml');
@@ -37,7 +39,7 @@ if(is_file('dump.xml')) {
     $xpath = new DOMXPath($dom);
     $prod = $xpath->query("./*[@ID=$prodId]", $Prod);
     if($prod->item(0)) $ProdItem = $prod->item(0);
-    if(time() - $Tech->getAttribute('LastCheckUpdateTime') >= 3600) popen('php dump.php update &', 'r');
+    if($config['autoupd'] && $config['php'] && time() - $Tech->getAttribute('LastCheckUpdateTime') >= 3600) exec_background($config['php'], 'dump.php update');
 }
 
 $ProductName = isset($ProdItem) ? "{$ProdItem->getAttribute('Name')}" : $s['unknownName'];

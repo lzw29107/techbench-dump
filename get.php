@@ -23,6 +23,8 @@ require_once 'shared/lang.php';
 require_once 'shared/utils.php';
 require_once 'shared/style.php';
 
+$config = get_config();
+
 if(is_file('dump.xml')) {
     $dom = new DOMDocument('1.0', 'UTF-8');
     @$dom->load('dump.xml');
@@ -36,7 +38,7 @@ if(is_file('dump.xml')) {
     $xpath = new DOMXPath($dom);
     $prod = $xpath->query("./*[@ID=$prodId]", $Prod);
     if($prod->item(0)) $ProdItem = $prod->item(0);
-    if(time() - $Tech->getAttribute('LastCheckUpdateTime') >= 3600) popen('php dump.php update &', 'r');
+    if($config['autoupd'] && $config['php'] && time() - $Tech->getAttribute('LastCheckUpdateTime') >= 3600) exec_background($config['php'], 'dump.php update');
 }
 
 $select = true;
@@ -53,7 +55,7 @@ if(strpos($ProductName, 'Build')) $forceInsider = true;
 
 $Notice = $forceInsider ? '<div class="alert alert-danger mt-4 pb-1">
 <h4><i class="bi bi-exclamation-triangle"></i> '.$s['warning'].'</h4>
-<p>'.sprintf($s['insiderNotice'], '<a class="link-underline link-underline-opacity-0" href="https://www.microsoft.com/en-us/software-download/windowsinsiderpreviewiso">').'</p>
+<p>'.sprintf($s['insiderNotice'], '<a class="link-underline link-underline-opacity-0" href="https://www.microsoft.com/en-us/software-download/windowsinsiderpreviewiso').'</p>
 </div>' : '';
 
 styleTop('downloads');

@@ -36,7 +36,7 @@ $s['linkNotChecked']         = 'Ta strona <b>nie</b> sprawdza, czy plik istnieje
 $s['footerNotice']           = '© %d %s <abbr title="TechBench dump website / Strona internetowa zbioru plików TechBench">TBDW</abbr>.';
 $s['copyright']              = 'Copyright %d %s <abbr title="TechBench dump website / Strona internetowa zbioru plików TechBench">TBDW</abbr>';
 $s['contributors']           = 'Autorzy oraz współtwórcy';
-$s['insiderNotice']          = 'Wybrano opcję pobrania produktu Windows Insider. Aby pomyślnie uzyskać linki pobrania, należy być zalogowanym na <b><a href="%s">stronie Windows Insider</a></b>.';
+$s['insiderNotice']          = 'Wybrano opcję pobrania produktu Windows Insider. Aby pomyślnie uzyskać linki pobrania, należy być zalogowanym na <b>%s">stronie Windows Insider</a></b>.';
 
 // About page
 $s['aboutPageTitle']         = 'O tej stronie';

@@ -37,7 +37,7 @@ $s['linkNotChecked']         = '此网站 <b>不会</b> 检查文件是否存在
 $s['footerNotice']           = '© %d <abbr title="TechBench dump 网站">TBDW</abbr> %s。';
 $s['copyright']              = 'Copyright %d <abbr title="TechBench dump 网站">TBDW</abbr> %s';
 $s['contributors']           = '作者和贡献者们';
-$s['insiderNotice']          = '你已选择下载 Windows Insider 产品。获取下载链接前，请确保你已在 <b><a href="%s">Windows Insider 页面</a></b> 登录。<br>为了在向 Microsoft 发送请求时能正确附带你的登录信息，请不要将浏览器跟踪防护设置为严格，不要禁用第三方 Cookie。';
+$s['insiderNotice']          = '你已选择下载 Windows Insider 产品。获取下载链接前，请确保你已在 <b>%s">Windows Insider 页面</a></b> 登录。<br>为了在向 Microsoft 发送请求时能正确附带你的登录信息，请不要将浏览器跟踪防护设置为严格，不要禁用第三方 Cookie。';
 
 // About page
 $s['aboutPageTitle']         = '关于此页面';

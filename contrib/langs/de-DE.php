@@ -27,7 +27,7 @@ $s['searchNoResults']        = 'Keine Ergebnisse für deine Suchanfrage.';
 $s['prodSelect']             = 'Verfügbare Produkte für diese Kategorie';
 $s['noProducts']             = 'Keine Produkte in dieser Kategorie.';
 $s['footerNotice']           = '© %d <abbr title="TechBench dump-Webseite">TBDW</abbr> %s.';
-$s['insiderNotice']          = 'Du hast ein Windows Insider-Produkt ausgewählt. Damit Download-Links von diesem Produkt generiert werden können, musst du auf der <b><a href="%s">Windows Insider-Webseite</a></b> angemeldet sein.';
+$s['insiderNotice']          = 'Du hast ein Windows Insider-Produkt ausgewählt. Damit Download-Links von diesem Produkt generiert werden können, musst du auf der <b>%s">Windows Insider-Webseite</a></b> angemeldet sein.';
 $s['copyright']              = 'Copyright %d <abbr title="TechBench dump-Webseite">TBDW</abbr> %s';
 $s['contributors']           = 'Autoren und Mitwirkende';
 

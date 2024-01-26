@@ -73,6 +73,67 @@ function SessionIDInit() {
     return $SessionID;
 }
 
+
+function get_config($key = null) {
+    $config = json_decode(@file_get_contents('config.json'), true);
+    if(!$config || !array_key_exists('php', $config) || !array_key_exists('autoupd', $config)) {
+        set_config('init');
+        return get_config();
+    }
+    if($key) return $config[$key];
+    return $config;
+}
+
+function set_config($type, $key = null, $value = null) {
+    if($type == 'set') {
+        $config = json_decode(@file_get_contents('config.json'), true);
+        if(!$config) {
+            set_config('init');
+            set_config('set', $key, $value);
+        }
+        if($key && $value) $config[$key] = $value;
+        file_put_contents('config.json', json_encode($config));
+    } else if($type == 'init') {
+        $config = array();
+        $config['php'] = get_php_location();
+        $config['autoupd'] = true;
+        file_put_contents('config.json', json_encode($config));
+    }
+}
+
+function get_php_location() {
+    if(strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+        $delimiter = ';';
+        $ext = '.exe';
+        $separator = '\\';
+    } else {
+        $delimiter = ':';
+        $ext = '';
+        $separator = '/';
+    }
+    foreach(explode($delimiter, getenv('PATH')) as $directory) {
+        if(is_file($directory . $separator . 'php' . $ext)) {
+            $php = 'php';
+            break;
+        }
+    }
+    if(!isset($php)) {
+        $directory = dirname(php_ini_loaded_file());
+        if(is_file($directory . $separator . 'php' . $ext)) {
+            $php = $directory . $separator . 'php' . $ext;
+        } else $php = false;
+    }
+    return $php;
+}
+
+function exec_background($php, $command) {
+    if(strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+        popen("start /B $php $command >nul 2>nul", 'r');
+    } else {
+        shell_exec("$php $command >/dev/null 2>&1 &");
+    }
+}
+
 function identProduct($ProductID) {
     $appendVer = "";
 
@@ -83,7 +144,7 @@ function identProduct($ProductID) {
     else if ($ProductID >= 242 && $ProductID <= 247) $appendVer = " (Redstone 1)";
     else if ($ProductID == 489) $appendVer = " (Redstone 3)";
     else if ($ProductID == 2069 || $ProductID == 2070) $appendVer = " (21H2 Original release)";
-  
+
     return $appendVer;
 }
 
@@ -165,7 +226,7 @@ function checkCategory($ProductName) {
         $Category[] = 'Office';
         $Category[] = '2011';
     }
-  
+
     if(strpos($ProductName, 'Language Pack') !== false || strpos($ProductName, 'LIP Pack') !== false || strpos($ProductName, 'Server Language and Optional Features') !== false || stripos($ProductName, 'FOD') !== false) $Category[] = 'LOF';
     else if(strpos($ProductName, 'SDK') !== false) $Category[] = 'SDK';
     else if(strpos($ProductName, ' WDK') !== false) $Category[] = 'WDK';
@@ -178,7 +239,7 @@ function checkCategory($ProductName) {
     else if(strpos($ProductName, 'Symbols') !== false) $Category[] = 'Symbols';
     else if(strpos($ProductName, 'Mobile Emulator') !== false) $Category[] = 'MobileEmu';
     else if(strpos($ProductName, 'Inbox Apps') !== false) $Category[] = 'InboxApps';
-  
+
     if(strpos($ProductName, 'Server') !== false) {
         $Category[] = 'WinSrv';
     }
@@ -214,7 +275,7 @@ function checkInfo($ProductID, $Skus, $Category, $recheck = false) {
     $Info = array();
     $Option = end($Skus);
     $ID = key($Skus);
-    
+
     if(!array_intersect(array('WIP', 'Xbox', 'Office'), $Category)) {
         if(in_array($ProductID, $knownValid) || $ProductID > 2956) {
             $downhtml = new DOMDocument();

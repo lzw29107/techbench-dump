@@ -16,9 +16,11 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+require_once 'shared/utils.php';
 require_once 'shared/lang.php';
 require_once 'shared/style.php';
 
+$config = get_config();
 
 if(is_file('dump.xml')) {
     $dom = new DOMDocument('1.0', 'UTF-8');
@@ -32,7 +34,7 @@ if(is_file('dump.xml')) {
     $Prod = $dom->getElementsByTagName('ProdInfo')->item(0);
     $ProductNumber = $Prod->childElementCount;
     $LastUpdateTime = date("Y-m-d H:i:s T", $Tech->getAttribute('LastUpdateTime'));
-    if(time() - $Tech->getAttribute('LastCheckUpdateTime') >= 3600) popen('php dump.php update &', 'r');
+    if($config['autoupd'] && $config['php'] && time() - $Tech->getAttribute('LastCheckUpdateTime') >= 3600) exec_background($config['php'], 'dump.php update');
 } else {
     $LastUpdateTime = '';
     $ProductNumber = 0;

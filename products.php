@@ -23,6 +23,8 @@ $search = isset($_GET['search']) ? $_GET['search'] : '';
 require_once 'shared/lang.php';
 require_once 'shared/style.php';
 
+$config = get_config();
+
 $options = '';
 foreach(array('all', 'win81', 'win10', 'win11', 'winsrvip') as $opt) {
    if($prodName == $opt) continue;
@@ -45,7 +47,7 @@ if(is_file('dump.xml')) {
    $Tech = $dom->getElementsByTagName('TechInfo')->item(0);
    $Prod = $dom->getElementsByTagName('ProdInfo')->item(0);
    $ProductNumber = $Prod->childElementCount;
-   if(time() - $Tech->getAttribute('LastCheckUpdateTime') >= 3600) popen('php dump.php update &', 'r');
+    if($config['autoupd'] && $config['php'] && time() - $Tech->getAttribute('LastCheckUpdateTime') >= 3600) exec_background($config['php'], 'dump.php update');
    $out = array();
    $out['products'] = array();
    foreach($Prod->getElementsByTagName('ProdItem') as $prod) {

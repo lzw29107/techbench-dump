@@ -36,7 +36,7 @@ $s['linkExpire2']            = 'Os links irão expirar';
 $s['directLinksTitle']       = 'Download diretor dos Links';
 $s['directLinksLine1']       = 'Precisa compartilhar os links diretos com alguém? Utilize esses links abaixo, para gerar um link compartilhavel em tempo real.';
 $s['linkNotChecked']         = 'Este site <b>NÃO VERIFICA</b> se os arquivos existem nos servidores da Microsoft';
-$s['insiderNotice']          = 'Você escolheu fazer Download de uma versão de produto <b>Windows Insider<b>. Para que os links de download sejam disponibilizados com sucesso você precisa estar logado <b><a href="%s">Microsoft - Windows Insider - Portal</a></b>.';
+$s['insiderNotice']          = 'Você escolheu fazer Download de uma versão de produto <b>Windows Insider<b>. Para que os links de download sejam disponibilizados com sucesso você precisa estar logado <b>%s">Microsoft - Windows Insider - Portal</a></b>.';
 
 // About page
 $s['aboutPageTitle']         = 'Sobre esta página';
