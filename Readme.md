@@ -1,7 +1,6 @@
 TechBench dump
 --------------
-Website: https://tb.lzw29107.repl.co/preview/<br>
-Full script: https://github.com/lzw29107/techbench-dump-script/
+Website: https://tb.win-story.cn/preview/<br>
 
 License
 -------
