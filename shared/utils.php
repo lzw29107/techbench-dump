@@ -111,12 +111,7 @@ function get_php_location() {
         $ext = '';
         $separator = '/';
     }
-    foreach(explode($delimiter, getenv('PATH')) as $directory) {
-        if(is_file($directory . $separator . 'php' . $ext)) {
-            $php = 'php';
-            break;
-        }
-    }
+    if(strpos(shell_exec('php -v'), 'PHP') !== false) $php = 'php';
     if(!isset($php)) {
         $directory = dirname(php_ini_loaded_file());
         if(is_file($directory . $separator . 'php' . $ext)) {
@@ -309,10 +304,11 @@ function checkInfo($ProductID, $Skus, $Category, $recheck = false) {
         $Info = CheckInfo_offline($ProductID, $Category);
     }
     if(array_intersect(array('Win7', 'Win81', 'Win10', 'RSAT', 'Symbols'), $Category)) $Info['Arch'] = 'x86; x64';
-        else if(array_intersect(array('Win11', 'WinSrv', 'DAC'), $Category)) {
-        if(in_array('ARM64', $Category)) $Info['Arch'] = 'arm64';
-        else $Info['Arch'] = 'x64';
+    if(array_intersect(array('Win11', 'WinSrv', 'DAC'), $Category)) {
+        $Info['Arch'] = 'x64';
     }
+    if(in_array('ARM64', $Category)) $Info['Arch'] = 'arm64';
+
     if(array_intersect(array('LOF', 'SDK', 'WDK', 'HLK', 'EWDK', 'InboxApps'), $Category)) $Info['Arch'] = 'neutral';
         else if(array_intersect(array('ADK', 'IoTCore'), $Category)) {
         if(in_array('Win10', $Category)) $Info['Arch'] = 'x86; x64; arm; arm64';
@@ -325,6 +321,7 @@ function checkInfo($ProductID, $Skus, $Category, $recheck = false) {
     }
     return $Info;
 }
+
 function getInfo($Type, $ID, $Sku = 'English (United States)') {
     global $SessionID;
     $Sku = urlencode($Sku);

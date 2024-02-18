@@ -47,7 +47,7 @@ ignore_user_abort(true);
 
 $Continue = false;
 $minProdID = 0;
-$maxProdID = 3000;
+$maxProdID = 3500;
 
 $lock = array();
 $lock['time'] = time();

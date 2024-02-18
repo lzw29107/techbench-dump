@@ -16,9 +16,12 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+require_once 'shared/utils.php';
 require_once 'shared/lang.php';
 require_once 'shared/dump.php';
 require_once 'shared/style.php';
+
+$config = get_config();
 
 if($_SERVER['REQUEST_METHOD'] == 'POST' && $_SERVER['CONTENT_TYPE'] == 'application/x-www-form-urlencoded') {
     if(isset($_POST['Progress'])) {
@@ -27,7 +30,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && $_SERVER['CONTENT_TYPE'] == 'applicat
         }
         exit();
     } else if(isset($_POST['startDump'])) {
-        popen('php dump.php update &', 'r');
+        exec_background($config['php'], 'dump.php update');
         exit();
     } else if(isset($_POST['Info'])) {
         if(is_file('dump.xml')) {
@@ -48,14 +51,14 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && $_SERVER['CONTENT_TYPE'] == 'applicat
         exit();
     } else if(isset($_POST['reCheck'])) {
         if($_POST['reCheck'] == 'basic') {
-            popen('php dump.php recheck &', 'r');
+            exec_background($config['php'], 'dump.php recheck');
             exit();
         }
         if(is_file('dump.xml')) {
             $dom = new DOMDocument('1.0', 'UTF-8');
             @$dom->load('dump.xml');
             if(libxml_get_last_error()) {
-                sleep(0.1);
+                usleep(10000);
                 @$dom->load('dump.xml');
             }
             if(libxml_get_last_error()) exit();

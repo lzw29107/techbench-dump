@@ -154,7 +154,7 @@ switch ($prodName) {
         }
         break;
     default:
-       $prodName = 'allProd';
+        $prodName = 'allProd';
         $products = $out['products'];
         break;
 }
@@ -171,7 +171,9 @@ if($search != '') {
         $searchSafe = preg_replace('/^"|"$/', '', $searchSafe);
     }
 
-    $products = preg_grep('/.*'.$searchSafe.'.*/i',$products);
+    foreach($products as $ProdID => $product) {
+        if(strpos($product['Name'], $searchSafe) === false) unset($products[$ProdID]);
+    }
 
     $tableTitle = $s['searchResults'].': '.$search;
     $noItems = $s['searchNoResults'];
