@@ -1,6 +1,6 @@
 TechBench dump
 --------------
-Website: https://tb.lzw29107.repl.co/<br>
+Website: https://tb.win-story.cn/<br>
 Script:<br>
 tbdump.sh 			- Shell script of TechBench dump. Obtains information from API, and then writes them to json file<br>
 tbdump.cmd		        - Running PowerShell script without modifying the default script execution policy<br>
