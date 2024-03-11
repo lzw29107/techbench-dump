@@ -25,25 +25,15 @@ require_once 'shared/style.php';
 
 $config = get_config();
 
-if(is_file('dump.xml')) {
-    $dom = new DOMDocument('1.0', 'UTF-8');
-    @$dom->load('dump.xml');
-    if(libxml_get_last_error()) {
-        usleep(10000);
-        @$dom->load('dump.xml');
-    }
-    if(libxml_get_last_error()) exit('XML Load Error');
-    $Tech = $dom->getElementsByTagName('TechInfo')->item(0);
-    $Prod = $dom->getElementsByTagName('ProdInfo')->item(0);
-    $xpath = new DOMXPath($dom);
-    $prod = $xpath->query("./*[@ID=$prodId]", $Prod);
-    if($prod->item(0)) $ProdItem = $prod->item(0);
-    if($config['autoupd'] && $config['php'] && time() - $Tech->getAttribute('LastCheckUpdateTime') >= 3600) exec_background($config['php'], 'dump.php update');
+if(is_file('dump.json')) {
+    $dump = json_decode(file_get_contents('dump.json'), true);
+    $ProdItem = $dump['ProdInfo'][$prodId];
+    if($config['autoupd'] && $config['php'] && time() - $dump['TechInfo']['LastCheckUpdateTime'] >= 3600) exec_background($config['php'], 'dump.php update');
 }
 
 $select = true;
 
-$ProductName = isset($ProdItem) ? "{$ProdItem->getAttribute('Name')}" : $s['unknownName'];
+$ProductName = isset($ProdItem) ? $ProdItem['Name'] : $s['unknownName'];
 
 if(strpos($ProductName, 'Language Pack') !== false) $s['langCodeMs'] = 'en-us';
 

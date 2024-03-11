@@ -36,25 +36,15 @@ foreach(array('all', 'win81', 'win10', 'win11', 'winsrvip') as $opt) {
 }
 
 
-if(is_file('dump.xml')) {
-   $dom = new DOMDocument('1.0', 'UTF-8');
-   @$dom->load('dump.xml');
-   if(libxml_get_last_error()) {
-       usleep(10000);
-       @$dom->load('dump.xml');
-   }
-   if(libxml_get_last_error()) exit('XML Load Error');
-   $Tech = $dom->getElementsByTagName('TechInfo')->item(0);
-   $Prod = $dom->getElementsByTagName('ProdInfo')->item(0);
-   $ProductNumber = $Prod->childElementCount;
-    if($config['autoupd'] && $config['php'] && time() - $Tech->getAttribute('LastCheckUpdateTime') >= 3600) exec_background($config['php'], 'dump.php update');
-   $out = array();
-   $out['products'] = array();
-   foreach($Prod->getElementsByTagName('ProdItem') as $prod) {
-       if(isset($_GET['ignoreInvalid']) && $prod->getAttribute('Validity') == 'Invalid') continue;
-       $out['products'][$prod->getAttribute('ID')] = array('Name' => $prod->getAttribute('Name'), 'Validity' => $prod->getAttribute('Validity'), 'Arch' => $prod->getAttribute('Arch'));
-   }
-   if(isset($_GET['reverse'])) $out['products'] = array_reverse($out['products'], true);
+if(is_file('dump.json')) {
+    $dump = json_decode(file_get_contents('dump.json'), true);
+    if($config['autoupd'] && $config['php'] && time() - $dump['TechInfo']['LastCheckUpdateTime'] >= 3600) exec_background($config['php'], 'dump.php update');
+    $out = [];
+    $out['products'] = $dump['ProdInfo'];
+    foreach($out['products'] as $ID => $Prod) {
+        if(isset($_GET['ignoreInvalid']) && $Prod['Validity'] == 'Invalid') unset($out['products'][$ID]);
+    }
+    if(isset($_GET['reverse'])) $out['products'] = array_reverse($out['products'], true);
 }
 
 switch ($prodName) {
@@ -245,7 +235,7 @@ HTML;?>
     foreach ($products as $key => $curr) {
         $Name = $curr['Name'];
         $Validity = $curr['Validity'];
-        $Arch = $curr['Arch'];
+        $Arch = implode(', ', $curr['Arch']);
         echo '<tr>
             <th class="text-center" scope="row">'.$key.'</th>
             <td>

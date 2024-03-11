@@ -1,7 +1,7 @@
 <?php
 /*
 TechBench dump
-Copyright (C) 2023 TechBench dump website authors and contributors
+Copyright (C) 2024 TechBench dump website authors and contributors
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -25,28 +25,18 @@ $config = get_config();
 
 if($_SERVER['REQUEST_METHOD'] == 'POST' && $_SERVER['CONTENT_TYPE'] == 'application/x-www-form-urlencoded') {
     if(isset($_POST['Progress'])) {
-        if(is_file('dump.xml.lock')) {
-            echo file_get_contents('dump.xml.lock');
-        }
+        if(is_file('dump.json.lock')) echo file_get_contents('dump.json.lock');
         exit();
     } else if(isset($_POST['startDump'])) {
         exec_background($config['php'], 'dump.php update');
         exit();
     } else if(isset($_POST['Info'])) {
-        if(is_file('dump.xml')) {
-            $dom = new DOMDocument('1.0', 'UTF-8');
-            @$dom->load('dump.xml');
-            if(libxml_get_last_error()) {
-                usleep(10000);
-                @$dom->load('dump.xml');
-            }
-            if(libxml_get_last_error()) exit();
-            $Tech = $dom->getElementsByTagName('TechInfo')->item(0);
-            $Prod = $dom->getElementsByTagName('ProdInfo')->item(0);
-            $Info = array();
-            $Info['ProductNumber'] = $Prod->childElementCount;
-            $Info['LastUpdateTime'] = date("Y-m-d H:i:s T", $Tech->getAttribute('LastUpdateTime'));
-            echo json_encode($Info);
+        if(is_file('dump.json')) {
+            $dump = json_decode(file_get_contents('dump.json'), true);
+            echo json_encode([
+                'ProductNumber' => count($dump['ProdInfo']),
+                'LastUpdateTime' => date("Y-m-d H:i:s T", $dump['TechInfo']['LastUpdateTime'])
+            ]);
         }
         exit();
     } else if(isset($_POST['reCheck'])) {
@@ -54,23 +44,15 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && $_SERVER['CONTENT_TYPE'] == 'applicat
             exec_background($config['php'], 'dump.php recheck');
             exit();
         }
-        if(is_file('dump.xml')) {
-            $dom = new DOMDocument('1.0', 'UTF-8');
-            @$dom->load('dump.xml');
-            if(libxml_get_last_error()) {
-                usleep(10000);
-                @$dom->load('dump.xml');
-            }
-            if(libxml_get_last_error()) exit();
-            $Prod = $dom->getElementsByTagName('ProdInfo')->item(0);
-            $xpath = new DOMXPath($dom);
-            $Unknown = array();
+        if(is_file('dump.json')) {
+            $dump = json_decode(file_get_contents('dump.json'), true);
+            $Unknown = [];
             switch($_POST['reCheck']) {
                 case 'WIP':
-                    foreach($xpath->query("./*[@Validity!='Invalid' and contains(@Category,'WIP')]", $Prod) as $prod) $Unknown[] = $prod->getAttribute('ID');
+                    foreach($dump['ProdInfo'] as $ID => $Prod) if($Prod['Validity'] != 'Invalid' && in_array('WIP', $Prod['Category'])) $Unknown[] = $ID;
                     break;
                 case 'Xbox':
-                    foreach($xpath->query("./*[@Validity!='Invalid' and contains(@Category,'Xbox')]", $Prod) as $prod) $Unknown[] = $prod->getAttribute('ID');
+                    foreach($dump['ProdInfo'] as $ID => $Prod) if($Prod['Validity'] != 'Invalid' && in_array('Xbox', $Prod['Category'])) $Unknown[] = $ID;
                     break;
                 default:
                     exit();
@@ -79,8 +61,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && $_SERVER['CONTENT_TYPE'] == 'applicat
         }
         exit();
     } else if(isset($_POST['NewSession'])) {
-        echo SessionIDInit();
-        exit();
+        exit(SessionIDInit());
     }
 } else if($_SERVER['REQUEST_METHOD'] == 'POST' && $_SERVER['CONTENT_TYPE'] == 'application/json') {
     $json = file_get_contents('php://input');
@@ -88,50 +69,30 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && $_SERVER['CONTENT_TYPE'] == 'applicat
     $Info = json_decode($json, true);
     $info = array_pop($Info);
     if($info['type'] == 'reCheck' && $info['status'] == 'result') {
-        if(is_file('dump.xml')) {
-            $dom = new DOMDocument('1.0', 'UTF-8');
-            @$dom->load('dump.xml');
-            if(libxml_get_last_error()) {
-                sleep(0.1);
-                @$dom->load('dump.xml');
-            }
-            if(libxml_get_last_error()) exit();
-            $Prod = $dom->getElementsByTagName('ProdInfo')->item(0);
-            $ProductNumber = $Prod->childElementCount;
-            $xpath = new DOMXPath($dom);
+        if(is_file('dump.json')) {
+            $dump = json_decode('dump.json');
+            $ProductNumber = count($dump['ProdInfo']);
             foreach($Info as $info) {
                 $ProductID = $info['ID'];
                 $Validity = $info['Validity'];
                 $Arch = $info['Arch'];
-                $prod = $xpath->query("./*[@ID=$ProductID]", $Prod);
-                $prod->item(0)->setAttribute('Validity', $Validity);
-                if($Validity != 'Invalid' && $Arch != 'Unknown') {
-                    if($Arch != 'neutral' || $prod->item(0)->getAttribute('Validity') == 'Unknown') $prod->item(0)->setAttribute('Arch', $Arch);
-                }
+                $dump['ProdInfo'][$ProductID]['Validity'] = $Validity;
+                if($Validity != 'Invalid' && $Arch != ['Unknown'] && ($Arch != ['neutral'] || $dump['ProdInfo'][$ProductID]['Validity'] == 'Unknown')) $dump['ProdInfo'][$ProductID]['Arch'] = $Arch;
             }
-            if(!is_file('dump.bak')) copy('dump.xml', 'dump.bak');
-            $dom->save('dump.xml');
-            indentContent('dump.xml');
+            if(!is_file('dump.bak')) copy('dump.json', 'dump.bak');
+            file_put_contents('dump.json', json_encode($dump, JSON_PRETTY_PRINT));
             exit();
         }
     }
 }
 
 $Notice = 'Normal';
-if(is_file('dump.xml')) {
-    $dom = new DOMDocument('1.0', 'UTF-8');
-    @$dom->load('dump.xml');
-    if(libxml_get_last_error()) {
-        sleep(0.1);
-        @$dom->load('dump.xml');
-    }
-    if(libxml_get_last_error()) $Notice = 'Load Error';
-    $Tech = $dom->getElementsByTagName('TechInfo')->item(0);
-    $Prod = $dom->getElementsByTagName('ProdInfo')->item(0);
-    $ProductNumber = $Prod->childElementCount;
-    $LastUpdateTime = date("Y-m-d H:i:s T", $Tech->getAttribute('LastUpdateTime'));
+if(is_file('dump.json')) {
+    $dump = json_decode(file_get_contents('dump.json'), true);
+    $ProductNumber = count($dump['ProdInfo']);
+    $LastUpdateTime = date("Y-m-d H:i:s T", $dump['TechInfo']['LastUpdateTime']);
 } else {
-    $ProductNumber = '';
+    $ProductNumber = 0;
     $LastUpdateTime = '';
     $Notice = 'File not exist';
 }

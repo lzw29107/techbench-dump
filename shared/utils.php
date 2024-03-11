@@ -49,9 +49,7 @@ function genSessionID() {
     $time = time();
     $SessionID = preg_replace_callback('/[xy]/', function ($matches) use ($time) {
         $random = (($time + rand(0, 15)) % 16);
-        if ($matches[0] === 'y') {
-            $random = ($random & 3) | 8;
-        }
+        if ($matches[0] === 'y') $random = ($random & 3) | 8;
         $time = floor($time / 16);
         $random = dechex($random);
         return $random;
@@ -62,9 +60,9 @@ function genSessionID() {
 function SessionIDInit() {
     $SessionID = genSessionID();
 
-    $req = curl_init("https://vlscppe.microsoft.com/fp/tags.js?org_id=y6jn8c31&session_id=" . urlencode($SessionID));
+    $req = curl_init('https://vlscppe.microsoft.com/fp/tags.js?org_id=y6jn8c31&session_id=' . urlencode($SessionID));
     curl_setopt($req, CURLOPT_HEADER, 0);
-    curl_setopt($req, CURLOPT_REFERER, "https://www.microsoft.com/en-us/software-download/windows11");
+    curl_setopt($req, CURLOPT_REFERER, 'https://www.microsoft.com/en-us/software-download/windows11');
     curl_setopt($req, CURLOPT_RETURNTRANSFER, true); 
 
     $out = curl_exec($req);
@@ -76,7 +74,7 @@ function SessionIDInit() {
 
 function get_config($key = null) {
     $config = json_decode(@file_get_contents('config.json'), true);
-    if(!$config || !array_key_exists('php', $config) || !array_key_exists('autoupd', $config)) {
+    if(!$config || $config['version'] != '1.0' || !array_key_exists('php', $config) || !array_key_exists('autoupd', $config)) {
         set_config('init');
         return get_config();
     }
@@ -87,14 +85,15 @@ function get_config($key = null) {
 function set_config($type, $key = null, $value = null) {
     if($type == 'set') {
         $config = json_decode(@file_get_contents('config.json'), true);
-        if(!$config) {
+        if(!$config || $config['version'] != '1.0') {
             set_config('init');
             set_config('set', $key, $value);
         }
         if($key && $value) $config[$key] = $value;
         file_put_contents('config.json', json_encode($config));
     } else if($type == 'init') {
-        $config = array();
+        $config = [];
+        $config['version'] = '1.0';
         $config['php'] = get_php_location();
         $config['autoupd'] = true;
         file_put_contents('config.json', json_encode($config));
@@ -106,12 +105,14 @@ function get_php_location() {
         $delimiter = ';';
         $ext = '.exe';
         $separator = '\\';
+        if(strpos(shell_exec('php -v'), 'PHP') !== false) $php = 'php';
     } else {
         $delimiter = ':';
         $ext = '';
         $separator = '/';
+        if(shell_exec('command -v php')) $php = 'php';
     }
-    if(strpos(shell_exec('php -v'), 'PHP') !== false) $php = 'php';
+
     if(!isset($php)) {
         $directory = dirname(php_ini_loaded_file());
         if(is_file($directory . $separator . 'php' . $ext)) {
@@ -145,7 +146,7 @@ function identProduct($ProductID) {
 
 function checkCategory($ProductName) {
     global $firstOption, $Skus;
-    $Category = array();
+    $Category = [];
     $build = substr(strstr($ProductName, ' - '), 3);
     if(strpos($ProductName, 'Admin Center') !== false || strpos($ProductName, 'Honolulu') !== false) {
         $Category[] = 'AdminCenter';
@@ -246,15 +247,15 @@ function checkCategory($ProductName) {
 }
 
 function CheckInfo_offline($ProductID, $Category) {
-    $knownValid = array_merge(array(1145, 1149, 1524, 2198, 2217, 2220, 2221, 2297, 2298, 2299, 2577, 2580, 2581, 2582, 2585, 2588, 2589, 2591), range(2607, 2735));
-    $Info = array();
+    $knownValid = array_merge([1145, 1149, 1524, 2198, 2217, 2220, 2221, 2297, 2298, 2299, 2577, 2580, 2581, 2582, 2585, 2588, 2589, 2591], range(2607, 2735));
+    $Info = [];
     $Info['Validity'] = 'Unknown';
     $Info['Arch'] = 'Unknown';
-    if(in_array('Xbox', $Category)) $Info['Arch'] = 'x64';
+    if(in_array('Xbox', $Category)) $Info['Arch'] = ['x64'];
         else if(in_array('Office', $Category)) {
         $Info['Validity'] = 'Invalid';
-        $Info['Arch'] = 'x86; x64';
-        if(in_array('2011', $Category)) $Info['Arch'] = 'x64';
+        $Info['Arch'] = ['x86', 'x64'];
+        if(in_array('2011', $Category)) $Info['Arch'] = ['x64'];
     } else if(in_array('WIP', $Category)) {
         if(!in_array($ProductID, $knownValid) && $ProductID < 2736) {
             $Info['Validity'] = 'Invalid';
@@ -264,14 +265,14 @@ function CheckInfo_offline($ProductID, $Category) {
     return $Info;
 }
 
-function checkInfo($ProductID, $Skus, $Category, $recheck = false) {
-    $knownValid = array(48, 52, 55, 61, 62, 489, 642, 1057, 1217, 1460, 2378, 2616, 2617, 2618, 2860, 2861, 2935, 2936);
+function checkInfo($ProductID, $Skus, $Category) {
+    $knownValid = [48, 52, 55, 61, 62, 489, 642, 1057, 1217, 1460, 2378, 2616, 2617, 2618, 2860, 2861, 2935, 2936];
     $blocked = 'We are unable to complete your request at this time. Some users, entities and locations are banned from using this service. For this reason, leveraging anonymous or location hiding technologies when connecting to this service is not generally allowed. If you believe that you encountered this problem in error, please try again. If the problem persists you may contact  Microsoft Support – Contact Us  page for assistance. Refer to message code 715-123130 and';
-    $Info = array();
+    $Info = [];
     $Option = end($Skus);
     $ID = key($Skus);
 
-    if(!array_intersect(array('WIP', 'Xbox', 'Office'), $Category)) {
+    if(!array_intersect(['WIP', 'Xbox', 'Office'], $Category)) {
         if(in_array($ProductID, $knownValid) || $ProductID > 2956) {
             $downhtml = new DOMDocument();
             $downhtml->loadHTML(getInfo('Sku', $ID, $Option));
@@ -282,42 +283,41 @@ function checkInfo($ProductID, $Skus, $Category, $recheck = false) {
                     $Info['Validity'] = 'Valid';
                     echo "The Server IP is blocked by Microsoft.\n";
                 }
-                $Info['Arch'] = 'Unknown';
+                $Info['Arch'] = ['Unknown'];
             } else {
                 $Info['Validity'] = 'Valid';
                 $xpath = new DOMXPath($downhtml);
                 $downBtns = $xpath->query('//span[contains(@class, "product-download-type")]');
-                $Arch = array();
+                $Arch = [];
                 foreach($downBtns as $downBtn) {
                     if($downBtn->textContent == 'IsoX86') $Arch[] = 'x86';
                     if($downBtn->textContent == 'IsoX64') $Arch[] = 'x64';
                     if($downBtn->textContent == 'Unknown') $Arch[] = 'neutral';
                     if(count($Arch) == 0) $Arch[] = 'Unknown';
                 }
-                $Info['Arch'] = implode('; ', $Arch);
             }
         } else {
             $Info['Validity'] = 'Invalid';
-            $Info['Arch'] = 'Unknown';
+            $Info['Arch'] = ['Unknown'];
         }
     } else {
         $Info = CheckInfo_offline($ProductID, $Category);
     }
-    if(array_intersect(array('Win7', 'Win81', 'Win10', 'RSAT', 'Symbols'), $Category)) $Info['Arch'] = 'x86; x64';
-    if(array_intersect(array('Win11', 'WinSrv', 'DAC'), $Category)) {
-        $Info['Arch'] = 'x64';
+    if(array_intersect(['Win7', 'Win81', 'Win10', 'RSAT', 'Symbols'], $Category)) $Info['Arch'] = ['x86', 'x64'];
+    if(array_intersect(['Win11', 'WinSrv', 'DAC'], $Category)) {
+        $Info['Arch'] = ['x64'];
     }
-    if(in_array('ARM64', $Category)) $Info['Arch'] = 'arm64';
+    if(in_array('ARM64', $Category)) $Info['Arch'] = ['arm64'];
 
-    if(array_intersect(array('LOF', 'SDK', 'WDK', 'HLK', 'EWDK', 'InboxApps'), $Category)) $Info['Arch'] = 'neutral';
-        else if(array_intersect(array('ADK', 'IoTCore'), $Category)) {
-        if(in_array('Win10', $Category)) $Info['Arch'] = 'x86; x64; arm; arm64';
+    if(array_intersect(['LOF', 'SDK', 'WDK', 'HLK', 'EWDK', 'InboxApps'], $Category)) $Info['Arch'] = ['neutral'];
+        else if(array_intersect(['ADK', 'IoTCore'], $Category)) {
+        if(in_array('Win10', $Category)) $Info['Arch'] = ['x86', 'x64', 'arm', 'arm64'];
         else if(in_array('Win11', $Category)) {
-            $Info['Arch'] = 'x64; arm64';
+            $Info['Arch'] = ['x64', 'arm64'];
         }
-    } else if(in_array('MobileEmu', $Category)) $Info['Arch'] = 'x86';
+    } else if(in_array('MobileEmu', $Category)) $Info['Arch'] = ['x86'];
         else if(in_array('AdminCenter', $Category)) {
-        $Info['Arch'] = 'x64';
+        $Info['Arch'] = ['x64'];
     }
     return $Info;
 }
@@ -356,8 +356,8 @@ function getInfo($Type, $ID, $Sku = 'English (United States)') {
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_HEADER, 0);
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-        curl_setopt($ch, CURLOPT_POST,true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, "controlAttributeMapping=");
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, 'controlAttributeMapping=');
         //curl_setopt($ch, CURLOPT_ENCODING, 'gzip');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
@@ -373,10 +373,10 @@ function getInfo($Type, $ID, $Sku = 'English (United States)') {
 }
 
 function parserProdInfo($ProductID, $html) {
-    $Info = array();
+    $Info = [];
     $ProductName = substr($html->getElementsByTagName('i')->item(0)->textContent, 32) . identProduct($ProductID);
     if($ProductName == '') $ProductName = 'Unknown';
-    $Skus = array();
+    $Skus = [];
     $Options = $html->getElementsByTagName('option');
     $OptionCount = -1;
     foreach($Options as $Option) {
@@ -391,7 +391,7 @@ function parserProdInfo($ProductID, $html) {
 
     $Info['ProductName'] = $ProductName;
     $Info['Skus'] = $Skus;
-    $Info['Category'] = implode('; ', $Category);
+    $Info['Category'] = $Category;
     $Info['Validity'] = $info['Validity'];
     $Info['Arch'] = $info['Arch'];
     return $Info;
