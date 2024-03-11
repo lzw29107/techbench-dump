@@ -22,19 +22,11 @@ require_once 'shared/style.php';
 
 $config = get_config();
 
-if(is_file('dump.xml')) {
-    $dom = new DOMDocument('1.0', 'UTF-8');
-    @$dom->load('dump.xml');
-    if(libxml_get_last_error()) {
-        usleep(10000);
-        @$dom->load('dump.xml');
-    }
-    if(libxml_get_last_error()) exit('XML Load Error');
-    $Tech = $dom->getElementsByTagName('TechInfo')->item(0);
-    $Prod = $dom->getElementsByTagName('ProdInfo')->item(0);
-    $ProductNumber = $Prod->childElementCount;
-    $LastUpdateTime = date("Y-m-d H:i:s T", $Tech->getAttribute('LastUpdateTime'));
-    if($config['autoupd'] && $config['php'] && time() - $Tech->getAttribute('LastCheckUpdateTime') >= 3600) exec_background($config['php'], 'dump.php update');
+if(is_file('dump.json')) {
+    $dump = json_decode(file_get_contents('dump.json'), true);
+    $ProductNumber = count($dump['ProdInfo']);
+    $LastUpdateTime = date("Y-m-d H:i:s T", $dump['TechInfo']['LastUpdateTime']);
+    if($config['autoupd'] && $config['php'] && time() - $dump['TechInfo']['LastCheckUpdateTime'] >= 3600) exec_background($config['php'], 'dump.php update');
 } else {
     $LastUpdateTime = '';
     $ProductNumber = 0;

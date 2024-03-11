@@ -68,7 +68,7 @@ function _checkInfo(ID) {
             if(downBtn.textContent == 'Unknown') Arch.push('neutral');
         }
         if (Arch.length == 0) Arch.push('Unknown');
-        Info['Arch'] = Arch.join('; ');
+        Info['Arch'] = Arch;
     }
     Infos[ID] = Info;
     current++;
