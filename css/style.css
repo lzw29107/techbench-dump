@@ -85,3 +85,7 @@ body {
 .table {
   --bs-table-striped-bg: rgba(var(--bs-emphasis-color-rgb), 0.025);
 }
+
+h1 {
+    margin-right: 5rem;
+}
