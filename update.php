@@ -121,7 +121,7 @@ echo <<<HTML
             <p class="position-absolute" style="width: calc(50% + 1rem); right: 0">0.00%</p>
         </div>
         <p class="text-center my-3" id="count" style="display: none;"></p>
-        <button type="button" id="dumpBtn" class="btn btn-primary mb-3" disabled>Ckeck for Updates</button>
+        <button type="button" id="dumpBtn" class="btn btn-primary mb-3" disabled>Check for Updates</button>
         <button type="button" id="checkBtn" class="btn btn-info mb-3" disabled>Recheck Validity</button>
     </div>
 </div>
