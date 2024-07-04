@@ -108,25 +108,28 @@ $url = htmlentities(getUrlWithoutParam('lang'));
 date_default_timezone_set($s['timeZone']);
 
 $langCore_menu = <<<EOD
-<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" role="button"><img src="contrib/flags/{$s['langCode']}.png" style="margin-top: -2px;"> {$s['langNameLocal']} <span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                            <li><a href="{$url}lang=de-DE"><img src="contrib/flags/de-DE.png">&nbsp;Deutsch</a></li>
-                            <li><a href="{$url}lang=en-US"><img src="contrib/flags/en-US.png">&nbsp;English (US)</a></li>
-                            <li><a href="{$url}lang=es-ES"><img src="contrib/flags/es-ES.png">&nbsp;Español (España)</a></li>
-                            <li><a href="{$url}lang=fr-FR"><img src="contrib/flags/fr-FR.png">&nbsp;Français</a></li>
-                            <li><a href="{$url}lang=it-IT"><img src="contrib/flags/it-IT.png">&nbsp;Italiano</a></li>
-                            <li><a href="{$url}lang=nl-NL"><img src="contrib/flags/nl-NL.png">&nbsp;Nederlands</a></li>
-                            <li><a href="{$url}lang=pl-PL"><img src="contrib/flags/pl-PL.png">&nbsp;Polski</a></li>
-                            <li><a href="{$url}lang=pt-BR"><img src="contrib/flags/pt-BR.png">&nbsp;Português (Brasil)</a></li>
-                            <li><a href="{$url}lang=ru-RU"><img src="contrib/flags/ru-RU.png">&nbsp;Русский</a></li>
-                            <li><a href="{$url}lang=ar-EG"><img src="contrib/flags/ar-EG.png">&nbsp;العربية</a></li>
-                            <li><a href="{$url}lang=th-TH"><img src="contrib/flags/th-TH.png">&nbsp;ภาษาไทย</a></li>
-                            <li><a href="{$url}lang=ja-JP"><img src="contrib/flags/ja-JP.png">&nbsp;日本語</a></li>
-                            <li><a href="{$url}lang=zh-CN"><img src="contrib/flags/zh-CN.png">&nbsp;中文（简体）</a></li>
-                            <li><a href="{$url}lang=zh-TW"><img src="contrib/flags/zh-TW.png">&nbsp;中文（繁體）</a></li>
-                            <li><a href="{$url}lang=qps-ploc"><img src="contrib/flags/qps-ploc.png">&nbsp;[ !!! Ƥşḗŭḓǿ !!! ]</a></li>
-                            </ul>
-                  </li>
+<li class="nav-item dropdown">
+    <a class="nav-link text-nowrap dropdown-toggle" data-bs-toggle="dropdown" role="button">
+        <img src="contrib/flags/{$s['langCode']}.png" style="margin-bottom: 3px;"> {$s['langNameLocal']} 
+    </a>
+    <ul class="dropdown-menu">
+        <li><a class="dropdown-item" href="{$url}lang=de-DE"><img src="contrib/flags/de-DE.png">  Deutsch</a></li>
+        <li><a class="dropdown-item" href="{$url}lang=en-US"><img src="contrib/flags/en-US.png">  English (US)</a></li>
+        <li><a class="dropdown-item" href="{$url}lang=es-ES"><img src="contrib/flags/es-ES.png">  Español (España)</a></li>
+        <li><a class="dropdown-item" href="{$url}lang=fr-FR"><img src="contrib/flags/fr-FR.png">  Français</a></li>
+        <li><a class="dropdown-item" href="{$url}lang=it-IT"><img src="contrib/flags/it-IT.png">  Italiano</a></li>
+        <li><a class="dropdown-item" href="{$url}lang=nl-NL"><img src="contrib/flags/nl-NL.png">  Nederlands</a></li>
+        <li><a class="dropdown-item" href="{$url}lang=pl-PL"><img src="contrib/flags/pl-PL.png">  Polski</a></li>
+        <li><a class="dropdown-item" href="{$url}lang=pt-BR"><img src="contrib/flags/pt-BR.png">  Português (Brasil)</a></li>
+        <li><a class="dropdown-item" href="{$url}lang=ru-RU"><img src="contrib/flags/ru-RU.png">  Русский</a></li>
+        <li><a class="dropdown-item" href="{$url}lang=ar-EG"><img src="contrib/flags/ar-EG.png">  العربية</a></li>
+        <li><a class="dropdown-item" href="{$url}lang=th-TH"><img src="contrib/flags/th-TH.png">  ภาษาไทย</a></li>
+        <li><a class="dropdown-item" href="{$url}lang=ja-JP"><img src="contrib/flags/ja-JP.png">  日本語</a></li>
+        <li><a class="dropdown-item" href="{$url}lang=zh-CN"><img src="contrib/flags/zh-CN.png">  中文（简体）</a></li>
+        <li><a class="dropdown-item" href="{$url}lang=zh-TW"><img src="contrib/flags/zh-TW.png">  中文（繁體）</a></li>
+        <li><a class="dropdown-item" href="{$url}lang=qps-ploc"><img src="contrib/flags/qps-ploc.png">  [ !!! Ƥşḗŭḓǿ !!! ]</a></li>
+    </ul>
+</li>
 EOD;
 
 ?>

@@ -23,65 +23,66 @@ require_once 'shared/lang.php';
 require_once 'shared/utils.php';
 require_once 'shared/style.php';
 
-$out = @file_get_contents('dump.json');
-if(empty($out)) {
-    $out = array('products' => null);
-} else {
-    $out = json_decode($out, true);
+$config = get_config();
+
+if(is_file('dump.json')) {
+    $dump = json_decode(file_get_contents('dump.json'), true);
+    $ProdItem = $dump['ProdInfo'][$prodId];
+    if($config['autoupd'] && $config['php'] && time() - $dump['TechInfo']['LastCheckUpdateTime'] >= 3600) exec_background($config['php'], 'dump.php update');
 }
 
-$products = $out['products'];
-if(empty($products[$prodId]))
-{
-    $products = $s['unknownName'] .' ['.$s['idName'].': '.$prodId.']';
-} else {
-    $products = $products[$prodId];
-}
-if(strpos($products, 'Language Pack')) {
-    $s['langCodeMs'] = 'en-us';
-}
+$select = true;
+
+$ProductName = isset($ProdItem) ? $ProdItem['Name'] : $s['unknownName'];
+
+if(strpos($ProductName, 'Language Pack') !== false) $s['langCodeMs'] = 'en-us';
 
 $SessionID = SessionIDInit();
 $langsUrl = "https://www.microsoft.com/{$s['langCodeMs']}/api/controls/contentinclude/html?pageId=cd06bda8-ff9c-4a6e-912a-b92a21f42526&host=www.microsoft.com&segments=software-download%2cwindows11&query=&action=getskuinformationbyproductedition&sessionId=$SessionID&productEditionId=$prodId&sdVersion=2";
 $downUrl = "https://www.microsoft.com/{$s['langCodeMs']}/api/controls/contentinclude/html?pageId=cfa9e580-a81e-4a4b-a846-7b21bf4e2e5b&host=www.microsoft.com&segments=software-download%2Cwindows11&query=&action=GetProductDownloadLinksBySku&sessionId=$SessionID&sdVersion=2";
 
-if(preg_match('/Windows.*?Insider.?Preview/', $products)) {
-    $forceInsider = 1;
-}
+if(strpos($ProductName, 'Build')) $forceInsider = true;
 
-$top = '<h1>'.$s['tbDumpDownload']."</h1>\n";
-
-if($forceInsider) {
-    $top .= '<div class="alert alert-danger" style="margin-top: 1.5em">
-    <h4><span class="glyphicon glyphicon glyphicon-warning-sign" aria-hidden="true"></span> '.$s['warning'].'</h4>
-    <p>'.sprintf($s['insiderNotice'], 'https://www.microsoft.com/en-us/software-download/windowsinsiderpreviewiso').'</p>
-</div>
-';
-}
+$Notice = $forceInsider ? '<div class="alert alert-danger mt-4 pb-1">
+<h4><i class="bi bi-exclamation-triangle"></i> '.$s['warning'].'</h4>
+<p>'.sprintf($s['insiderNotice'], '<a class="link-underline link-underline-opacity-0" href="https://www.microsoft.com/en-us/software-download/windowsinsiderpreviewiso').'</p>
+</div>' : '';
 
 styleTop('downloads');
 
 echo <<<HTML
-$top
-
-<h3><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> $products</h3>
-
-<div id="msContent" style="display: none;">
-    <h4>
-        {$s['waitTitle']}    </h4>
-    <p>
-        {$s['waitLangText']}    </p>
+<div class="mt-5 mb-4">
+    <h1 class="fs-3">{$s['tbDumpDownload']}</h1>
 </div>
 
-<div id="msContent2" style="display: none;"></div>
+$Notice
 
-<noscript>
-    <h4>
-    {$s['warning']}    </h4>
-    <p>
-    {$s['jsRequired']}    </p>
-</noscript>
+<h3 class="fs-4">
+    <i class="bi bi-list-ul"></i>
+    $ProductName [{$s['idName']}: $prodId]
+</h3>
+<div class="row">
+    <div class="col">
+        <div id="msContent" class="mt-3" style="display: none;">
+            <h4 class="fs-5">
+                {$s['waitTitle']}    </h4>
+            <p>
+                {$s['waitLangText']}    </p>
+        </div>
 
+        <noscript>
+            <h4>
+            {$s['warning']}
+            </h4>
+            <p>
+            {$s['jsRequired']}
+            </p>
+        </noscript>
+    </div>
+    <div class="col">
+        <div id="msContent2" class="mt-2" style="display: none;"></div>
+    </div>
+</div>
 <script>
 var msContent = document.getElementById('msContent');
 var msContent2 = document.getElementById('msContent2');
@@ -111,7 +112,10 @@ xhr.onreadystatechange = function() {
         var prodLang = document.getElementById('product-languages');
         var submitSku = document.getElementById('submit-sku');
         var prodErr = document.getElementById('product-languages-error');
-        prodErr.style = "margin-top: 1em;";
+        var placeholder = prodLang.options[prodLang.selectedIndex].text;
+  
+        prodErr.classList.add("mt-3");
+        prodErr.classList.add("mb-2");
         prodErr.style.display = "block";
 
         document.getElementById('submit-sku').setAttribute(
@@ -120,19 +124,25 @@ xhr.onreadystatechange = function() {
         );
 
         prodLang.setAttribute("onChange", "updateVars()");
-        prodLang.classList.add("form-control");
-        prodLang.style = "margin-top: 0.5em;";
+        prodLang.classList.add("form-select");
 
         submitSku.classList.add("btn");
-        submitSku.classList.add("btn-block");
+        submitSku.classList.add("d-grid");
         submitSku.classList.add("btn-primary");
-        submitSku.style = "margin-top: 0.5rem;";
+        submitSku.classList.add("my-2");
 
+        $("select").select2({
+            theme: "bootstrap-5",
+            minimumResultsForSearch: Infinity,
+            placeholder: placeholder
+            });
         updateVars();
     }
 };
-xhr.open('GET', '$langsUrl');
-xhr.send();
+xhr.open('POST', '$langsUrl');
+xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded; charset=UTF-8");
+xhr.withCredentials = true;
+xhr.send('controlAttributeMapping=');
 
 function updateVars() {
     var id = document.getElementById('product-languages').value;
@@ -174,8 +184,7 @@ function getDownload() {
             for(i = 0; i < btn.length; i++) {
                 btn[i].innerHTML = btn[i].innerHTML.replace(
                     /.*(<span.*\/span>).*/i,
-                    "<span class=\"glyphicon glyphicon-download-alt\""+
-                    "aria-hidden=\"true\"></span> $1"
+                    "<i class=\"bi bi-download\"></i> $1"
                 );
 
                 btn[i].classList.add("btn");
@@ -207,13 +216,13 @@ function getDownload() {
     };
 
     xhr.open(
-        'GET',
+        'POST',
         '$downUrl&skuId=' + encodeURIComponent(id['id']) +
         "&language=" + encodeURIComponent(id['language'])
     );
-
-    xhr.withCredentials = true;
-    xhr.send();
+xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded; charset=UTF-8");
+xhr.withCredentials = true;
+xhr.send('controlAttributeMapping=');
 }
 </script>
 HTML;

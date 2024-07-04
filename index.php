@@ -16,130 +16,141 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+require_once 'shared/utils.php';
 require_once 'shared/lang.php';
 require_once 'shared/style.php';
 
-$out = @file_get_contents('dump.json');
-if(empty($out)) {
-    $out = array('genTime' => null, 'productNumber' => '?', 'products' => null);
+$config = get_config();
+
+if(is_file('dump.json')) {
+    $dump = json_decode(file_get_contents('dump.json'), true);
+    $ProductNumber = count($dump['ProdInfo']);
+    $LastUpdateTime = date("Y-m-d H:i:s T", $dump['TechInfo']['LastUpdateTime']);
+    if($config['autoupd'] && $config['php'] && time() - $dump['TechInfo']['LastCheckUpdateTime'] >= 3600) exec_background($config['php'], 'dump.php update');
 } else {
-    $out = json_decode($out, true);
+    $LastUpdateTime = '';
+    $ProductNumber = 0;
 }
 
 styleTop('home');
 
-$genTime = date("Y-m-d H:i:s T", $out['genTime']);
-
 echo <<<HTML
-<h1>{$s['tbDump']} <span class="badge">v$websiteVersion</span></h1>
-
-
-<div class="alert alert-info" style="margin-top: 1.5em">
-    <h4><span class="glyphicon glyphicon-dashboard" aria-hidden="true"></span> {$s['techInfo']}</h4>
-    <p> {$s['lastUpdate']}: <b> $genTime</b><br>
-     {$s['productsNumber']}: <b>{$out['productNumber']}</b></p>
+<div class="my-5 text-center">
+    <h1 class="fw-bold">{$s['tbDump']} 
+        <span class="badge rounded-pill bg-primary position-absolute">v$websiteVersion</span>
+    </h1>
 </div>
 
-<div class="well">
-    <form action="./products.php">
-        <div class="input-group">
-            <input type="text" class="form-control input-lg" name="search" placeholder="{$s['searchBar']}">
-            <span class="input-group-btn">
-                <button type="submit" class="btn btn-primary btn-lg">
-                    <span class="glyphicon glyphicon-search"></span>
-                </button>
-            </span>
-        </div>
-        <div class="row" style="margin-top: 0.5em;">
-            <div class="col-md-12">
-                <label class="radio-inline">
-                    <input type="radio" name="prod" value="all" checked>{$s['allProd']}</label>
-            </div>
-            <div class="col-md-3">
-                <label class="radio-inline">
-                    <input type="radio" name="prod" value="win81">{$s['win81']}</label>
-            </div>
-            <div class="col-md-3">
-                <label class="radio-inline">
-                    <input type="radio" name="prod" value="win10">{$s['win10']}</label>
-            </div>
-            <div class="col-md-3">
-                <label class="radio-inline">
-                    <input type="radio" name="prod" value="win11">{$s['win11']}</label>
-            </div>
-            <div class="col-md-3">
-                <label class="radio-inline">
-                    <input type="radio" name="prod" value="winsrvip">{$s['winsrvip']}</label>
-            </div>
-        </div>
-    </form>
+<div class="alert alert-info mt-4">
+    <h4><i class="bi bi-info"></i> {$s['techInfo']}</h4>
+    <p class="mb-0"> {$s['lastUpdate']}: <b> $LastUpdateTime</b><br>
+    {$s['productsNumber']}: <b>$ProductNumber</b></p>
 </div>
 
-<div class="row" style="margin-top: -1.25em;">
-    <div class="col-md-6 prod-btn"><a class="btn btn-primary btn-lg btn-block" href="./products.php?prod=win81">
-        <div class="prod-btn-title">{$s['win81']}</div>
-        <div class="prod-btn-desc">{$s['win81_desc']}</div>
-    </a></div>
-    <div class="col-md-6 prod-btn">
-        <button class="btn btn-primary btn-block btn-lg dropdown-toggle dropd-toggle-btn" data-toggle="dropdown">
+<div class="card text-bg-light border-light">
+    <div class="card-body pb-1">
+        <form action="./products.php">
+            <div class="input-group">
+                <input type="text" class="form-control input-lg" name="search" placeholder="{$s['searchBar']}">
+                <span class="input-group-btn">
+                    <button type="submit" class="btn btn-primary btn-lg">
+                        <i class="bi bi-search"></i>
+                    </button>
+                </span>
+            </div>
+            <div class="row mt-2 ms-1">
+                <div class="form-check col-me">
+                    <input class="form-check-input" type="radio" name="prod" id="Radio" value="all" checked>
+                    <label class="form-check-label text-nowrap" for="Radio">{$s['allProd']}</label>
+                </div>
+                <div class="form-check form-check-inline col-md">
+                    <input class="form-check-input" type="radio" name="prod" id="inlineRadio1" value="win81">
+                    <label class="form-check-label text-nowrap" for="inlineRadio1">{$s['win81']}</label>
+                </div>
+                <div class="form-check form-check-inline col-md">
+                    <input class="form-check-input" type="radio" name="prod" id="inlineRadio2" value="win10">
+                    <label class="form-check-label text-nowrap" for="inlineRadio2">{$s['win10']}</label>
+                </div>
+                <div class="form-check form-check-inline col-md">
+                    <input class="form-check-input" type="radio" name="prod" id="inlineRadio3" value="win11">
+                    <label class="form-check-label text-nowrap" for="inlineRadio3">{$s['win11']}</label>
+                </div>
+                <div class="form-check form-check-inline col-md">
+                    <input class="form-check-input" type="radio" name="prod" id="inlineRadio4" value="winsrvip">
+                    <label class="form-check-label text-nowrap" for="inlineRadio4">{$s['winsrvip']}</label>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md prod-btn mt-3 btn-group">
+        <a class="btn btn-lg btn-info" href="./products.php?prod=win81">
+            <div class="prod-btn-title">{$s['win81']}</div>
+            <div class="prod-btn-desc text-opacity-75">{$s['win81_desc']}</div>
+        </a>
+    </div>
+    <div class="col-md prod-btn mt-3 btn-group">
+        <button type="button" class="btn btn-lg btn-info dropdown-toggle dropd-toggle-btn" data-bs-toggle="dropdown" aria-expanded="false">
             <div class="prod-btn-title">{$s['win10']}</div>
-            <div class="prod-btn-desc">{$s['win10_desc']}</div>
-            <span class="caret dropd-icon"></span>
+            <div class="prod-btn-desc text-opacity-75">{$s['win10_desc']}</div>
         </button>
-        <ul class="dropdown-menu dropd-menu-right">
-            <li><a href="./products.php?prod=win10">{$s['win10']}</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="./products.php?prod=win10th1">{$s['win10th1']}</a></li>
-            <li><a href="./products.php?prod=win10th2">{$s['win10th2']}</a></li>
-            <li><a href="./products.php?prod=win10rs1">{$s['win10rs1']}</a></li> <!-- Windows 10 Redmond 1 -->
-            <li><a href="./products.php?prod=win10rs2">{$s['win10rs2']}</a></li> <!-- Windows 10 Redmond 2 -->
-            <li><a href="./products.php?prod=win10rs3">{$s['win10rs3']}</a></li> <!-- Windows 10 Redmond 3 -->
-            <li><a href="./products.php?prod=win10rs4">{$s['win10rs4']}</a></li> <!-- Windows 10 Redmond 4 -->
-            <li><a href="./products.php?prod=win10rs5">{$s['win10rs5']}</a></li> <!-- Windows 10 Redmond 5 -->
-            <li><a href="./products.php?prod=win10rs6">{$s['win10rs6']}</a></li> <!-- Windows 10 Redmond 6 -->
-            <li><a href="./products.php?prod=win10_19h2">{$s['win10_19h2']}</a></li> <!-- Windows 10 Scam Edition -->
-            <li><a href="./products.php?prod=win10vb">{$s['win10vb']}</a></li>
-            <li><a href="./products.php?prod=win10_20h2">{$s['win10_20h2']}</a></li>
-            <li><a href="./products.php?prod=win10_21h1">{$s['win10_21h1']}</a></li>
-            <li><a href="./products.php?prod=win10_21h2">{$s['win10_21h2']}</a></li>
-            <li><a href="./products.php?prod=win10_22h2">{$s['win10_22h2']}</a></li>
-            <li><a href="./products.php?prod=win10ip">{$s['win10ip']}</a></li>
+        <ul class="dropdown-menu dropdown-menu-end">
+          <li><a class="dropdown-item" href="./products.php?prod=win10">{$s['win10']}</a></li>
+          <li role="separator" class="dropdown-divider"></li>
+          <li><a class="dropdown-item" href="./products.php?prod=win10th1">{$s['win10th1']}</a></li>
+          <li><a class="dropdown-item" href="./products.php?prod=win10th2">{$s['win10th2']}</a></li>
+          <li><a class="dropdown-item" href="./products.php?prod=win10rs1">{$s['win10rs1']}</a></li>
+          <li><a class="dropdown-item" href="./products.php?prod=win10rs2">{$s['win10rs2']}</a></li>
+          <li><a class="dropdown-item" href="./products.php?prod=win10rs3">{$s['win10rs3']}</a></li>
+          <li><a class="dropdown-item" href="./products.php?prod=win10rs4">{$s['win10rs4']}</a></li>
+          <li><a class="dropdown-item" href="./products.php?prod=win10rs5">{$s['win10rs5']}</a></li>
+          <li><a class="dropdown-item" href="./products.php?prod=win10rs6">{$s['win10rs6']}</a></li>
+          <li><a class="dropdown-item" href="./products.php?prod=win1019h2">{$s['win10_19h2']}</a></li>
+          <li><a class="dropdown-item" href="./products.php?prod=win10vb">{$s['win10vb']}</a></li>
+          <li><a class="dropdown-item" href="./products.php?prod=win1020h2">{$s['win10_20h2']}</a></li>
+          <li><a class="dropdown-item" href="./products.php?prod=win1021h1">{$s['win10_21h1']}</a></li>
+          <li><a class="dropdown-item" href="./products.php?prod=win1021h2">{$s['win10_21h2']}</a></li>
+          <li><a class="dropdown-item" href="./products.php?prod=win1022h2">{$s['win10_22h2']}</a></li>
+          <li><a class="dropdown-item" href="./products.php?prod=win10ip">{$s['win10ip']}</a></li>
         </ul>
     </div>
 </div>
 
 <div class="row">
-    <div class="col-md-6 prod-btn">
-        <button class="btn btn-primary btn-block btn-lg dropdown-toggle dropd-toggle-btn" data-toggle="dropdown">
+    <div class="col-md prod-btn mt-3 btn-group">
+        <button type="button" class="btn btn-lg btn-info dropdown-toggle dropd-toggle-btn" data-bs-toggle="dropdown" aria-expanded="false">
             <div class="prod-btn-title">{$s['win11']}</div>
-            <div class="prod-btn-desc">{$s['win11_desc']}</div>
-            <span class="caret dropd-icon"></span>
+            <div class="prod-btn-desc text-opacity-75">{$s['win11_desc']}</div>
         </button>
-        <ul class="dropdown-menu dropd-menu-right">
-            <li><a href="./products.php?prod=win11">{$s['win11']}</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="./products.php?prod=win11co">{$s['win11co']}</a></li>
-            <li><a href="./products.php?prod=win11ni">{$s['win11ni']}</a></li>
-            <li><a href="./products.php?prod=win11_23h2">{$s['win11_23h2']}</a></li>
-            <li><a href="./products.php?prod=win11ip">{$s['win11ip']}</a></li>
-        </ul>
+           <ul class="dropdown-menu dropdown-menu-end">
+              <li><a class="dropdown-item" href="./products.php?prod=win11">{$s['win11']}</a></li>
+              <li role="separator" class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="./products.php?prod=win11co">{$s['win11co']}</a></li>
+              <li><a class="dropdown-item" href="./products.php?prod=win11ni">{$s['win11ni']}</a></li>
+              <li><a class="dropdown-item" href="./products.php?prod=win11_23h2">{$s['win11_23h2']}</a></li>
+              <li><a class="dropdown-item" href="./products.php?prod=win11ip">{$s['win11ip']}</a></li>
+          </ul>
     </div>
-    <div class="col-md-6 prod-btn"><a class="btn btn-primary btn-lg btn-block" href="./products.php?prod=winsrvip">
-        <div class="prod-btn-title">{$s['winsrvip']}</div>
-        <div class="prod-btn-desc">{$s['winsrvip_desc']}</div>
-    </a></div>
+    <div class="col-md prod-btn mt-3 btn-group">
+        <a class="btn btn-lg btn-info" href="./products.php?prod=winsrvip">
+            <div class="prod-btn-title">{$s['winsrvip']}</div>
+            <div class="prod-btn-desc text-opacity-75">{$s['winsrvip_desc']}</div>
+        </a>
+    </div>
 </div>
 
-<hr>
+<hr class="mb-0">
 
-<div class="row" style="margin-top: -1.25em;">
-    <div class="col-md-6 prod-btn"><a class="btn btn-default btn-lg btn-block" href="./products.php?prod=all">
+<div class="row">
+    <div class="col-md prod-btn mt-3 btn-group"><a class="btn btn-outline-dark btn-lg" href="./products.php?prod=all">
         <div class="prod-btn-title">{$s['allProd']}</div>
-        <div class="prod-btn-desc">{$s['allProd_desc']}</div>
+        <div class="prod-btn-desc text-opacity-75">{$s['allProd_desc']}</div>
     </a></div>
-    <div class="col-md-6 prod-btn"><a class="btn btn-default btn-lg btn-block" href="./products.php?prod=other">
+    <div class="col-md prod-btn mt-3 btn-group"><a class="btn btn-outline-dark btn-lg" href="./products.php?prod=other">
         <div class="prod-btn-title">{$s['otherProd']}</div>
-        <div class="prod-btn-desc">{$s['otherProd_desc']}</div>
+        <div class="prod-btn-desc text-opacity-75">{$s['otherProd_desc']}</div>
     </a></div>
 </div>
 HTML;?>

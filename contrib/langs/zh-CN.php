@@ -37,7 +37,7 @@ $s['linkNotChecked']         = '此网站 <b>不会</b> 检查文件是否存在
 $s['footerNotice']           = '© %d <abbr title="TechBench dump 网站">TBDW</abbr> %s。';
 $s['copyright']              = 'Copyright %d <abbr title="TechBench dump 网站">TBDW</abbr> %s';
 $s['contributors']           = '作者和贡献者们';
-$s['insiderNotice']          = '你已选择下载 Windows Insider 产品。获取下载链接前，请确保你已在 <b><a href="%s">Windows Insider 页面</a></b> 登录。<br>为了在向 Microsoft 发送请求时能正确附带你的登录信息，请不要将浏览器跟踪防护设置为严格，不要禁用第三方 Cookie。';
+$s['insiderNotice']          = '你已选择下载 Windows Insider 产品。获取下载链接前，请确保你已在 <b>%s">Windows Insider 页面</a></b> 登录。<br>为了在向 Microsoft 发送请求时能正确附带你的登录信息，请不要将浏览器跟踪防护设置为严格，不要禁用第三方 Cookie。';
 
 // About page
 $s['aboutPageTitle']         = '关于此页面';
@@ -98,4 +98,14 @@ $s['waitTitle'] = '请稍候……';
 $s['waitLangText'] = '正在检索可用语言的列表，请稍候……';
 $s['waitDlText'] = '正在获取下载链接，请稍候……';
 $s['jsRequired'] = '此页面需要使用 JavaScript 与 Microsoft 服务器进行通信。';
+$s['currentProd'] = '当前产品';
+$s['Name'] = '名称';
+$s['Validity'] = '有效性';
+$s['Valid'] = '有效';
+$s['Invalid'] = '无效';
+$s['Unknown'] = '未知';
+$s['Arch'] = '体系结构';
+$s['status'] = '状态：';
+$s['checking'] = '正在检查更新';
+$s['error'] = '错误';
 ?>

@@ -15,48 +15,21 @@ limitations under the License.
 */
 
 body {
-  font-family: "Segoe UI", "Microsoft YaHei" ,"Helvetica Neue", Helvetica, Arial, sans-serif;
-  padding-top: 50px;
-}
-
-.content {
-  padding: 30px 15px;
-}
-
-.prod-btn {
-  margin-top: 18px;
+  font-size: 14px!important;
+  line-height: 1.42857143;
 }
 
 .prod-btn-title {
   text-align: left;
-  white-space: normal;
 }
 
 .prod-btn-desc {
   text-align: left;
-  font-size: 65%;
-  opacity: 0.75;
-  white-space: normal;
+  font-size: .85rem;
 }
 
-.dropd-menu-right {
-  right: 15px;
-  left: auto;
-}
-
-.dropd-toggle-btn {
-  padding-right: 38px;
-}
-
-.dropd-icon {
-  position: absolute;
-  bottom: 0px;
-  right: 30px;
-  height: 50%;
-}
-
-#msContent, #msContent2, #fileDownload {
-    margin-top: 2rem;
+#fileDownload {
+    margin-top: .5rem;
 }
 
 #msContent2 .CSPvNext .span,
@@ -65,7 +38,7 @@ body {
 }
 
 .CSPvNext h2 {
-  font-size: 18px;
+  font-size: 1.3rem;
   margin-top: 1rem;
 }
 
@@ -74,11 +47,45 @@ body {
 }
 
 .CSPvNext .row-fluid,
+.CSPvNext #pk-language-validation,
 .CSPvNext #product-languages {
   width: 100%;
 }
 
-.notice {
-  text-align: center;
+.btn-lg.dropd-toggle-btn::after {
+  position: absolute;
+  bottom: 0;
+  right: 2rem;
+  height: 54%;
 }
 
+.badge {
+  --bs-badge-font-size: .75rem;
+}
+
+@media (min-width: 992px) {
+.container, .container-lg, .container-md, .container-sm {
+    width: 80%;
+}
+}
+
+.btn-outline-dark {
+  --bs-btn-hover-color: #212529;
+  --bs-btn-hover-bg: #ccc;
+}
+
+.navbar {
+  --bs-navbar-color: rgba(var(--bs-emphasis-color-rgb), 0.55);
+}
+
+:root, [data-bs-theme=light]{
+  --bs-link-color-rgb: 86, 60, 185;
+}
+
+.table {
+  --bs-table-striped-bg: rgba(var(--bs-emphasis-color-rgb), 0.025);
+}
+
+h1 {
+    margin-right: 5rem;
+}

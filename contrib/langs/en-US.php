@@ -36,7 +36,7 @@ $s['linkNotChecked']         = 'This website <b>does not</b> check if file exist
 $s['footerNotice']           = '© %d <abbr title="TechBench dump website">TBDW</abbr> %s.';
 $s['copyright']              = 'Copyright %d <abbr title="TechBench dump website">TBDW</abbr> %s';
 $s['contributors']           = 'authors and contributors';
-$s['insiderNotice']          = 'You have choosen to download Windows Insider product. To be able to successfully retrieve download links you need to be logged on <b><a href="%s">Windows Insider page</a></b>.<br>In order to properly include your sign-in information when sending requests to Microsoft, do not set tracking prevention to strict and do not disable third-party cookies.';
+$s['insiderNotice']          = 'You have choosen to download Windows Insider product. To be able to successfully retrieve download links you need to be logged on <b>%s">Windows Insider page</a></b>.<br>In order to properly include your sign-in information when sending requests to Microsoft, do not set tracking prevention to strict and do not disable third-party cookies.';
 
 // About page
 $s['aboutPageTitle']         = 'About this page';
@@ -98,4 +98,14 @@ $s['waitLangText']           = 'Please wait while we are retrieving a list of av
 $s['waitDlText']             = 'Please wait while we are retrieving downloads...';
 $s['jsRequired']             = 'This page requires JavaScript working to communicate with Microsoft servers.';
 $s['fileReady']              = 'File is ready to download';
+$s['currentProd'] = 'Current Product';
+$s['Name'] = 'Name';
+$s['Validity'] = 'Validity';
+$s['Valid'] = 'Valid';
+$s['Invalid'] = 'Invalid';
+$s['Unknown'] = 'Unknown';
+$s['Arch'] = 'Arch';
+$s['status'] = 'Status: ';
+$s['checking'] = 'Checking for updates...';
+$s['error'] = 'Error';
 ?>
