@@ -66,6 +66,7 @@ $s['win10_22h2']             = 'Windows 10 22H2';
 $s['win11co']                = 'Windows 11 Cobalt';
 $s['win11ni']                = 'Windows 11 Nickel';
 $s['win11_23h2']             = 'Windows 11 23H2';
+$s['win11ge']                = 'Windows 11 Germanium';
 $s['win10ip']                = 'Windows 10 Insider Preview';
 $s['win11ip']                = 'Windows 11 Insider Preview';
 $s['winsrvip']               = 'Windows Server Insider Preview';
@@ -81,10 +82,14 @@ $s['win10_desc']             = 'これまでに存在した最も論争の多い
 $s['allProd_desc']           = 'すべてのカテゴリのすべての商品を1つのリストに表示する';
 $s['otherProd_desc']         = '上記に該当しない商品';
 
-// Other strings
+// Download page
 $s['unknownName']            = '不明な製品名';
 $s['idName']                 = 'ID';
 $s['archx64']                = '64-bit';
 $s['archx86']                = '32-bit';
 $s['downloadName']           = 'ダウンロード';
+
+// Products page
+
+// Update page
 ?>

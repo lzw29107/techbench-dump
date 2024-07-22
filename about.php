@@ -39,6 +39,7 @@ echo <<<HTML
 
 <h3 class="fs-4"><i class="bi bi-hand-thumbs-up fs-5"></i> {$s['aboutThanksTitle']}</h3>
 <p>{$s['aboutThanksContent']}</p>
+<p><i class="bi bi-github fs-6"></i><a class="link-underline link-underline-opacity-0 fs-5" href="https://github.com/lzw29107/techbench-dump"> GitHub repository</a></p>
 
 <h3 class="fs-4"><i class="bi bi-globe fs-5"></i> {$s['aboutTranslationsTitle']}</h3>
 <table class="table table-striped">

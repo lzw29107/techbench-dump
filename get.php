@@ -23,27 +23,26 @@ require_once 'shared/lang.php';
 require_once 'shared/utils.php';
 require_once 'shared/style.php';
 
-$config = get_config();
+$config = getConfig();
 
 if(is_file('dump.json')) {
     $dump = json_decode(file_get_contents('dump.json'), true);
-    $ProdItem = $dump['ProdInfo'][$prodId];
-    if($config['autoupd'] && $config['php'] && time() - $dump['TechInfo']['LastCheckUpdateTime'] >= 3600) exec_background($config['php'], 'dump.php update');
+    $prodItem = $dump['ProdInfo'][$prodId];
+    if($config['autoupd'] && $config['php'] && time() - $dump['TechInfo']['LastCheckUpdateTime'] >= 3600) execBackground($config['php'], 'dump.php update');
 }
 
 $select = true;
 
-$ProductName = isset($ProdItem) ? $ProdItem['Name'] : $s['unknownName'];
+$productName = isset($prodItem) ? $prodItem['Name'] : $s['unknownName'];
 
-if(strpos($ProductName, 'Language Pack') !== false) $s['langCodeMs'] = 'en-us';
+if(strpos($productName, 'Language Pack') !== false) $s['langCodeMs'] = 'en-us';
+if(strpos($productName, 'Build')) $forceInsider = true;
 
-$SessionID = SessionIDInit();
-$langsUrl = "https://www.microsoft.com/{$s['langCodeMs']}/api/controls/contentinclude/html?pageId=cd06bda8-ff9c-4a6e-912a-b92a21f42526&host=www.microsoft.com&segments=software-download%2cwindows11&query=&action=getskuinformationbyproductedition&sessionId=$SessionID&productEditionId=$prodId&sdVersion=2";
-$downUrl = "https://www.microsoft.com/{$s['langCodeMs']}/api/controls/contentinclude/html?pageId=cfa9e580-a81e-4a4b-a846-7b21bf4e2e5b&host=www.microsoft.com&segments=software-download%2Cwindows11&query=&action=GetProductDownloadLinksBySku&sessionId=$SessionID&sdVersion=2";
+$sessionId = genSessionId();
+$langsUrl = "https://www.microsoft.com/{$s['langCodeMs']}/api/controls/contentinclude/html?pageId=cd06bda8-ff9c-4a6e-912a-b92a21f42526&host=www.microsoft.com&segments=software-download%2cwindows11&query=&action=getskuinformationbyproductedition&sessionId=$sessionId&productEditionId=$prodId&sdVersion=2";
+$downUrl = "https://www.microsoft.com/{$s['langCodeMs']}/api/controls/contentinclude/html?pageId=cfa9e580-a81e-4a4b-a846-7b21bf4e2e5b&host=www.microsoft.com&segments=software-download%2Cwindows11&query=&action=GetProductDownloadLinksBySku&sessionId=$sessionId&sdVersion=2";
 
-if(strpos($ProductName, 'Build')) $forceInsider = true;
-
-$Notice = $forceInsider ? '<div class="alert alert-danger mt-4 pb-1">
+$notice = $forceInsider ? '<div class="alert alert-danger mt-4 pb-1">
 <h4><i class="bi bi-exclamation-triangle"></i> '.$s['warning'].'</h4>
 <p>'.sprintf($s['insiderNotice'], '<a class="link-underline link-underline-opacity-0" href="https://www.microsoft.com/en-us/software-download/windowsinsiderpreviewiso').'</p>
 </div>' : '';
@@ -55,11 +54,11 @@ echo <<<HTML
     <h1 class="fs-3">{$s['tbDumpDownload']}</h1>
 </div>
 
-$Notice
+$notice
 
 <h3 class="fs-4">
     <i class="bi bi-list-ul"></i>
-    $ProductName [{$s['idName']}: $prodId]
+    $productName [{$s['idName']}: $prodId]
 </h3>
 <div class="row">
     <div class="col">

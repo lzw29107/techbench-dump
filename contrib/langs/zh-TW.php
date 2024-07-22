@@ -50,6 +50,7 @@ $s['aboutLicenseTitle']      = '授權';
 $s['win7']                   = 'Windows 7';
 $s['win81']                  = 'Windows 8.1';
 $s['win10']                  = 'Windows 10';
+$s['win11']                  = 'Windows 11';
 $s['win10th1']               = 'Windows 10 Threshold 1';
 $s['win10th2']               = 'Windows 10 Threshold 2';
 $s['win10rs1']               = 'Windows 10 Redstone 1';
@@ -67,8 +68,10 @@ $s['win10_22h2']             = 'Windows 10 22H2';
 $s['win11co']                = 'Windows 11 Cobalt';
 $s['win11ni']                = 'Windows 11 Nickel';
 $s['win11_23h2']             = 'Windows 11 23H2';
+$s['win11ge']                = 'Windows 11 Germanium';
 $s['win10ip']                = 'Windows 10 Insider Preview';
 $s['win11ip']                = 'Windows 11 Insider Preview';
+$s['winsrvip']               = 'Windows Server Insider Preview';
 $s['office2007']             = 'Office 2007';
 $s['office2010']             = 'Office 2010';
 $s['office2011']             = 'Office 2011 for Mac';
@@ -81,10 +84,14 @@ $s['win10_desc']             = '有史以來最具爭論的 Windows';
 $s['allProd_desc']           = '在一個清單中顯示所有類別的所有產品';
 $s['otherProd_desc']         = '不符合上述任何類別的產品';
 
-// Other strings
+// Download page
 $s['unknownName']            = '未知的產品名稱';
 $s['idName']                 = 'ID';
 $s['archx64']                = '64 位元';
 $s['archx86']                = '32 位元';
 $s['downloadName']           = '下載';
+
+// Products page
+
+// Update page
 ?>

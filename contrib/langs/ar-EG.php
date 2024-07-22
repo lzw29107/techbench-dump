@@ -64,6 +64,7 @@ $s['win10_22h2']             = '22H2 ويندوز 10';
 $s['win11co']                = 'ويندوز 11 Cobalt';
 $s['win11ni']                = 'ويندوز 11 Nickel';
 $s['win11_23h2']             = '23H2 ويندوز 11';
+$s['win11ge']                = 'ويندوز 11 Germanium';
 $s['win10ip']                = 'ويندوز 10 Insider Preview';
 $s['win11ip']                = 'ويندوز 11 Insider Preview';
 $s['office2007']             = 'اوفيس 2007';
@@ -78,10 +79,14 @@ $s['win10_desc']             = 'اكثر ويندوز مثير للجدل';
 $s['allProd_desc']           = 'عرض جميع المنتجات من جميع الفئات في قائمة واحدة';
 $s['otherProd_desc']         = 'المنتجات التي لا تتطابق مع أي فئة أعلاه';
 
-// Other strings
+// Download page
 $s['unknownName']            = 'اسم منتج غير معروف';
 $s['idName']                 = 'ID';
 $s['archx64']                = '64-بيت';
 $s['archx86']                = '32-بيت';
 $s['downloadName']           = 'تحميل';
+
+// Products page
+
+// Update page
 ?>

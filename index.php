@@ -20,16 +20,16 @@ require_once 'shared/utils.php';
 require_once 'shared/lang.php';
 require_once 'shared/style.php';
 
-$config = get_config();
+$config = getConfig();
 
 if(is_file('dump.json')) {
     $dump = json_decode(file_get_contents('dump.json'), true);
-    $ProductNumber = count($dump['ProdInfo']);
-    $LastUpdateTime = date("Y-m-d H:i:s T", $dump['TechInfo']['LastUpdateTime']);
-    if($config['autoupd'] && $config['php'] && time() - $dump['TechInfo']['LastCheckUpdateTime'] >= 3600) exec_background($config['php'], 'dump.php update');
+    $productNumber = count($dump['ProdInfo']);
+    $lastUpdateTime = date("Y-m-d H:i:s T", $dump['TechInfo']['LastUpdateTime']);
+    if($config['autoupd'] && $config['php'] && time() - $dump['TechInfo']['LastCheckUpdateTime'] >= 3600) execBackground($config['php'], 'dump.php update');
 } else {
-    $LastUpdateTime = '';
-    $ProductNumber = 0;
+    $lastUpdateTime = '';
+    $productNumber = 0;
 }
 
 styleTop('home');
@@ -43,20 +43,18 @@ echo <<<HTML
 
 <div class="alert alert-info mt-4">
     <h4><i class="bi bi-info"></i> {$s['techInfo']}</h4>
-    <p class="mb-0"> {$s['lastUpdate']}: <b> $LastUpdateTime</b><br>
-    {$s['productsNumber']}: <b>$ProductNumber</b></p>
+    <p class="mb-0"> {$s['lastUpdate']}: <b> $lastUpdateTime</b><br>
+    {$s['productsNumber']}: <b>$productNumber</b></p>
 </div>
 
-<div class="card text-bg-light border-light">
+<div class="card text-bg">
     <div class="card-body pb-1">
         <form action="./products.php">
             <div class="input-group">
                 <input type="text" class="form-control input-lg" name="search" placeholder="{$s['searchBar']}">
-                <span class="input-group-btn">
-                    <button type="submit" class="btn btn-primary btn-lg">
-                        <i class="bi bi-search"></i>
-                    </button>
-                </span>
+                <button type="submit" class="btn btn-primary btn-lg">
+                    <i class="bi bi-search"></i>
+                </button>
             </div>
             <div class="row mt-2 ms-1">
                 <div class="form-check col-me">
@@ -130,6 +128,7 @@ echo <<<HTML
               <li><a class="dropdown-item" href="./products.php?prod=win11co">{$s['win11co']}</a></li>
               <li><a class="dropdown-item" href="./products.php?prod=win11ni">{$s['win11ni']}</a></li>
               <li><a class="dropdown-item" href="./products.php?prod=win11_23h2">{$s['win11_23h2']}</a></li>
+              <li><a class="dropdown-item" href="./products.php?prod=win11ge">{$s['win11ge']}</a></li>
               <li><a class="dropdown-item" href="./products.php?prod=win11ip">{$s['win11ip']}</a></li>
           </ul>
     </div>
@@ -144,11 +143,11 @@ echo <<<HTML
 <hr class="mb-0">
 
 <div class="row">
-    <div class="col-md prod-btn mt-3 btn-group"><a class="btn btn-outline-dark btn-lg" href="./products.php?prod=all">
+    <div class="col-md prod-btn mt-3 btn-group"><a class="btn btn-other btn-lg" href="./products.php?prod=all">
         <div class="prod-btn-title">{$s['allProd']}</div>
         <div class="prod-btn-desc text-opacity-75">{$s['allProd_desc']}</div>
     </a></div>
-    <div class="col-md prod-btn mt-3 btn-group"><a class="btn btn-outline-dark btn-lg" href="./products.php?prod=other">
+    <div class="col-md prod-btn mt-3 btn-group"><a class="btn btn-other btn-lg" href="./products.php?prod=other">
         <div class="prod-btn-title">{$s['otherProd']}</div>
         <div class="prod-btn-desc text-opacity-75">{$s['otherProd_desc']}</div>
     </a></div>

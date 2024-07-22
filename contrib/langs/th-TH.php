@@ -66,13 +66,13 @@ $s['win10_22h2']             = 'Windows 10 22H2';
 $s['win11co']                = 'Windows 11 Cobalt';
 $s['win11ni']                = 'Windows 11 Nickel';
 $s['win11_23h2']             = 'Windows 11 23H2';
+$s['win11ge']                = 'Windows 11 Germanium';
 $s['win10ip']                = 'Windows 10 Insider Preview';
 $s['win11ip']                = 'Windows 11 Insider Preview';
 $s['winsrvip']               = 'Windows Server Insider Preview';
 $s['office2007']             = 'Office 2007';
 $s['office2010']             = 'Office 2010';
 $s['office2011']             = 'Office 2011 for Mac';
-
 $s['allProd']                = 'สินค้าทั้งหมด';
 $s['otherProd']              = 'ผลิตภัณฑ์อื่น';
 
@@ -82,10 +82,14 @@ $s['win10_desc']             = 'The most controversial Windows ever';
 $s['allProd_desc']           = 'แสดงสินค้าทั้งหมดจากทุกประเภทในรายการเดียว';
 $s['otherProd_desc']         = 'ผลิตภัณฑ์ที่ไม่ตรงกับหมวดหมู่ใด ๆ ดังกล่าวข้างต้น';
 
-// Other strings
+// Download page
 $s['unknownName']            = 'ชื่อผลิตภัณฑ์ที่ไม่รู้จัก';
 $s['idName']                 = 'ID';
 $s['archx64']                = '64-bit';
 $s['archx86']                = '32-bit';
 $s['downloadName']           = 'ดาวน์โหลด';
+
+// Products page
+
+// Update page
 ?>

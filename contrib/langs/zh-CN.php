@@ -14,7 +14,6 @@ $s['tbDump']                 = 'TechBench dump';
 $s['tbDumpDownload']         = 'TechBench 下载';
 $s['homePage']               = '主页';
 $s['downloads']              = '下载';
-$s['moreMenu']               = '更多';
 $s['aboutPage']              = '关于';
 
 // Main strings
@@ -71,6 +70,7 @@ $s['win10_22h2']             = 'Windows 10 22H2';
 $s['win11co']                = 'Windows 11 Cobalt';
 $s['win11ni']                = 'Windows 11 Nickel';
 $s['win11_23h2']             = 'Windows 11 23H2';
+$s['win11ge']                = 'Windows 11 Germanium';
 $s['win10ip']                = 'Windows 10 Insider Preview';
 $s['win11ip']                = 'Windows 11 Insider Preview';
 $s['winsrvip']               = 'Windows Server Insider Preview';
@@ -88,24 +88,27 @@ $s['winsrvip_desc']          = 'Windows Server 的预览版本';
 $s['allProd_desc']           = '在单个列表中显示所有类别的所有产品';
 $s['otherProd_desc']         = '与上述任何类别均不符的产品';
 
-// Other strings
+// Download page
 $s['unknownName']            = '未知产品名称';
 $s['idName']                 = 'ID';
 $s['archx64']                = '64 位';
 $s['archx86']                = '32 位';
 $s['downloadName']           = '下载';
-$s['waitTitle'] = '请稍候……';
-$s['waitLangText'] = '正在检索可用语言的列表，请稍候……';
-$s['waitDlText'] = '正在获取下载链接，请稍候……';
-$s['jsRequired'] = '此页面需要使用 JavaScript 与 Microsoft 服务器进行通信。';
-$s['currentProd'] = '当前产品';
-$s['Name'] = '名称';
-$s['Validity'] = '有效性';
-$s['Valid'] = '有效';
-$s['Invalid'] = '无效';
-$s['Unknown'] = '未知';
-$s['Arch'] = '体系结构';
-$s['status'] = '状态：';
-$s['checking'] = '正在检查更新';
-$s['error'] = '错误';
+$s['waitTitle']              = '请稍候……';
+$s['waitLangText']           = '正在检索可用语言的列表，请稍候……';
+$s['waitDlText']             = '正在获取下载链接，请稍候……';
+$s['jsRequired']             = '此页面需要使用 JavaScript 与 Microsoft 服务器进行通信。';
+
+// Products page
+$s['currentProd']            = '当前产品';
+$s['name']                   = '名称';
+$s['available']              = '可用';
+$s['unavailable']            = '不可用';
+$s['unknown']                = '未知';
+$s['arch']                   = '体系结构';
+$s['status']                 = '状态';
+
+// Update page
+$s['checking']               = '正在检查更新…';
+$s['error']                  = '错误';
 ?>

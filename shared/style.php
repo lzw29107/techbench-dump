@@ -16,9 +16,42 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-$websiteVersion = '3.0.0-alpha';
+$websiteVersion = '3.0.0-preview.0';
 function styleTop($pageType = 'home') {
     global $s, $langCore_menu, $select;
+
+
+    $theme = 'auto';
+    if(isset($_COOKIE['theme'])) {
+        switch($_COOKIE['theme']) {
+            case 'light':
+                $theme = 'light';
+                break;
+
+            case 'dark':
+                $theme = 'dark';
+                break;
+
+            default:
+                $theme = 'auto';
+                break;
+        }
+    }
+
+    if($theme == 'auto') {
+        $themeMode = '<style>@import url(\'css/dark.css\') (prefers-color-scheme: dark);</style>';
+        $themeBs = '';
+    } elseif($theme == 'light') {
+        $themeMode = '';
+        $themeBs = 'data-bs-theme="light"';
+    } elseif($theme == 'dark') {
+        $themeMode = '<link rel="stylesheet" href="css/dark.css">';
+        $themeBs = 'data-bs-theme="dark"';
+    }
+
+    if($theme == 'dark') {
+        $themeIcon = 'moon';
+    } else $themeIcon = 'sun';
 
     switch ($pageType) {
     case 'home':
@@ -49,12 +82,12 @@ function styleTop($pageType = 'home') {
     $iso639lang = preg_replace("/-.*/i", "", $s['langCode']);
 
     if(isset($select)) {
-        $Select = '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" integrity="sha512-aD9ophpFQ61nFZP6hXYu4Q/b/USW7rpLCQLX6Bi0WJHXNO7Js/fUENpBQf/+P4NtpzNX0jSgR5zVvPOJp+W2Kg==" crossorigin="anonymous">
+        $selectContent = '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" integrity="sha512-aD9ophpFQ61nFZP6hXYu4Q/b/USW7rpLCQLX6Bi0WJHXNO7Js/fUENpBQf/+P4NtpzNX0jSgR5zVvPOJp+W2Kg==" crossorigin="anonymous">
                    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" integrity="sha512-z/90a5SWiu4MWVelb5+ny7sAayYUfMmdXKEAbpj27PfdkamNdyI3hcjxPxkOPbrXoKIm7r9V2mElt5f1OtVhqA==" crossorigin="anonymous">
                    <script defer="defer" src="https://cdn.jsdelivr.net/npm/jquery@4.0.0-beta/dist/jquery.slim.min.js" integrity="sha512-lv3BlyhGttLlp7v8JMNDvgiaeT+N8hSxUjF45KNgigDDT26l1JeVby6SEj+Oz1oxcEQW7CxP15LW+ihoAt4+tA==" crossorigin="anonymous"></script>
                    <script defer="defer" src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js" integrity="sha512-4MvcHwcbqXKUHB6Lx3Zb5CEAVoE9u84qN+ZSMM6s7z8IeJriExrV3ND5zRze9mxNlABJ6k864P/Vl8m0Sd3DtQ==" crossorigin="anonymous"></script>';
     } else {
-        $Select = '<link rel="prefetch" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" integrity="sha512-aD9ophpFQ61nFZP6hXYu4Q/b/USW7rpLCQLX6Bi0WJHXNO7Js/fUENpBQf/+P4NtpzNX0jSgR5zVvPOJp+W2Kg==" crossorigin="anonymous">
+        $selectContent = '<link rel="prefetch" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" integrity="sha512-aD9ophpFQ61nFZP6hXYu4Q/b/USW7rpLCQLX6Bi0WJHXNO7Js/fUENpBQf/+P4NtpzNX0jSgR5zVvPOJp+W2Kg==" crossorigin="anonymous">
                    <link rel="prefetch" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" integrity="sha512-z/90a5SWiu4MWVelb5+ny7sAayYUfMmdXKEAbpj27PfdkamNdyI3hcjxPxkOPbrXoKIm7r9V2mElt5f1OtVhqA==" crossorigin="anonymous">
                    <link rel="prefetch" src="https://cdn.jsdelivr.net/npm/jquery@4.0.0-beta/dist/jquery.slim.min.js" integrity="sha512-lv3BlyhGttLlp7v8JMNDvgiaeT+N8hSxUjF45KNgigDDT26l1JeVby6SEj+Oz1oxcEQW7CxP15LW+ihoAt4+tA==" crossorigin="anonymous">
                    <link rel="prefetch" src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js" integrity="sha512-4MvcHwcbqXKUHB6Lx3Zb5CEAVoE9u84qN+ZSMM6s7z8IeJriExrV3ND5zRze9mxNlABJ6k864P/Vl8m0Sd3DtQ==" crossorigin="anonymous">';
@@ -64,7 +97,7 @@ function styleTop($pageType = 'home') {
 
     echo <<<HTML
 <!DOCTYPE html>
-<html lang="$iso639lang">
+<html $themeBs lang="$iso639lang">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -82,8 +115,10 @@ function styleTop($pageType = 'home') {
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" integrity="sha512-jnSuA4Ss2PkkikSOLtYs8BlYIeeIK1h99ty4YfvRPAlzr377vr3CXDb7sb7eEEBYjDtcYj+AjBH3FLv5uSJuXg==" crossorigin="anonymous">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" integrity="sha512-dPXYcDub/aeb08c63jRq/k6GaKccl256JQy/AnOq7CAnEZ9FzSL9wSbcZkMp4R26vBsMLFYH4kQ67/bbV8XaCQ==" fetchpriority="high" crossorigin="anonymous">
         <link rel="stylesheet" href="css/style.css">
-        $Select
+        $themeMode
+        $selectContent
 
+        <script defer="defer" src="js/common.js"></script>
         <script defer="defer" src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha512-TPh2Oxlg1zp+kz3nFA0C5vVC6leG/6mm1z9+mA81MI5eaUVqasPLO8Cuk4gMF4gUfP5etR73rgU/8PNMsSesoQ==" crossorigin="anonymous"></script>
         <script defer="defer" src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha512-ykZ1QQr0Jy/4ZkvKuqWn4iF3lqPZyij9iRv6sGqLRdTPkY69YX6+7wvVGmsdBbiIfN/8OdsI7HABjvEok6ZopQ==" crossorigin="anonymous"></script>
 
@@ -98,7 +133,7 @@ function styleTop($pageType = 'home') {
 
         <nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top">
             <div class="container-lg">
-                <a class="btn btn-outline-light navbar-brand" href="./">{$s['tbDump']}</a>
+                <a class="btn btn-outline navbar-brand" href="./">{$s['tbDump']}</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -114,6 +149,8 @@ function styleTop($pageType = 'home') {
                                 <input type="search" class="form-control" name="search" placeholder="{$s['searchBar']}" aria-label="Search">
                             </div>
                         </form>
+                        <button class="btn btn-theme p-1" id="themeBtn"><i class="bi bi-{$themeIcon}" id="themeIcon"></i></button>
+                        <button class="btn btn-sm btn-theme p-0" id="restoreBtn" disabled><i class="bi bi-arrow-counterclockwise"></i></button>
                         $langCore_menu
                     </ul>
                 </div><!--/.nav-collapse -->

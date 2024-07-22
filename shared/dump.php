@@ -23,32 +23,37 @@ function checkStrNum($str = null) {
     return 1;
 }
 
-function WriteProduct($ProductID, $Info) {
+function writeProduct($productId, $info) {
     global $dump, $enLangName;
 
-    $Skus = [];
-    foreach($Info['Skus'] as $SkuID => $Sku) {
-        if(in_array($Sku, $enLangName)) {
-            $Sku = array_search($Sku, $enLangName);
-            $SkuName = 'Language';
+    $skus = [];
+    $langCount = 0;
+    $skuCount = 0;
+
+    foreach($info['Skus'] as $skuId => $sku) {
+        if(in_array($sku, $enLangName)) {
+            $sku = array_search($sku, $enLangName);
+            $langCount++;
         } else {
-            $SkuName = 'Sku';
+            $skuCount++;
         }
-        $Skus[$SkuID]['Name'] = $Sku;
+        $skus[$skuId]['Name'] = $sku;
     }
 
-    $dump['ProdInfo'][$ProductID] = [
-        'Name' => $Info['ProductName'],
-        'Category' => $Info['Category'],
-        'Validity' => $Info['Validity'],
-        'Arch' => $Info['Arch'],
-        $SkuName => $Skus
+    $skuName = $langCount > $skuCount ? 'Language' : 'Sku';
+
+    $dump['ProdInfo'][$productId] = [
+        'Name' => $info['ProductName'],
+        'Category' => $info['Category'],
+        'Status' => $info['Status'],
+        'Arch' => $info['Arch'],
+        $skuName => $skus
     ];
 }
 
-function dump($minProdID, $maxProdID) {
-    global $dump, $SessionID, $lock;
-    $Ignore = array_merge(
+function dump($minProdId, $maxProdId) {
+    global $dump, $sessionId, $lock;
+    $ignoreList = array_merge(
         [
             53,
             54,
@@ -119,25 +124,29 @@ function dump($minProdID, $maxProdID) {
         range(2651, 2658)
     );
 
-    $allProd = array_diff(range($minProdID, $maxProdID), $Ignore);
+    $allProd = array_diff(range($minProdId, $maxProdId), $ignoreList);
     $lock['status'] = 'update';
     $errorCount = 0;
     $lock['total'] = count($allProd);
     $lock['current'] = 0;
-    foreach($allProd as $ProductID) {
+    foreach($allProd as $productId) {
         $lock['current']++;
         $lock['progress'] = number_format(($lock['current'] / $lock['total']) * 100, 2);
-        if($ProductID > $maxProdID && $errorCount > 10) break;
+        if($productId > $maxProdId && $errorCount > 10) break;
         if($lock['current'] % 15 == 1) {
-            $SessionID = SessionIDInit();
+            if($lock['current'] > 15 && $errorCount < 15) file_put_contents('dump.json', json_encode($dump, JSON_PRETTY_PRINT));
+            $sessionId = genSessionId();
         }
+
+        $htmlText = getInfo('Prod', $productId);
+        if(!$htmlText) $htmlText = getInfo('Prod', $productId);
         $html = new DOMDocument();
-        $html->loadHTML(getInfo('Prod', $ProductID));
+        $html->loadHTML($htmlText);
         if($html->getElementById('errorModalMessage')) {
             //$errorMsg = $html->getElementById('errorModalMessage')->textContent;
             $errorCount++;
         } else {
-            WriteProduct($ProductID, parserProdInfo($ProductID, $html));
+            writeProduct($productId, parserProdInfo($productId, $html));
             $errorCount = 0;
         }
         $lock['time'] = time();
@@ -145,34 +154,39 @@ function dump($minProdID, $maxProdID) {
     }
 }
 
-function recheck($lastProdID, $lastBlocked = null) {
-    global $dump, $SessionID, $lock, $enLangName;
+function recheck($lastProdId, $lastBlocked = null, $type = 'Basic') {
+    global $dump, $sessionId, $lock, $enLangName;
     $lock['status'] = 'recheck';
-    $Time = time();
     $lock['total'] = 0;
     $lock['current'] = 0;
-    $Valid = [];
+    $checkList = [];
 
-    foreach($dump['ProdInfo'] as $Product) {
-        if($Product['Validity'] != 'Valid') continue;
-        if($lastBlocked && key($prod) < $lastBlocked) continue;
-        $Valid[] = key($prod);
+    foreach($dump['ProdInfo'] as $productId => $product) {
+        if($product['Status'] == 'Unavailable') continue;
+        if($lastBlocked && $productId < $lastBlocked) continue;
+        if($type != 'Basic' && !in_array($type, $product['Category'])) continue;
+        $checkList[] = $productId;
         $lock['total']++;
     }
-    
-    foreach($Valid as $ProductID) {
+
+    foreach($checkList as $productId) {
         $lock['current']++;
         $lock['progress'] = number_format(($lock['current'] / $lock['total']) * 100, 2);
-        if($dump[$ProductID]['Validity'] != 'Valid') continue;
-        if($lock['current'] % 15 == 1) $SessionID = SessionIDInit();
 
+        if($lock['current'] % 15 == 1) $sessionId = genSessionId();
+
+        $htmlText = getInfo('Prod', $productId);
+        if(!$htmlText) $htmlText = getInfo('Prod', $productId);
         $html = new DOMDocument();
-        $html->loadHTML(getInfo('Prod', $ProductID));
-        $Info = parserProdInfo($ProductID, $html);
-        if($Info['Validity'] != 'Invalid') {
-            WriteProduct($ProductID, $Info);
-        } else if($Info['Arch'] == 'Unknown') return $ProductID;
-        else $dump[$ProductID]['Validity'] = $Info['Validity'];
+        $html->loadHTML($htmlText);
+        $info = parserProdInfo($productId, $html);
+        if($info['Status'] != 'Unavailable') {
+            writeProduct($productId, $info);
+        } else if($info['Arch'] == 'Unknown') {
+            return $productId;
+        } else if(!in_array('WIP', $dump['ProdInfo'][$productId]['Category']) && !in_array('Xbox', $dump['ProdInfo'][$productId]['Category'])) {
+            $dump['ProdInfo'][$productId]['Status'] = $info['Status'];
+        }
 
         $lock['time'] = time();
         file_put_contents('dump.json.lock', json_encode($lock));

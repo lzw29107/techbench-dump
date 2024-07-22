@@ -51,15 +51,15 @@ if(isset($_GET['lang'])) {
     $lcount = count($languageArray); 
     $qualityfactor = array();
     for($i=0; $i<$lcount; $i++) {
-      if(isset($languageArray[$i]) && preg_match('/^[^-]*$/', $languageArray[$i])) {
-      $languageArray[$i] = str_replace(array_keys($autoLangMappings), $autoLangMappings, $languageArray[$i]);
+        if(isset($languageArray[$i]) && preg_match('/^[^-]*$/', $languageArray[$i])) {
+            $languageArray[$i] = str_replace(array_keys($autoLangMappings), $autoLangMappings, $languageArray[$i]);
         }
-      $languageArray = array_unique($languageArray);
-      if(isset($languageArray[$i])) {
-      $qualityfactor[$languageArray[$i]] = (float) (!empty($q[$i]) ? $q[$i] : 1);
-      }
+        $languageArray = array_unique($languageArray);
+        if(isset($languageArray[$i])) {
+            $qualityfactor[$languageArray[$i]] = (float) (!empty($q[$i]) ? $q[$i] : 1);
+        }
     }
-        // comparison function for uksort (inspired from @200_success on https://codereview.stackexchange.com/questions/54948/detect-prefered-language)
+    // comparison function for uksort (inspired from @200_success on https://codereview.stackexchange.com/questions/54948/detect-prefered-language)
     $cmpLangs = function ($a, $b) use ($qualityfactor) {
         if ($qualityfactor[$a] > $qualityfactor[$b])
             return -1;
@@ -73,7 +73,7 @@ if(isset($_GET['lang'])) {
             return 0;
     };
 
-        // sort the languages by qualityfactor
+    // sort the languages by qualityfactor
     uksort($qualityfactor, $cmpLangs);
 
     $LangArray = array_keys($qualityfactor);
@@ -87,7 +87,7 @@ if(isset($_GET['lang'])) {
         }
     }
 } else {
-  $lang = 'en-us';
+    $lang = 'en-us';
 }
 
 if(!in_array("$lang", $supportedLangs)) {
@@ -109,7 +109,7 @@ date_default_timezone_set($s['timeZone']);
 
 $langCore_menu = <<<EOD
 <li class="nav-item dropdown">
-    <a class="nav-link text-nowrap dropdown-toggle" data-bs-toggle="dropdown" role="button">
+    <a class="nav-link text-nowrap dropdown-toggle ms-2" data-bs-toggle="dropdown" role="button">
         <img src="contrib/flags/{$s['langCode']}.png" style="margin-bottom: 3px;"> {$s['langNameLocal']} 
     </a>
     <ul class="dropdown-menu">

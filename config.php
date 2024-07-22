@@ -28,7 +28,7 @@ if(!isset($argv[1]) || !in_array($argv[1], array('init', 'set')) || ($argv[1] ==
     exit("Usage:\nphp config.php init\nphp config.php set [key] [value]\n");
 }
 
-if($argv[1] == 'init') set_config('init');
+if($argv[1] == 'init') setConfig('init');
 if($argv[1] == 'set') {
     $key = $argv[2];
     if(filter_var($argv[3], FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) !== null) {
@@ -38,6 +38,6 @@ if($argv[1] == 'set') {
     } else if($key == 'php' && $argv[3] != 'php' && !is_file($argv[3])) {
         exit('Invalid path.');
     } else $value = $argv[3];
-    set_config('set', $key, $value);
+    setConfig('set', $key, $value);
 }
 ?>

@@ -42,20 +42,21 @@ if(file_exists('dump.json') && file_exists('dump.json.lock')) {
 set_time_limit(10000);
 ignore_user_abort(true);
 
-$Continue = false;
-$minProdID = 0;
-$maxProdID = 3500;
+$continue = false;
+$minProdId = 0;
+$maxProdId = 3500;
 
 $lock = array();
 $lock['time'] = time();
+$lock['status'] = 'Starting';
 file_put_contents('dump.json.lock', json_encode($lock));
 
 if(is_file('dump.json')) {
     $dump = json_decode(file_get_contents('dump.json'), true);
-    if(isset($dump['TechInfo']['Version']) && $dump['TechInfo']['Version'] == '1.0') $Continue = true;
+    if(isset($dump['TechInfo']['Version']) && $dump['TechInfo']['Version'] == '1.0') $continue = true;
 }
 
-if(!$Continue) $dump = [
+if(!$continue) $dump = [
     'TechInfo' => [
         'Name' => 'Techbench dump',
         'Version' => '1.0',
@@ -66,33 +67,31 @@ if(!$Continue) $dump = [
     'ProdInfo' => []
 ];
 
-$ProductNumber = count($dump['ProdInfo']);
+$productNumber = count($dump['ProdInfo']);
 
-if($ProductNumber > 0) {
+if($productNumber > 0) {
     if(end($dump['ProdInfo'])) {
-        $lastProdID = key($dump['ProdInfo']);
-    } else $lastProdID = 0;
-} else $lastProdID = 0;
+        $lastProdId = key($dump['ProdInfo']);
+    } else $lastProdId = 0;
+} else $lastProdId = 0;
 
-if(!checkStrNum($lastProdID) || !checkStrNum($maxProdID)) exit('Invalid ID');
+if(!checkStrNum($lastProdId) || !checkStrNum($maxProdId)) exit('Invalid ID');
 
-if($lastProdID) $minProdID = $lastProdID + 1;
+if($lastProdId) $minProdId = $lastProdId + 1;
 
 if($argv[1] == 'update') {
-    if($minProdID > $maxProdID) {
-        $maxProdID = $lastProdID + 100;
+    if($minProdId > $maxProdId) {
+        $maxProdId = $lastProdId + 100;
     }
   
-    dump($minProdID, $maxProdID);
+    dump($minProdId, $maxProdId);
   
-    if(count($dump['ProdInfo']) > $ProductNumber) $dump['TechInfo']['LastUpdateTime'] = time();
+    if(count($dump['ProdInfo']) > $productNumber) $dump['TechInfo']['LastUpdateTime'] = time();
     $dump['TechInfo']['LastCheckUpdateTime'] = time();
-}
-if($argv[1] == 'recheck' && is_file('dump.json')) {
-    if(isset($dump['TechInfo']['LastBlocked'])) $LastBlocked = $dump['TechInfo']['LastBlocked'];
-    if(checkStrNum($LastBlocked)) {
-        $lastBlocked = recheck($lastProdID, $lastBlocked);
-    } else $lastBlocked = recheck($lastProdID);
+} else if($argv[1] == 'recheck' && is_file('dump.json')) {
+    if(isset($dump['TechInfo']['LastBlocked']) && checkStrNum($dump['TechInfo']['LastBlocked'])) {
+        $lastBlocked = reCheck($lastProdID, $lastBlocked);
+    } else $lastBlocked = reCheck($lastProdId);
   
     if(isset($lastBlocked)) {
         echo 'Please try again later.';

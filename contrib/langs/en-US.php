@@ -70,6 +70,7 @@ $s['win10_22h2']             = 'Windows 10 22H2';
 $s['win11co']                = 'Windows 11 Cobalt';
 $s['win11ni']                = 'Windows 11 Nickel';
 $s['win11_23h2']             = 'Windows 11 23H2';
+$s['win11ge']                = 'Windows 11 Germanium';
 $s['win10ip']                = 'Windows 10 Insider Preview';
 $s['win11ip']                = 'Windows 11 Insider Preview';
 $s['winsrvip']               = 'Windows Server Insider Preview';
@@ -87,7 +88,7 @@ $s['winsrvip_desc']          = 'Preview version of Windows Server';
 $s['allProd_desc']           = 'Show all products from all categories in one list';
 $s['otherProd_desc']         = 'Products that do not match any category above';
 
-// Other strings
+// Download page
 $s['unknownName']            = 'Unknown product name';
 $s['idName']                 = 'ID';
 $s['archx64']                = '64-bit';
@@ -97,15 +98,17 @@ $s['waitTitle']              = 'Please wait...';
 $s['waitLangText']           = 'Please wait while we are retrieving a list of available languages...';
 $s['waitDlText']             = 'Please wait while we are retrieving downloads...';
 $s['jsRequired']             = 'This page requires JavaScript working to communicate with Microsoft servers.';
-$s['fileReady']              = 'File is ready to download';
-$s['currentProd'] = 'Current Product';
-$s['Name'] = 'Name';
-$s['Validity'] = 'Validity';
-$s['Valid'] = 'Valid';
-$s['Invalid'] = 'Invalid';
-$s['Unknown'] = 'Unknown';
-$s['Arch'] = 'Arch';
-$s['status'] = 'Status: ';
-$s['checking'] = 'Checking for updates...';
-$s['error'] = 'Error';
+
+// Products page
+$s['currentProd']            = 'Current Product';
+$s['name']                   = 'Name';
+$s['available']              = 'Available';
+$s['unavailable']            = 'Unavailable';
+$s['unknown']                = 'Unknown';
+$s['arch']                   = 'Arch';
+$s['status']                 = 'Status';
+
+// Update page
+$s['checking']               = 'Checking for updates...';
+$s['error']                  = 'Error';
 ?>

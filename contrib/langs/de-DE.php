@@ -63,6 +63,7 @@ $s['win10_22h2']             = 'Windows 10 22H2';
 $s['win11co']                = 'Windows 11 Cobalt';
 $s['win11ni']                = 'Windows 11 Nickel';
 $s['win11_23h2']             = 'Windows 11 23H2';
+$s['win11ge']                = 'Windows 11 Germanium';
 $s['win10ip']                = 'Windows 10 Insider Preview';
 $s['win11ip']                = 'Windows 11 Insider Preview';
 $s['winsrvip']               = 'Windows Server Insider Preview';
@@ -76,7 +77,7 @@ $s['otherProd']              = 'Other products';
 $s['win81_desc']             = 'Stabile Version von Windows 8';
 $s['win10_desc']             = 'Das kontroverseste Windows überhaupt';
 
-// Other strings
+// Download page
 $s['unknownName']            = 'Unbekannter Produkt-Name';
 $s['idName']                 = 'ID';
 $s['archx64']                = '64-bit';
@@ -86,4 +87,8 @@ $s['waitTitle']              = 'Bitte warten...';
 $s['waitLangText']           = 'Bitte warten, während wir eine Liste der verfügbaren Sprachen erhalten...';
 $s['waitDlText']             = 'Bitte warten, während wir die Downloads erhalten...';
 $s['jsRequired']             = 'Diese Webseite benutzt JavaScript, um mit den Microsoft-Servern zu kommunizieren.';
+
+// Products page
+
+// Update page
 ?>

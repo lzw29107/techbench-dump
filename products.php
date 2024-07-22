@@ -23,7 +23,7 @@ $search = isset($_GET['search']) ? $_GET['search'] : '';
 require_once 'shared/lang.php';
 require_once 'shared/style.php';
 
-$config = get_config();
+$config = getConfig();
 
 $options = '';
 foreach(array('all', 'win81', 'win10', 'win11', 'winsrvip') as $opt) {
@@ -35,14 +35,13 @@ foreach(array('all', 'win81', 'win10', 'win11', 'winsrvip') as $opt) {
                </div>';
 }
 
-
 if(is_file('dump.json')) {
     $dump = json_decode(file_get_contents('dump.json'), true);
-    if($config['autoupd'] && $config['php'] && time() - $dump['TechInfo']['LastCheckUpdateTime'] >= 3600) exec_background($config['php'], 'dump.php update');
+    if($config['autoupd'] && $config['php'] && time() - $dump['TechInfo']['LastCheckUpdateTime'] >= 3600) execBackground($config['php'], 'dump.php update');
     $out = [];
     $out['products'] = $dump['ProdInfo'];
-    foreach($out['products'] as $ID => $Prod) {
-        if(isset($_GET['ignoreInvalid']) && $Prod['Validity'] == 'Invalid') unset($out['products'][$ID]);
+    foreach($out['products'] as $id => $Prod) {
+        if(isset($_GET['ignoreUnavailable']) && $Prod['Status'] == 'Unavailable') unset($out['products'][$id]);
     }
     if(isset($_GET['reverse'])) $out['products'] = array_reverse($out['products'], true);
 }
@@ -116,6 +115,9 @@ switch ($prodName) {
     case 'win11_23h2':
         foreach($products as $key => $curr) if(!in_array('23H2', $curr['Category'])) unset($products[$key]);
         break;
+    case 'win11ge':
+        foreach($products as $key => $curr) if(!in_array('ge', $curr['Category'])) unset($products[$key]);
+        break;
     case 'win11ip':
         foreach($products as $key => $curr) if(!in_array('WIP', $curr['Category']) || !in_array('Win11', $curr['Category'])) unset($products[$key]);
         break;
@@ -155,8 +157,8 @@ if($search != '') {
         $searchSafe = preg_replace('/^"|"$/', '', $searchSafe);
     }
 
-    foreach($products as $ProdID => $product) {
-        if(strpos($product['Name'], $searchSafe) === false) unset($products[$ProdID]);
+    foreach($products as $prodId => $product) {
+        if(stripos($product['Name'], $searchSafe) === false) unset($products[$prodId]);
     }
 
     $tableTitle = $s['searchResults'].': '.$search;
@@ -173,16 +175,14 @@ echo <<<HTML
    <h1 class="fs-3">{$s['tbDumpDownload']}</h1>
 </div>
 
-<div class="card text-bg-light border-light mb-3">
+<div class="card text-bg mb-3">
    <div class="card-body pb-1">
        <form action="./products.php">
            <div class="input-group">
                <input type="text" class="form-control input-lg" name="search"$search placeholder="{$s['searchBar']}">
-               <span class="input-group-btn">
-                   <button type="submit" class="btn btn-primary btn-lg">
-                       <i class="bi bi-search"></i>
-                   </button>
-               </span>
+               <button type="submit" class="btn btn-primary btn-lg">
+                   <i class="bi bi-search"></i>
+               </button>
            </div>
            <div class="row mt-2 ms-1">
                <div class="form-check col-me">
@@ -212,9 +212,9 @@ HTML;?>
     <thead>
         <tr>
             <th class="text-center" scope="col">{$s['idName']}</th>
-            <th class="text-center" scope="col">{$s['Name']}</th>
-            <th class="text-center" scope="col">{$s['Validity']}</th>
-            <th class="text-center" scope="col">{$s['Arch']}</th>
+            <th class="text-center" scope="col">{$s['name']}</th>
+            <th class="text-center" scope="col">{$s['status']}</th>
+            <th class="text-center" scope="col">{$s['arch']}</th>
         </tr>
     </thead>
     <tbody class="table-group-divider">
@@ -222,21 +222,21 @@ HTML;?>
     $perPage = 50;
     $pages = ceil(count($products) / $perPage);
     $startItem = ($page - 1) * $perPage;
-    $PageBaseUrl = getUrlWithoutParam('p').'p=';
+    $pageBaseUrl = getUrlWithoutParam('p').'p=';
 
     $products = array_slice($products, $startItem, $perPage, true);
 
     foreach ($products as $key => $curr) {
-        $Name = $curr['Name'];
-        $Validity = $curr['Validity'];
-        $Arch = implode(', ', $curr['Arch']);
+        $name = $curr['Name'];
+        $status = $curr['Status'];
+        $arch = implode(', ', $curr['Arch']);
         echo '<tr>
             <th class="text-center" scope="row">'.$key.'</th>
             <td>
-                <a class="link-underline link-underline-opacity-0" href="./get.php?id='.$key.'">'.$Name.'</a>
+                <a class="link-underline link-underline-opacity-0" href="./get.php?id='.$key.'">'.$name.'</a>
             </td>
-            <td class="text-center">'.$s[$Validity].'</td>
-            <td class="text-center">'.$Arch.'</td>
+            <td class="text-center">'.$s[strtolower($status)].'</td>
+            <td class="text-center">'.$arch.'</td>
         </tr>
         ';
     }
@@ -254,7 +254,7 @@ echo '</tbody>
            <span class="page-link"><?= $p ?></span>
        </li>
            <?php else: ?>
-       <li class="page-item"><a class="page-link" href="<?= $PageBaseUrl.$p ?>"><?= $p ?></a></li>
+       <li class="page-item"><a class="page-link" href="<?= $pageBaseUrl.$p ?>"><?= $p ?></a></li>
            <?php endif; ?>
        <?php endforeach; ?>
    <?php elseif($page <= 3): ?>
@@ -264,15 +264,15 @@ echo '</tbody>
            <span class="page-link"><?= $p ?></span>
        </li>
            <?php else: ?>
-       <li class="page-item"><a class="page-link" href="<?= $PageBaseUrl.$p ?>"><?= $p ?></a></li>
+       <li class="page-item"><a class="page-link" href="<?= $pageBaseUrl.$p ?>"><?= $p ?></a></li>
            <?php endif; ?>
        <?php endforeach; ?>
        <li class="page-item disabled">
            <a class="page-link">...</a>
        </li>
-       <li class="page-item"><a class="page-link" href="<?= $PageBaseUrl.$pages ?>"><?= $pages ?></a></li>
+       <li class="page-item"><a class="page-link" href="<?= $pageBaseUrl.$pages ?>"><?= $pages ?></a></li>
    <?php elseif($page >= ($pages - 2)): ?>
-       <li class="page-item"><a class="page-link" href="<?= $PageBaseUrl ?>1">1</a></li>
+       <li class="page-item"><a class="page-link" href="<?= $pageBaseUrl ?>1">1</a></li>
        <li class="page-item disabled">
            <a class="page-link">...</a>
        </li>
@@ -282,31 +282,31 @@ echo '</tbody>
            <span class="page-link"><?= $p ?></span>
        </li>
            <?php else: ?>
-       <li class="page-item"><a class="page-link" href="<?= $PageBaseUrl.$p ?>"><?= $p ?></a></li>
+       <li class="page-item"><a class="page-link" href="<?= $pageBaseUrl.$p ?>"><?= $p ?></a></li>
            <?php endif; ?>
        <?php endforeach; ?>
    <?php else: ?>
-       <li class="page-item"><a class="page-link" href="<?= $PageBaseUrl ?>1">1</a></li>
+       <li class="page-item"><a class="page-link" href="<?= $pageBaseUrl ?>1">1</a></li>
        <?php if($page == 4): ?>
-       <li class="page-item"><a class="page-link" href="<?= $PageBaseUrl ?>2">2</a></li>
+       <li class="page-item"><a class="page-link" href="<?= $pageBaseUrl ?>2">2</a></li>
        <?php else: ?>
        <li class="page-item disabled">
            <a class="page-link">...</a>
        </li>
        <?php endif; ?>
-       <li class="page-item"><a class="page-link" href="<?= $PageBaseUrl.($page - 1) ?>"><?= ($page - 1) ?></a></li>
+       <li class="page-item"><a class="page-link" href="<?= $pageBaseUrl.($page - 1) ?>"><?= ($page - 1) ?></a></li>
        <li class="page-item active" aria-current="page">
            <span class="page-link"><?= $page ?></span>
        </li>
-       <li class="page-item"><a class="page-link" href="<?= $PageBaseUrl.($page + 1) ?>"><?= ($page + 1) ?></a></li>
+       <li class="page-item"><a class="page-link" href="<?= $pageBaseUrl.($page + 1) ?>"><?= ($page + 1) ?></a></li>
        <?php if($page <= ($pages - 4)): ?>
        <li class="page-item disabled">
            <a class="page-link">...</a>
        </li>
        <?php else: ?>
-       <li class="page-item"><a class="page-link" href="<?= $PageBaseUrl.($pages - 1) ?>"><?= ($pages - 1) ?></a></li>
+       <li class="page-item"><a class="page-link" href="<?= $pageBaseUrl.($pages - 1) ?>"><?= ($pages - 1) ?></a></li>
        <?php endif; ?>
-       <li class="page-item"><a class="page-link" href="<?= $PageBaseUrl.$pages ?>"><?= $pages ?></a></li>
+       <li class="page-item"><a class="page-link" href="<?= $pageBaseUrl.$pages ?>"><?= $pages ?></a></li>
    <?php endif; ?>
    </ul>
 </nav>

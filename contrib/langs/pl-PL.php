@@ -70,6 +70,7 @@ $s['win10_22h2']             = 'Windows 10 22H2';
 $s['win11co']                = 'Windows 11 Cobalt';
 $s['win11ni']                = 'Windows 11 Nickel';
 $s['win11_23h2']             = 'Windows 11 23H2';
+$s['win11ge']                = 'Windows 11 Germanium';
 $s['win10ip']                = 'Windows 10 Insider Preview';
 $s['win11ip']                = 'Windows 11 Insider Preview';
 $s['winsrvip']               = 'Windows Server Insider Preview';
@@ -85,7 +86,7 @@ $s['win10_desc']             = 'Najbardziej kontrowersyjny system Windows';
 $s['allProd_desc']           = 'Wyświetl wszystkie produkty na jednej liście';
 $s['otherProd_desc']         = 'Produkty, które nie pasują do żadnej kategorii powyżej';
 
-// Other strings
+// Download page
 $s['unknownName']            = 'Nieznana nazwa produktu';
 $s['idName']                 = 'ID';
 $s['archx64']                = 'Wersja 64-bitowa';
@@ -95,5 +96,8 @@ $s['waitTitle']              = 'Proszę czekać...';
 $s['waitLangText']           = 'Proszę czekać podczas gdy uzyskujemy listę języków...';
 $s['waitDlText']             = 'Proszę czekać podczas gdy uzyskujemy pliki do pobrania...';
 $s['jsRequired']             = 'Ta strona wymaga JavaScript do komunikacji z serwerami firmy Microsoft.';
-$s['fileReady']              = 'Plik jest gotowy do pobrania';
+
+// Products page
+
+// Update page
 ?>

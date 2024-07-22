@@ -24,27 +24,27 @@ require_once 'shared/lang.php';
 require_once 'shared/style.php';
 require_once 'shared/utils.php';
 
-$config = get_config();
+$config = getConfig();
 
 if(is_file('dump.json')) {
     $dump = json_decode(file_get_contents('dump.json'), true);
-    if($prodId) $ProdItem = $dump['ProdInfo'][$prodId];
-    if($config['autoupd'] && $config['php'] && time() - $dump['TechInfo']['LastCheckUpdateTime'] >= 3600) exec_background($config['php'], 'dump.php update');
+    if($prodId) $prodItem = $dump['ProdInfo'][$prodId];
+    if($config['autoupd'] && $config['php'] && time() - $dump['TechInfo']['LastCheckUpdateTime'] >= 3600) execBackground($config['php'], 'dump.php update');
 }
 
-$ProductName = isset($ProdItem) ? $ProdItem['Name'] : $s['unknownName'];
+$productName = isset($ProdItem) ? $prodItem['Name'] : $s['unknownName'];
 
-if(strpos($ProductName, 'Language Pack') !== false) $s['langCodeMs'] = 'en-us';
-if(strpos($ProductName, 'Build')) $forceInsider = true;
+if(strpos($productName, 'Language Pack') !== false) $s['langCodeMs'] = 'en-us';
+if(strpos($productName, 'Build')) $forceInsider = true;
 
-$Notice = $forceInsider ? '<div class="alert alert-danger mt-4 pb-1">
+$notice = $forceInsider ? '<div class="alert alert-danger mt-4 pb-1">
 <h4><i class="bi bi-exclamation-triangle"></i> '.$s['warning'].'</h4>
 <p>'.sprintf($s['insiderNotice'], '<a class="link-underline link-underline-opacity-0" href="https://www.microsoft.com/en-us/software-download/windowsinsiderpreviewiso">').'</p>
 </div>' : '';
 
-$SessionID = SessionIDInit();
-if($prodId) $langsUrl = "https://www.microsoft.com/{$s['langCodeMs']}/api/controls/contentinclude/html?pageId=cd06bda8-ff9c-4a6e-912a-b92a21f42526&host=www.microsoft.com&segments=software-download%2cwindows11&query=&action=getskuinformationbyproductedition&sessionId=$SessionID&productEditionId=$prodId&sdVersion=2";
-if($fileName) $downUrl = "https://www.microsoft.com/en-us/api/controls/contentinclude/html?pageId=160bb813-f54e-4e9f-bffc-38c6eb56e061&host=www.microsoft.com&segments=software-download%2cwindows11&query=&action=GetProductDownloadLinkForFriendlyFileName&sessionId=$SessionID&friendlyFileName=".urlencode($fileName)."&sdVersion=2";
+$sessionId = genSessionId();
+if($prodId) $langsUrl = "https://www.microsoft.com/{$s['langCodeMs']}/api/controls/contentinclude/html?pageId=cd06bda8-ff9c-4a6e-912a-b92a21f42526&host=www.microsoft.com&segments=software-download%2cwindows11&query=&action=getskuinformationbyproductedition&sessionId=$sessionId&productEditionId=$prodId&sdVersion=2";
+if($fileName) $downUrl = "https://www.microsoft.com/en-us/api/controls/contentinclude/html?pageId=160bb813-f54e-4e9f-bffc-38c6eb56e061&host=www.microsoft.com&segments=software-download%2cwindows11&query=&action=GetProductDownloadLinkForFriendlyFileName&sessionId=$sessionId&friendlyFileName=".urlencode($fileName)."&sdVersion=2";
 
 styleTop('downloads');
 
@@ -56,12 +56,12 @@ if($prodId == null || $fileName == null) {
 
 <form>
     <div class="mb-3">
-    <label for="ID" class="form-label">Product ID</label>
-    <input type="text" class="form-control" id="ProdID" name="id" placeholder="ID">
+    <label for="prodId" class="form-label">{$s['productId']}</label>
+    <input type="text" class="form-control" id="prodId" name="id" placeholder="{$s['idName']}">
     </div>
     <div class="mb-3">
-        <label for="file" class="form-label">Filename</label>
-        <input type="text" class="form-control" id="file" name="file" placeholder="Filename">
+        <label for="file" class="form-label">{$s['fileName']}</label>
+        <input type="text" class="form-control" id="file" name="file" placeholder="{$s['fileName']}">
     </div>
     <button type="submit" class="btn btn-primary d-grid">OK</button>
 </form>
@@ -75,7 +75,7 @@ echo <<<HTML
     <h1 class="fs-3">{$s['tbDumpDownload']}</h1>
 </div>
 
-$Notice
+$notice
 
 <h3><i class="bi bi-file-earmark"></i> $fileName</h3>
 

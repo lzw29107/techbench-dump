@@ -66,6 +66,7 @@ $s['win10_22h2']             = 'Windows 10 22H2';
 $s['win11co']                = 'Windows 11 Cobalt';
 $s['win11ni']                = 'Windows 11 Nickel';
 $s['win11_23h2']             = 'Windows 11 23H2';
+$s['win11ge']                = 'Windows 11 Germanium';
 $s['win10ip']                = 'Windows 10 Insider Preview';
 $s['win11ip']                = 'Windows 11 Insider Preview';
 $s['winsrvip']               = 'Windows Server Insider Preview';
@@ -81,7 +82,7 @@ $s['win10_desc']             = 'La versione di Windows più controversa di sempr
 $s['allProd_desc']           = 'Visualizza tutti i prodotti di tutte le categorie in una lista';
 $s['otherProd_desc']         = 'Prodotti che non corrispondono a nesuuna categoria';
 
-// Other strings
+// Download page
 $s['unknownName']            = 'Nome prodotto sconosciuto';
 $s['idName']                 = 'ID';
 $s['archx64']                = '64-bit';
@@ -91,4 +92,8 @@ $s['waitTitle']              = 'Attendere prego...';
 $s['waitLangText']           = 'Si prega di attendere, recupero elenco di lingue disponibili...';
 $s['waitDlText']             = 'Si prega di attendere, recupero elenco di lingue disponibili...';
 $s['jsRequired']             = 'Questa pagina richiede JavaScript funzionante per comunicare con i server Microsoft.';
+
+// Products page
+
+// Update page
 ?>
