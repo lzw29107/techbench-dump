@@ -42,7 +42,7 @@ function writeProduct($productId, $info) {
 
     $skuName = $langCount > $skuCount ? 'Language' : 'Sku';
 
-    $dump['ProdInfo'][$productId] = [
+    if($productId < 3000 || $info['ProductName'] != 'Unknown') $dump['ProdInfo'][$productId] = [
         'Name' => $info['ProductName'],
         'Category' => $info['Category'],
         'Status' => $info['Status'],
@@ -134,7 +134,8 @@ function dump($minProdId, $maxProdId) {
         $lock['progress'] = number_format(($lock['current'] / $lock['total']) * 100, 2);
         if($productId > $maxProdId && $errorCount > 10) break;
         if($lock['current'] % 15 == 1) {
-            if($lock['current'] > 15 && $errorCount < 15) file_put_contents('dump.json', json_encode($dump, JSON_PRETTY_PRINT));
+            if($errorCount >= 15) break;
+            if($lock['current'] > 15) file_put_contents('dump.json', json_encode($dump, JSON_PRETTY_PRINT));
             $sessionId = genSessionId();
         }
 
