@@ -33,10 +33,15 @@ if(is_file('dump.json')) {
 
 $select = true;
 
-$productName = isset($prodItem) ? $prodItem['Name'] : $s['unknownName'];
+$productName = $s['unknownName'];
 
 if(strpos($productName, 'Language Pack') !== false) $s['langCodeMs'] = 'en-us';
 if(strpos($productName, 'Build')) $forceInsider = true;
+if(isset($prodItem)) {
+    $productName = $prodItem['Name'];
+    if(in_array('LP', $prodItem['Category'])) $s['langCodeMs'] = 'en-us';
+    if(in_array('WIP', $prodItem['Category'])) $forceInsider = true;
+}
 
 $sessionId = genSessionId();
 $langsUrl = "https://www.microsoft.com/{$s['langCodeMs']}/api/controls/contentinclude/html?pageId=cd06bda8-ff9c-4a6e-912a-b92a21f42526&host=www.microsoft.com&segments=software-download%2cwindows11&query=&action=getskuinformationbyproductedition&sessionId=$sessionId&productEditionId=$prodId&sdVersion=2";

@@ -57,7 +57,8 @@ function genSessionId() {
     }, 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx');
 
     // Send a request to Microsoft to initialize the session
-    $req = curl_init('https://vlscppe.microsoft.com/fp/tags.js?org_id=y6jn8c31&session_id=' . urlencode($sessionId));
+    $orgId = 'y6jn8c31';
+    $req = curl_init('https://vlscppe.microsoft.com/fp/tags.js?org_id=' . $orgId . '&session_id=' . urlencode($sessionId));
     curl_setopt($req, CURLOPT_HEADER, 0);
     curl_setopt($req, CURLOPT_REFERER, 'https://www.microsoft.com/en-us/software-download/windows11');
     curl_setopt($req, CURLOPT_RETURNTRANSFER, true); 
@@ -219,9 +220,10 @@ function checkCategory($productName) {
         $category[] = 'Office';
         $category[] = '2011';
     }
-
-    if(strpos($productName, 'ARM64') !== false) $category[] = 'ARM64';
-    if(strpos($productName, 'Language Pack') !== false || strpos($productName, 'LIP Pack') !== false || strpos($productName, 'Server Language and Optional Features') !== false || stripos($productName, 'FOD') !== false) $category[] = 'LOF';
+    
+    if(strpos($productName, 'Language Pack And FOD') !== false || strpos($productName, 'Server Language and Optional Features') !== false) $category[] = 'LOF';
+    else if(strpos($productName, 'Language Pack') !== false || strpos($productName, 'LIP Pack') !== false) $category[] = 'LP';
+    else if(stripos($productName, 'FOD') !== false) $category[] = 'FOD';
     else if(strpos($productName, 'SDK') !== false) $category[] = 'SDK';
     else if(strpos($productName, ' WDK') !== false || strpos($productName, 'WDK') === 0) $category[] = 'WDK';
     else if(strpos($productName, 'EWDK') !== false) $category[] = 'EWDK';
@@ -263,15 +265,15 @@ function checkInfo_offline($productId, $category) {
     return $info;
 }
 
-function checkInfo($productId, $skus, $category) {
-    $knownAvailable = [48, 52, 55, 61, 62, 489, 642, 1057, 1217, 1460, 2378, 2616, 2617, 2618, 2860, 2861, 2935, 2936];
+function checkInfo($productName, $productId, $skus, $category) {
+    $knownAvailable = [48, 52, 55, 61, 62, 489, 642, 1057, 1217, 1460, 2378, 2616, 2617, 2618, 2860, 2861, 2935, 2936, 3113, 3114, 3115, 3131, 3132, 3133];
     $blocked = 'We are unable to complete your request at this time. Some users, entities and locations are banned from using this service. For this reason, leveraging anonymous or location hiding technologies when connecting to this service is not generally allowed. If you believe that you encountered this problem in error, please try again. If the problem persists you may contact  Microsoft Support – Contact Us  page for assistance. Refer to message code 715-123130 and';
     $info = [];
     $option = end($skus);
     $id = key($skus);
 
     if(!array_intersect(['WIP', 'Xbox', 'Office'], $category)) {
-        if(in_array($productId, $knownAvailable) || $productId > 2956) {
+        if(in_array($productId, $knownAvailable) || $productId > 3138) {
             $downHTML = new DOMDocument();
             $downHTML->loadHTML(getInfo('Sku', $id, $option));
             if($downHTML->getElementById('errorModalMessage')) {
@@ -291,8 +293,8 @@ function checkInfo($productId, $skus, $category) {
                     if($downBtn->textContent == 'IsoX86') $arch[] = 'x86';
                     if($downBtn->textContent == 'IsoX64') $arch[] = 'x64';
                     if($downBtn->textContent == 'Unknown') $arch[] = 'neutral';
-                    if(count($arch) == 0) $arch[] = 'Unknown';
                 }
+                if(count($arch) == 0) $arch[] = 'Unknown';
             }
         } else {
             $info['Status'] = 'Unavailable';
@@ -301,12 +303,11 @@ function checkInfo($productId, $skus, $category) {
     } else {
         $info = checkInfo_offline($productId, $category);
     }
-    if(array_intersect(['Win7', 'Win81', 'Win10', 'RSAT', 'Symbols'], $category)) $info['Arch'] = ['x86', 'x64'];
-    if(array_intersect(['Win11', 'WinSrv', 'DAC'], $category)) {
-        $info['Arch'] = ['x64'];
-    }
-    if(in_array('ARM64', $category)) $info['Arch'] = ['arm64'];
 
+    if(array_intersect(['Win7', 'Win81', 'Win10', 'RSAT', 'Symbols'], $category)) $info['Arch'] = ['x86', 'x64'];
+    if(array_intersect(['Win11', 'WinSrv', 'DAC'], $category)) $info['Arch'] = ['x64'];
+    if(stripos($productName, 'ARM64') !== false) $info['Arch'] = ['arm64'];
+    
     if(array_intersect(['LOF', 'SDK', 'WDK', 'HLK', 'EWDK', 'InboxApps'], $category)) {
         $info['Arch'] = ['neutral'];
     } else if(array_intersect(['ADK', 'IoTCore'], $category)) {
@@ -373,7 +374,7 @@ function parserProdInfo($productId, $html) {
 
     if(!ksort($skus, SORT_NUMERIC)) ksort($skus);
     $category = checkCategory($productName);
-    $infoTemp = checkInfo($productId, $skus, $category);
+    $infoTemp = checkInfo($productName, $productId, $skus, $category);
 
     $info['ProductName'] = $productName;
     $info['Skus'] = $skus;

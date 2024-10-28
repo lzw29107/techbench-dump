@@ -32,10 +32,15 @@ if(is_file('dump.json')) {
     if($config['autoupd'] && $config['php'] && time() - $dump['TechInfo']['LastCheckUpdateTime'] >= 3600) execBackground($config['php'], 'dump.php update');
 }
 
-$productName = isset($ProdItem) ? $prodItem['Name'] : $s['unknownName'];
+$productName = $s['unknownName'];
 
 if(strpos($productName, 'Language Pack') !== false) $s['langCodeMs'] = 'en-us';
 if(strpos($productName, 'Build')) $forceInsider = true;
+if(isset($prodItem)) {
+    $productName = $prodItem['Name'];
+    if(in_array('LP', $prodItem['Category'])) $s['langCodeMs'] = 'en-us';
+    if(in_array('WIP', $prodItem['Category'])) $forceInsider = true;
+}
 
 $notice = $forceInsider ? '<div class="alert alert-danger mt-4 pb-1">
 <h4><i class="bi bi-exclamation-triangle"></i> '.$s['warning'].'</h4>
