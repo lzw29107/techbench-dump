@@ -37,7 +37,7 @@ foreach(array('all', 'win81', 'win10', 'win11', 'winsrvip') as $opt) {
 
 if(is_file('dump.json')) {
     $dump = json_decode(file_get_contents('dump.json'), true);
-    if($config['autoupd'] && $config['php'] && time() - $dump['TechInfo']['LastCheckUpdateTime'] >= 3600) execBackground($config['php'], 'dump.php update');
+    if($config['autoupd'] && $config['php'] && time() - $dump['TechInfo']['LastCheckUpdateTime'] >= 3600) execBackground($config['php'], 'dump.php update --quiet');
     $out = [];
     $out['products'] = $dump['ProdInfo'];
     foreach($out['products'] as $id => $Prod) {

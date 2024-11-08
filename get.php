@@ -28,15 +28,13 @@ $config = getConfig();
 if(is_file('dump.json')) {
     $dump = json_decode(file_get_contents('dump.json'), true);
     $prodItem = $dump['ProdInfo'][$prodId];
-    if($config['autoupd'] && $config['php'] && time() - $dump['TechInfo']['LastCheckUpdateTime'] >= 3600) execBackground($config['php'], 'dump.php update');
+    if($config['autoupd'] && $config['php'] && time() - $dump['TechInfo']['LastCheckUpdateTime'] >= 3600) execBackground($config['php'], 'dump.php update --quiet');
 }
 
 $select = true;
 
 $productName = $s['unknownName'];
 
-if(strpos($productName, 'Language Pack') !== false) $s['langCodeMs'] = 'en-us';
-if(strpos($productName, 'Build')) $forceInsider = true;
 if(isset($prodItem)) {
     $productName = $prodItem['Name'];
     if(in_array('LP', $prodItem['Category'])) $s['langCodeMs'] = 'en-us';

@@ -25,15 +25,70 @@ require_once 'shared/dump.php';
 
 global $dump;
 
-if(!isset($argv[1]) || !in_array($argv[1], array('update', 'recheck')) || (isset($argv[2]) && $argv[2] != '--force') || isset($argv[3])) {
-    exit("Usage: php dump.php [update|recheck] [--force]\n");
+function printUsage() {
+    echo "Usage: php dump.php [update|recheck] [--force] [--quiet]\n";
+    exit();
 }
+
+function parseArgs($argv) {
+    $args = [
+        'mode' => false,
+        'flags' => [
+            'force' => false,
+            'quiet' => false
+        ]
+    ];
+
+    foreach($argv as $index => $arg) {
+        $arg = strtolower($arg);
+        switch($index) {
+            case 0:
+                if(count($argv) <= 1) {
+                    printUsage();
+                }
+                continue 2;
+            case 1:
+                switch($arg) {
+                    case 'update':
+                        $args['mode'] = 'update';
+                        break;
+                    case 'recheck':
+                        $args['mode'] = 'recheck';
+                        break;
+                    default:
+                        printUsage();
+                }
+                break;
+            case 2:
+            case 3:
+                switch($arg) {
+                    case '--force':
+                    case '-f':
+                        $args['flags']['force'] = true;
+                        break;
+                    case '--quiet':
+                    case '--q':
+                        $args['mode']['quiet'] = true;
+                        break;
+                    default:
+                        printUsage();
+                }
+                
+                break;
+        }
+    }
+    return $args;
+}
+
+$args = parseArgs($argv);
+
+$wait = 600;
 
 if(file_exists('dump.json') && file_exists('dump.json.lock')) {
     $lockfile = file_get_contents('dump.json.lock');
     $lock = json_decode($lockfile);
- if(time() - $lock->time < 600 && ($argv[1] != 'update' || (!isset($argv[2]) || $argv[2] != '--force'))) {
-        exit('Dumping in progress.');
+ if(time() - $lock->time < $wait && ($args['mode'] != 'update' || !$args['flags']['force'])) {
+        exit("Error: Dumping in progress\n");
     } else unlink('dump.json.lock');
 } else if(file_exists('dump.json.lock')) {
     unlink('dump.json.lock');
@@ -41,6 +96,9 @@ if(file_exists('dump.json') && file_exists('dump.json.lock')) {
 
 set_time_limit(10000);
 ignore_user_abort(true);
+
+// API v1 is deprecated.
+$apiVersion = 2;
 
 $continue = false;
 $minProdId = 0;
@@ -75,31 +133,31 @@ if($productNumber > 0) {
     } else $lastProdId = 0;
 } else $lastProdId = 0;
 
-if(!checkStrNum($lastProdId) || !checkStrNum($maxProdId)) exit('Invalid ID');
+if(!checkStrNum($lastProdId) || !checkStrNum($maxProdId)) exit("Error: Invalid ID\n");
 
 if($lastProdId) $minProdId = $lastProdId + 1;
 
-if($argv[1] == 'update') {
+if($args['mode'] == 'update') {
     if($minProdId > $maxProdId) {
         $maxProdId = $lastProdId + 100;
     }
-  
-    dump($minProdId, $maxProdId);
+
+    dump($apiVersion, $minProdId, $maxProdId, $args['flags']);
   
     if(count($dump['ProdInfo']) > $productNumber) $dump['TechInfo']['LastUpdateTime'] = time();
     $dump['TechInfo']['LastCheckUpdateTime'] = time();
-} else if($argv[1] == 'recheck' && is_file('dump.json')) {
+} else if($args['mode'] == 'recheck' && is_file('dump.json')) {
     if(isset($dump['TechInfo']['LastBlocked']) && checkStrNum($dump['TechInfo']['LastBlocked'])) {
-        $lastBlocked = reCheck($lastProdID, $lastBlocked);
-    } else $lastBlocked = reCheck($lastProdId);
-  
+        $lastBlocked = recheck($apiVersion, $lastProdId, $args['flags'], $lastBlocked);
+    } else $lastBlocked = recheck($apiVersion, $lastProdId, $args['flags']);
+
     if(isset($lastBlocked)) {
         echo 'Please try again later.';
         $dump['TechInfo']['LastBlocked'] = $lastBlocked;
     } else if(isset($dump['TechInfo']['LastBlocked'])) unset($dump['TechInfo']['LastBlocked']);
 }
 
-file_put_contents('dump.json', json_encode($dump, JSON_PRETTY_PRINT));
+file_put_contents('dump.json', json_encode($dump, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
 $lock['status'] = 'Successful';
 file_put_contents('dump.json.lock', json_encode($lock));
 sleep(1);

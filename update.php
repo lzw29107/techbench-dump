@@ -28,7 +28,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && $_SERVER['CONTENT_TYPE'] == 'applicat
         if(is_file('dump.json.lock')) echo file_get_contents('dump.json.lock');
         exit();
     } else if(isset($_POST['startDump'])) {
-        execBackground($config['php'], 'dump.php update');
+        execBackground($config['php'], 'dump.php update --quiet');
         exit();
     } else if(isset($_POST['Info'])) {
         if(is_file('dump.json')) {
@@ -80,7 +80,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && $_SERVER['CONTENT_TYPE'] == 'applicat
                 if($status != 'Unavailable' && $arch != ['Unknown'] && ($arch != ['neutral'] || $dump['ProdInfo'][$productId]['Status'] == 'Unknown')) $dump['ProdInfo'][$ProductId]['Arch'] = $arch;
             }
             if(!is_file('dump.bak')) copy('dump.json', 'dump.bak');
-            file_put_contents('dump.json', json_encode($dump, JSON_PRETTY_PRINT));
+            file_put_contents('dump.json', json_encode($dump, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
             exit();
         }
     }

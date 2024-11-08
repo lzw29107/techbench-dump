@@ -26,7 +26,7 @@ if(is_file('dump.json')) {
     $dump = json_decode(file_get_contents('dump.json'), true);
     $productNumber = count($dump['ProdInfo']);
     $lastUpdateTime = date("Y-m-d H:i:s T", $dump['TechInfo']['LastUpdateTime']);
-    if($config['autoupd'] && $config['php'] && time() - $dump['TechInfo']['LastCheckUpdateTime'] >= 3600) execBackground($config['php'], 'dump.php update');
+    if($config['autoupd'] && $config['php'] && time() - $dump['TechInfo']['LastCheckUpdateTime'] >= 3600) execBackground($config['php'], 'dump.php update --quiet');
 } else {
     $lastUpdateTime = '';
     $productNumber = 0;

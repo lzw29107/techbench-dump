@@ -20,7 +20,14 @@ require_once 'contrib/langconf.php';
 
 function checkStrNum($str = null) {
     if(!is_numeric($str) || is_double($str) || $str > PHP_INT_MAX || $str < 0) return 0;
-    return 1;
+    return true;
+}
+
+function in_subArray(mixed $needle, array $haystack, bool $strict = false) {
+    foreach($haystack as $key => $subArray) {
+        if(in_array($needle, $subArray, $strict)) return $key;
+    }
+    return false;
 }
 
 function writeProduct($productId, $info) {
@@ -31,27 +38,32 @@ function writeProduct($productId, $info) {
     $skuCount = 0;
 
     foreach($info['Skus'] as $skuId => $sku) {
-        if(in_array($sku, $enLangName)) {
-            $sku = array_search($sku, $enLangName);
+        $lang = in_subArray($sku['Name'], $enLangName);
+        if($lang) {
+            $sku['Name'] = $lang;
             $langCount++;
         } else {
             $skuCount++;
         }
-        $skus[$skuId]['Name'] = $sku;
+        $skus[$skuId]['Name'] = $sku['Name'];
+        if(isset($sku['FileNames'])) $skus[$skuId]['FileNames'] = $sku['FileNames'];
+        if(isset($sku['Description'])) $skus[$skuId]['Description'] = $sku['Description'];
     }
 
     $skuName = $langCount > $skuCount ? 'Language' : 'Sku';
 
-    if($productId < 3000 || $info['ProductName'] != 'Unknown') $dump['ProdInfo'][$productId] = [
-        'Name' => $info['ProductName'],
-        'Category' => $info['Category'],
-        'Status' => $info['Status'],
-        'Arch' => $info['Arch'],
-        $skuName => $skus
-    ];
+    if($productId < 3000 || $info['ProductName'] != 'Unknown') {
+        $dump['ProdInfo'][$productId] = [
+            'Name' => $info['ProductName'],
+            'Category' => $info['Category'],
+            'Status' => $info['Status'],
+            'Arch' => $info['Arch'],
+            $skuName => $skus,
+        ];
+    }
 }
 
-function dump($minProdId, $maxProdId) {
+function dump($apiVersion, $minProdId, $maxProdId, $flags) {
     global $dump, $sessionId, $lock;
     $ignoreList = array_merge(
         [
@@ -127,39 +139,83 @@ function dump($minProdId, $maxProdId) {
     $allProd = array_diff(range($minProdId, $maxProdId), $ignoreList);
     $lock['status'] = 'update';
     $errorCount = 0;
+    $errorType = 0;
     $lock['total'] = count($allProd);
     $lock['current'] = 0;
+    $lock['time'] = time();
+
     foreach($allProd as $productId) {
         $lock['current']++;
         $lock['progress'] = number_format(($lock['current'] / $lock['total']) * 100, 2);
         if($productId > $maxProdId && $errorCount > 10) break;
         if($lock['current'] % 15 == 1) {
-            if($errorCount >= 15) break;
-            if($lock['current'] > 15) file_put_contents('dump.json', json_encode($dump, JSON_PRETTY_PRINT));
+            if($errorCount >= 15 && $errorType = 10) break;
+            if($lock['current'] > 15) file_put_contents('dump.json', json_encode($dump, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
             $sessionId = genSessionId();
         }
 
-        $htmlText = getInfo('Prod', $productId);
-        if(!$htmlText) $htmlText = getInfo('Prod', $productId);
-        $html = new DOMDocument();
-        $html->loadHTML($htmlText);
-        if($html->getElementById('errorModalMessage')) {
-            //$errorMsg = $html->getElementById('errorModalMessage')->textContent;
-            $errorCount++;
-        } else {
-            writeProduct($productId, parserProdInfo($productId, $html));
-            $errorCount = 0;
+        $data = false;
+        while(!$data) {
+            if(time() - $lock['time'] > 120) {
+                $lock['status'] = 'Error';
+                file_put_contents('dump.json.lock', json_encode($lock));
+                sleep(1);
+                unlink('dump.json.lock');
+                exit('Error: Timeout while dumping.');
+            }
+            $data = getInfo($apiVersion, 'Prod', $productId);
         }
+
+        switch($apiVersion) {
+            case 1:
+                $html = new DOMDocument();
+                $html->loadHTML($data);
+                if($html->getElementById('errorModalMessage')) {
+                    $errorMsg = $html->getElementById('errorModalMessage')->textContent;
+                    $errorCount++;
+                } else {
+                    writeProduct($productId, parseProdInfo($apiVersion, $productId, $html));
+                    $errorCount = 0;
+                }
+                break;
+            case 2:
+                $info = json_decode($data, true);
+                if($info) {
+                    if(array_key_exists('Errors', $info)) {
+                        $errorMsg = $info['Errors'][0]['Value'];
+                        $errorType = $info['Errors'][0]['Type'];
+                        $errorCount++;
+                    } else {
+                        $parsedInfo = parseProdInfo($apiVersion, $productId, $info);
+                        if($parsedInfo) {
+                            writeProduct($productId, $parsedInfo);
+                        } else {
+                            return false;
+                        }
+                        $errorCount = 0;
+                    }
+                }
+                break;
+            default:
+                return false;
+        }
+
         $lock['time'] = time();
         file_put_contents('dump.json.lock', json_encode($lock));
+        if(!$flags['quiet']) echo sprintf("\rProgress: %d / %d\t%s%%", $lock['current'], $lock['total'], $lock['progress']);
+    }
+    if($lock['current'] != $lock['total'] && !$flags['quiet']) {
+        echo sprintf("\rProgress: %d / %d\t%s%%", $lock['total'], $lock['total'], '100.00');
+        echo "\n";
     }
 }
 
-function recheck($lastProdId, $lastBlocked = null, $type = 'Basic') {
+function recheck($apiVersion, $lastProdId, $flags, $lastBlocked = null, $type = 'Basic') {
     global $dump, $sessionId, $lock, $enLangName;
     $lock['status'] = 'recheck';
     $lock['total'] = 0;
     $lock['current'] = 0;
+    $lock['time'] = time();
     $checkList = [];
 
     foreach($dump['ProdInfo'] as $productId => $product) {
@@ -176,21 +232,62 @@ function recheck($lastProdId, $lastBlocked = null, $type = 'Basic') {
 
         if($lock['current'] % 15 == 1) $sessionId = genSessionId();
 
-        $htmlText = getInfo('Prod', $productId);
-        if(!$htmlText) $htmlText = getInfo('Prod', $productId);
-        $html = new DOMDocument();
-        $html->loadHTML($htmlText);
-        $info = parserProdInfo($productId, $html);
-        if($info['Status'] != 'Unavailable') {
-            writeProduct($productId, $info);
-        } else if($info['Arch'] == 'Unknown') {
-            return $productId;
-        } else if(!in_array('WIP', $dump['ProdInfo'][$productId]['Category']) && !in_array('Xbox', $dump['ProdInfo'][$productId]['Category'])) {
-            $dump['ProdInfo'][$productId]['Status'] = $info['Status'];
+        $data = false;
+        while(!$data) {
+            if(time() - $lock['time'] > 120) {
+                $lock['status'] = 'Error';
+                file_put_contents('dump.json.lock', json_encode($lock));
+                sleep(1);
+                unlink('dump.json.lock');
+                exit('Error: Timeout while dumping\n');
+            }
+            $data = getInfo($apiVersion, 'Prod', $productId);
         }
 
+        switch($apiVersion) {
+            case 1:
+                $html = new DOMDocument();
+                $html->loadHTML($data);
+                $info = parseProdInfo($apiVersion, $productId, $html);
+                if($info['Status'] != 'Unavailable') {
+                    writeProduct($productId, $info);
+                } else if($info['Arch'] == 'Unknown') {
+                    return $productId;
+                } else if(!in_array('WIP', $dump['ProdInfo'][$productId]['Category']) && !in_array('Xbox', $dump['ProdInfo'][$productId]['Category'])) {
+                    $dump['ProdInfo'][$productId]['Status'] = $info['Status'];
+                }        
+                break;
+            case 2:
+                $info = json_decode($data, true);
+                if($info) {
+                    if(array_key_exists('Errors', $info)) {
+                        $errorMsg = $info['Errors'][0]['Value'];
+                        $errorType = $info['Errors'][0]['Type'];
+                        $errorCount++;
+                    } else {
+                        $parsedInfo = parseProdInfo($apiVersion, $productId, $info);
+                        if($parsedInfo) {
+                            writeProduct($productId, $parsedInfo);
+                        } else {
+                            return false;
+                        }
+                        $errorCount = 0;
+                    }
+                }
+                break;
+            default:
+                return false;
+        }
+
+        unset($data);
         $lock['time'] = time();
+
         file_put_contents('dump.json.lock', json_encode($lock));
+        if(!$flags['quiet']) echo sprintf("\rProgress: %d / %d\t%s%%", $lock['current'], $lock['total'], $lock['progress']);
+    }
+    if($lock['current'] != $lock['total'] && !$flags['quiet']) {
+        echo sprintf("\rProgress: %d / %d\t%s%%", $lock['total'], $lock['total'], '100.00');
+        echo "\n";
     }
 }
 ?>

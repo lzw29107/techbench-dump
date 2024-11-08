@@ -17,14 +17,9 @@ limitations under the License.
 */
 
 function getBaseUrl() {
-    $baseUrl = '';
-    if(isset($_SERVER['HTTPS'])) {
-        $baseUrl .= 'https://';
-    } else {
-        $baseUrl .= 'http://';
-    }
+    $baseUrl = isset($_SERVER['HTTPS']) ? 'https://' : 'http://';
 
-    $baseUrl .=  $_SERVER['HTTP_HOST'];
+    $baseUrl .= isset($_SERVER['HTTP_X_FORWARDED_HOST']) ? $_SERVER['HTTP_X_FORWARDED_HOST'] : (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : $_SERVER['SERVER_NAME'] . ($_SERVER['SERVER_PORT'] == '80' ? '' : ':' . $_SERVER['SERVER_PORT']));;
     return $baseUrl;
 }
 
@@ -73,7 +68,7 @@ function getConfig($key = null) {
     $config = json_decode(@file_get_contents('config.json'), true);
     if(!$config || $config['version'] != '1.0' || !array_key_exists('php', $config) || !array_key_exists('autoupd', $config)) {
         setConfig('init');
-        return getConfig();
+        return getConfig($key);
     }
     if($key) return $config[$key];
     return $config;
@@ -128,22 +123,43 @@ function execBackground($php, $command) {
 }
 
 function identProduct($productId) {
-    $appendVer = "";
+    $appendVer = '';
 
-    if ($productId >= 75 && $productId <= 82) $appendVer = " (Threshold 1)";
-    else if ($productId >= 99 && $productId <= 106) $appendVer = " (Threshold 2)";
-    else if ($productId >= 109 && $productId <= 116) $appendVer = " (Threshold 2, February 2016 Update)";
-    else if ($productId >= 178 && $productId <= 185) $appendVer = " (Threshold 2, April 2016 Update)";
-    else if ($productId >= 242 && $productId <= 247) $appendVer = " (Redstone 1)";
-    else if ($productId == 489) $appendVer = " (Redstone 3)";
-    else if ($productId == 2069 || $productId == 2070) $appendVer = " (21H2 Original release)";
+    switch($productId) {
+        case 265:
+            $appendVer = 'Windows ADK Insider Preview - Build 14965';
+            break;
+        case 266:
+            $appendVer = 'Windows HLK Insider Preview - Build 14965';
+            break;
+        case 267:
+            $appendVer = 'Windows WDK Insider Preview - Build 14965';
+            break;
+        case 268:
+            $appendVer = 'Windows Mobile Emulator Insider Preview - Build 14965';
+            break;
+        case 520:
+            $appendVer = 'Windows Server Insider Preview - 17035';
+            break;
+        default:
+            if ($productId >= 75 && $productId <= 82) $appendVer = ' (Threshold 1)';
+            else if ($productId >= 99 && $productId <= 106) $appendVer = ' (Threshold 2)';
+            else if ($productId >= 109 && $productId <= 116) $appendVer = ' (Threshold 2, February 2016 Update)';
+            else if ($productId >= 178 && $productId <= 185) $appendVer = ' (Threshold 2, April 2016 Update)';
+            else if ($productId >= 242 && $productId <= 247) $appendVer = ' (Redstone 1)';
+            else if ($productId == 489) $appendVer = ' (Redstone 3)';
+            else if ($productId == 2069 || $productId == 2070) $appendVer = ' (21H2 Original release)';
+            break;
+    }
 
     return $appendVer;
 }
 
-function checkCategory($productName) {
-    global $firstOption, $skus;
+function checkCategory($apiVersion, $productName, $prodInfo) {
     $category = [];
+    if(strpos($productName, 'IOT Core') !== false) {
+        $category[] = 'IoTCore';
+    }
     $build = substr(strstr($productName, ' - '), 3);
     if(strpos($productName, 'Admin Center') !== false || strpos($productName, 'Honolulu') !== false) {
         $category[] = 'AdminCenter';
@@ -166,24 +182,64 @@ function checkCategory($productName) {
             $category[] = 'WIP';
             if($actualBuild < 22000) {
                 $category[] = 'Win10';
-                if($actualBuild == 14393) $category[] = 'rs1';
-                else if($actualBuild == 15063) $category[] = 'rs2';
-                else if($actualBuild == 16299) $category[] = 'rs3';
-                else if($actualBuild == 17134) $category[] = 'rs4';
-                else if($actualBuild == 17763) $category[] = 'rs5';
-                else if($actualBuild == 18362) $category[] = '19H1';
-                else if($actualBuild == 18363) $category[] = '19H2';
-                else if($actualBuild == 19041) $category[] = 'vb';
-                else if($actualBuild == 19042) $category[] = '20H2';
-                else if($actualBuild == 19043) $category[] = '21H1';
-                else if($actualBuild == 19044) $category[] = '21H2';
-                else if($actualBuild == 19045) $category[] = '22H2';
+                switch($actualBuild) {
+                    case 14393:
+                        $category[] = 'rs1';
+                        break;
+                    case 15063:
+                        $category[] = 'rs2';
+                        break;
+                    case 16299:
+                        $category[] = 'rs3';
+                        break;
+                    case 17134:
+                        $category[] = 'rs4';
+                        break;
+                    case 17763:
+                        $category[] = 'rs5';
+                        break;
+                    case 18362:
+                        $category[] = '19H1';
+                        break;
+                    case 18363:
+                        $category[] = '19H2';
+                        break;
+                    case 19041:
+                        $category[] = 'vb';
+                        break;
+                    case 19042:
+                        $category[] = '20H2';
+                        break;
+                    case 19043:
+                        $category[] = '21H1';
+                        break;
+                    case 19044:
+                        $category[] = '21H2';
+                        break;
+                    case 19045:
+                        $category[] = '22H2';
+                        break;
+                    default:
+                        break;
+                }
             } else {
                 $category[] = 'Win11';
-                if($actualBuild == 22000) $category[] = 'co';
-                else if($actualBuild == 22621) $category[] = 'ni';
-                else if($actualBuild == 22631) $category[] = '23H2';
-                else if($actualBuild == 26100) $category[] = 'ge';
+                switch($actualBuild) {
+                    case 22000:
+                        $category[] = 'co';
+                        break;
+                    case 22621:
+                        $category[] = 'ni';
+                        break;
+                    case 22631:
+                        $category[] = '23H2';
+                        break;
+                    case 26100:
+                        $category[] = 'ge';
+                        break;
+                    default:
+                        break;
+                }
             }
         }
     } else if(strpos($productName, 'Windows 7') !== false) $category[] = 'Win7';
@@ -242,73 +298,127 @@ function checkCategory($productName) {
     if(strpos($productName, 'Xbox') !== false || strpos($productName, 'GDK') !== false || strpos($productName, 'Submission') !== false || strpos($productName, ' -  ( only) ') !== false || strpos($productName, 'Recovery') !== false || strpos($productName, 'Xfest') !== false || strpos($productName, 'GSDK') !== false) {
         $category[] = 'Xbox';
     }
-    if(count($category) == 0) $category[] = 'Other';
+
+    if(count($category) == 0) {
+        if($apiVersion == 2) {
+            foreach($prodInfo['Skus'] as $sku) {
+                if(strpos($sku['ProductDisplayName'], 'Xbox') !== false || strpos($sku['ProductDisplayName'], 'Game') !== false || strpos($sku['Description'], 'Xbox') !== false) {
+                    $category[] = 'Xbox';
+                    break;
+                }
+            }
+            if(count($category) == 0) $category = ['Other'];
+        } else {
+            $category = ['Other'];
+        }
+    }
     return $category;
 }
 
 function checkInfo_offline($productId, $category) {
-    $knownAvailable = array_merge([1145, 1149, 1524, 2198, 2217, 2220, 2221, 2297, 2298, 2299, 2577, 2580, 2581, 2582, 2585, 2588, 2589, 2591], range(2603, 2735));
+    $knownAvailable = array_merge([1145, 1149, 1524, 2198, 2217, 2220, 2221, 2297, 2298, 2299, 2577, 2580, 2581, 2582, 2585, 2588, 2589, 2591], range(2603, 3138));
     $info = [];
     $info['Status'] = 'Unknown';
-    $info['Arch'] = 'Unknown';
-    if(in_array('Xbox', $category)) $info['Arch'] = ['x64'];
-        else if(in_array('Office', $category)) {
+    $info['Arch'] = ['Unknown'];
+    if(in_array('Xbox', $category)) {
+        $info['Arch'] = ['x64'];
+    } else if(in_array('Office', $category)) {
         $info['Status'] = 'Unavailable';
         $info['Arch'] = ['x86', 'x64'];
         if(in_array('2011', $category)) $info['Arch'] = ['x64'];
     } else if(in_array('WIP', $category)) {
-        if(!in_array($productId, $knownAvailable) && $productId < 2736) {
+        if(!in_array($productId, $knownAvailable) && $productId < 3139) {
             $info['Status'] = 'Unavailable';
-            return $info;
         }
     }
     return $info;
 }
 
-function checkInfo($productName, $productId, $skus, $category) {
-    $knownAvailable = [48, 52, 55, 61, 62, 489, 642, 1057, 1217, 1460, 2378, 2616, 2617, 2618, 2860, 2861, 2935, 2936, 3113, 3114, 3115, 3131, 3132, 3133];
+function checkInfo($apiVersion, $productName, $productId, $skus, $category, $prodInfo) {
+    $knownAvailable = [48, 52, 55, 61, 62, 489, 642, 1057, 1217, 1460, 2378, 2616, 2617, 2618, 2860, 2861, 3113, 3114, 3115, 3131, 3132, 3133];
     $blocked = 'We are unable to complete your request at this time. Some users, entities and locations are banned from using this service. For this reason, leveraging anonymous or location hiding technologies when connecting to this service is not generally allowed. If you believe that you encountered this problem in error, please try again. If the problem persists you may contact  Microsoft Support – Contact Us  page for assistance. Refer to message code 715-123130 and';
-    $info = [];
     $option = end($skus);
     $id = key($skus);
+    $info = ['Arch' => []];
 
     if(!array_intersect(['WIP', 'Xbox', 'Office'], $category)) {
         if(in_array($productId, $knownAvailable) || $productId > 3138) {
-            $downHTML = new DOMDocument();
-            $downHTML->loadHTML(getInfo('Sku', $id, $option));
-            if($downHTML->getElementById('errorModalMessage')) {
-                $info['Status'] = 'Unavailable';
-                $errorMsg = $downHTML->getElementById('errorModalMessage')->textContent;
-                if($errorMsg == $blocked) {
-                    $info['Status'] = 'Available';
-                    echo "The Server IP is blocked by Microsoft.\n";
-                }
-                $info['Arch'] = ['Unknown'];
-            } else {
-                $info['Status'] = 'Available';
-                $XPath = new DOMXPath($downHTML);
-                $downBtns = $XPath->query('//span[contains(@class, "product-download-type")]');
-                $arch = [];
-                foreach($downBtns as $downBtn) {
-                    if($downBtn->textContent == 'IsoX86') $arch[] = 'x86';
-                    if($downBtn->textContent == 'IsoX64') $arch[] = 'x64';
-                    if($downBtn->textContent == 'Unknown') $arch[] = 'neutral';
-                }
-                if(count($arch) == 0) $arch[] = 'Unknown';
+            switch($apiVersion) {
+                case 1:
+                    $downHTML = new DOMDocument();
+                    $downHTML->loadHTML(getInfo($apiVersion, 'Sku', $id, $option));
+                    if($downHTML->getElementById('errorModalMessage')) {
+                        $info['Status'] = 'Unavailable';
+                        $errorMsg = $downHTML->getElementById('errorModalMessage')->textContent;
+                        if($errorMsg == $blocked) {
+                            $info['Status'] = 'Available';
+                            echo "The Server IP is blocked by Microsoft.\n";
+                        }
+                        $info['Arch'] = ['Unknown'];
+                    } else {
+                        $info['Status'] = 'Available';
+                        $XPath = new DOMXPath($downHTML);
+                        $downBtns = $XPath->query('//span[contains(@class, "product-download-type")]');
+                        foreach($downBtns as $downBtn) {
+                            if($downBtn->textContent == 'IsoX86') $info['Arch'][] = 'x86';
+                            if($downBtn->textContent == 'IsoX64') $info['Arch'][] = 'x64';
+                            if($downBtn->textContent == 'Unknown') $info['Arch'][] = 'neutral';
+                        }
+                    }
+                    break;
+                case 2:
+                    $downInfo = getInfo($apiVersion, 'Sku', $id, $option);
+                    if($downInfo) {
+                        $downInfo = json_decode($downInfo, true);
+                    } else {
+                        return false;
+                    }
+                    if($downInfo) {
+                        if(!isset($downInfo['Errors'])) {
+                            $info['Status'] = 'Available';
+                            if(isset($downInfo['ProductDownloadOptions'])) {
+                                foreach($downInfo['ProductDownloadOptions'] as $option) {
+                                    if(isset($option['DownloadType'])) {
+                                        if($option['DownloadType'] === 0) $info['Arch'][] = 'x86';
+                                        else if($option['DownloadType'] === 1) $info['Arch'][] = 'x64';
+                                    }
+                                }
+                            }
+                        } else {
+                            $info['Status'] = 'Unavailable';
+                        }
+                    }
+                    break;
+                default:
+                    return false;
             }
         } else {
             $info['Status'] = 'Unavailable';
-            $info['Arch'] = ['Unknown'];
         }
     } else {
         $info = checkInfo_offline($productId, $category);
+    }
+
+    if($apiVersion == 2) {
+        foreach($prodInfo['Skus'] as $sku) {
+            if(!in_array('arm', $info['Arch']) && (stripos($sku['Description'], 'arm32') !== false || stripos($sku['Description'], 'armfre') !== false)) $info['Arch'][] = 'arm';
+            if(!in_array('arm64', $info['Arch']) && stripos($sku['Description'], 'arm64') !== false) $info['Arch'][] = 'arm64';
+            if(!in_array('x86', $info['Arch']) && (stripos($sku['Description'], 'x86') !== false || stripos($sku['Description'], '32-bit') !== false || stripos($sku['Description'], 'x32') !== false)) $info['Arch'][] = 'x86';
+            if(!in_array('x64', $info['Arch']) && (stripos($sku['Description'], 'x64') !== false || stripos($sku['Description'], '64-bit') !== false)) $info['Arch'][] = 'x64';
+            if(count($sku['FriendlyFileNames']) > 1) {
+                foreach($sku['FriendlyFileNames'] as $fileName) {
+                    if(!in_array('x86', $info['Arch']) && stripos($fileName, 'x32') !== false) $info['Arch'][] = 'x86';
+                    if(!in_array('x64', $info['Arch']) && stripos($fileName, 'x64') !== false) $info['Arch'][] = 'x64';    
+                }
+            }
+        }
     }
 
     if(array_intersect(['Win7', 'Win81', 'Win10', 'RSAT', 'Symbols'], $category)) $info['Arch'] = ['x86', 'x64'];
     if(array_intersect(['Win11', 'WinSrv', 'DAC'], $category)) $info['Arch'] = ['x64'];
     if(stripos($productName, 'ARM64') !== false) $info['Arch'] = ['arm64'];
     
-    if(array_intersect(['LOF', 'SDK', 'WDK', 'HLK', 'EWDK', 'InboxApps'], $category)) {
+    if(array_intersect(['SDK', 'WDK', 'HLK', 'EWDK'], $category)) {
         $info['Arch'] = ['neutral'];
     } else if(array_intersect(['ADK', 'IoTCore'], $category)) {
         if(in_array('Win10', $category) || in_array('co', $category)) {
@@ -320,20 +430,41 @@ function checkInfo($productName, $productId, $skus, $category) {
         $info['Arch'] = ['x86'];
     } else if(in_array('AdminCenter', $category)) {
         $info['Arch'] = ['x64'];
+    } else if(in_array('MTBF', $category)) {
+        $info['Arch'] = ['arm'];
     }
+
+    if(count($info['Arch']) == 0) $info['Arch'] = ['Unknown'];
+
     return $info;
 }
 
-function getInfo($type, $id, $sku = 'English (United States)') {
+function getInfo($apiVersion, $type, $id, $sku = ['Name' => 'English (United States)']) {
     global $sessionId;
-    $sku = urlencode($sku);
-    $baseUrl = "https://www.microsoft.com/en-us/api/controls/contentinclude/html?pageId=%s&host=www.microsoft.com&segments=software-download,windows11&query=&action=%s&sessionid=$sessionId%s&sdVersion=2";
-    $prodUrlId = 'cd06bda8-ff9c-4a6e-912a-b92a21f42526';
-    $skuUrlId = 'cfa9e580-a81e-4a4b-a846-7b21bf4e2e5b';
-    if($type == 'Prod') $url = sprintf($baseUrl, $prodUrlId, 'getskuinformationbyProductedition', "&ProductEditionId=$id");
-        else if($type == 'Sku') {
-        $url = sprintf($baseUrl, $skuUrlId, 'GetProductDownloadLinksBySku', "&skuId=$id&language=$sku");
+    $sku = urlencode($sku['Name']);
+    switch ($apiVersion) {
+        case 1:
+            $baseUrl = "https://www.microsoft.com/en-us/api/controls/contentinclude/html?pageId=%s&host=www.microsoft.com&segments=software-download,windows11&query=&action=%s&sessionid=$sessionId%s&sdVersion=2";
+            $prodUrlId = 'cd06bda8-ff9c-4a6e-912a-b92a21f42526';
+            $skuUrlId = 'cfa9e580-a81e-4a4b-a846-7b21bf4e2e5b';
+            if($type == 'Prod') {
+                $url = sprintf($baseUrl, $prodUrlId, 'getskuinformationbyProductedition', "&ProductEditionId=$id");
+            } else if($type == 'Sku') {
+                $url = sprintf($baseUrl, $skuUrlId, 'GetProductDownloadLinksBySku', "&skuId=$id&language=$sku");
+            }
+            break;
+        case 2:
+            $baseUrl = "https://www.microsoft.com/software-download-connector/api/%s?profile=606624d44113&ProductEditionId=%s&SKU=%s&friendlyFileName=undefined&Locale=en-US&sessionID=$sessionId";
+            if($type == 'Prod') {
+                $url = sprintf($baseUrl, 'getskuinformationbyProductedition', $id, 'undefined');
+            } else if($type == 'Sku') {
+                $url = sprintf($baseUrl, 'GetProductDownloadLinksBySku', 'undefined', $id);
+            }
+            break;
+        default:
+            return false;
     }
+
     $headers = array(
         'Referer: https://tb.win-story.cn/',
     );
@@ -343,8 +474,6 @@ function getInfo($type, $id, $sku = 'English (United States)') {
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_HEADER, 0);
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, 'controlAttributeMapping=');
         //curl_setopt($ch, CURLOPT_ENCODING, 'gzip');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
@@ -353,34 +482,57 @@ function getInfo($type, $id, $sku = 'English (United States)') {
         if(curl_getinfo($ch, CURLINFO_HTTP_CODE) == 200) {
             curl_close($ch);
             break;
-        };
+        }
         curl_close($ch);
     }
     return $response;
 }
 
-function parserProdInfo($productId, $html) {
-    $info = [];
-    $productName = substr($html->getElementsByTagName('i')->item(0)->textContent, 32) . identProduct($productId);
-    if($productName == '') $productName = 'Unknown';
+function parseProdInfo($apiVersion, $productId, $prodInfo) {
+    $parsedInfo = [];
     $skus = [];
-    $options = $html->getElementsByTagName('option');
-    $optionCount = -1;
-    foreach($options as $option) {
-        if($optionCount++ == -1) continue;
-        $id = explode('"', $option->getAttribute('value'))[3];
-        $skus[$id] = $option->textContent;
+
+    switch($apiVersion) {
+        case 1:
+            $productName = substr($prodInfo->getElementsByTagName('i')->item(0)->textContent, 32) . identProduct($productId);
+            if($productName == '') $productName = 'Unknown';
+            $options = $prodInfo->getElementsByTagName('option');
+            $optionCount = -1;
+            $category = checkCategory($apiVersion, $productName, $prodInfo);
+            foreach($options as $option) {
+                if($optionCount++ == -1) continue;
+                $id = explode('"', $option->getAttribute('value'))[3];
+                $skus[$id] = [];
+                $skus[$id]['Name'] = $option->textContent;
+            }
+            break;
+        case 2:
+            $productName = $prodInfo['Skus'][0]['ProductDisplayName'] . identProduct($productId);
+            if($productName == '') $productName = 'Unknown';
+            $category = checkCategory($apiVersion, $productName, $prodInfo);
+            $skuName = in_array('Xbox', $category) ? 'ProductDisplayName' : 'Language';
+            foreach($prodInfo['Skus'] as $sku) {
+                $id = $sku['Id'];
+                $skus[$id] = [];
+                // $skus[$id] = $sku['LocalizedLanguage'];
+                $skus[$id]['Name'] = $sku[$skuName];
+                $skus[$id]['FileNames'] = $sku['FriendlyFileNames'];
+                $skus[$id]['Description'] = $sku['Description'];
+            }
+            break;
+        default:
+            return false;
     }
+    if(!ksort($skus, SORT_NUMERIC)) ksort($skus);            
 
-    if(!ksort($skus, SORT_NUMERIC)) ksort($skus);
-    $category = checkCategory($productName);
-    $infoTemp = checkInfo($productName, $productId, $skus, $category);
+    $infoTemp = checkInfo($apiVersion, $productName, $productId, $skus, $category, $prodInfo);
+    if(!$infoTemp) return false;
 
-    $info['ProductName'] = $productName;
-    $info['Skus'] = $skus;
-    $info['Category'] = $category;
-    $info['Status'] = $infoTemp['Status'];
-    $info['Arch'] = $infoTemp['Arch'];
-    return $info;
+    $parsedInfo['ProductName'] = $productName;
+    $parsedInfo['Skus'] = $skus;
+    $parsedInfo['Category'] = $category;
+    $parsedInfo['Status'] = $infoTemp['Status'];
+    $parsedInfo['Arch'] = $infoTemp['Arch'];
+    return $parsedInfo;
 }
 ?>
