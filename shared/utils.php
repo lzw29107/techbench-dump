@@ -15,28 +15,54 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
+if(__DIR__ == getcwd() && basename($_SERVER['SCRIPT_NAME']) == basename(__FILE__)) {
+    $v = $_SERVER['SERVER_PROTOCOL'];
+    header("$v 403 Forbidden");
+    exit();
+}
+
+require_once join(DIRECTORY_SEPARATOR, [dirname(__FILE__), '..', 'contrib', 'langconf.php']);
+
+function getDomain() {
+    if(isset($_SERVER['HTTP_X_FORWARDED_HOST'])) {
+        $domain = $_SERVER['HTTP_X_FORWARDED_HOST'];
+    } else if(isset($_SERVER['HTTP_HOST'])) {
+        $domain = strstr($_SERVER['HTTP_HOST'], ':', true);
+        if(!$domain) $domain = $_SERVER['HTTP_HOST'];
+    } else {
+        $domain = $_SERVER['SERVER_NAME'];
+    }
+
+    return $domain;
+}
 
 function getBaseUrl() {
     $baseUrl = isset($_SERVER['HTTPS']) ? 'https://' : 'http://';
+    if(isset($_SERVER['HTTP_HOST'])) {
+        $port = strstr($_SERVER['HTTP_HOST'], ':');
+        if($port) $port = substr($port, 1);
+    } else {
+        $port = $_SERVER['SERVER_PORT'];
+    }
+    if(!is_numeric($port)) $port = 80;
 
-    $baseUrl .= isset($_SERVER['HTTP_X_FORWARDED_HOST']) ? $_SERVER['HTTP_X_FORWARDED_HOST'] : (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : $_SERVER['SERVER_NAME'] . ($_SERVER['SERVER_PORT'] == '80' ? '' : ':' . $_SERVER['SERVER_PORT']));;
+    $baseUrl .= getDomain() . (in_array($port, ['80', '443']) ? '' : ':' . $port);
+
     return $baseUrl;
 }
 
 function getUrlWithoutParam($param = null) {
-    $baseUrl = getBaseUrl();
-
     $params = '';
     $separator = '?';
     foreach($_GET as $key => $val) {
         if($key == $param) continue;
-        $params .= $separator.$key.'='.urlencode($val);
+        $params .= $separator . $key . '=' . urlencode($val);
         $separator = '&';
     }
     $params .= $separator;
 
     $shelf = explode('?', $_SERVER['REQUEST_URI']);
-    $url = $baseUrl.$shelf[0].$params;
+    $url = getBaseUrl() . $shelf[0] . $params;
 
     return $url;
 }
@@ -53,13 +79,25 @@ function genSessionId() {
 
     // Send a request to Microsoft to initialize the session
     $orgId = 'y6jn8c31';
-    $req = curl_init('https://vlscppe.microsoft.com/fp/tags.js?org_id=' . $orgId . '&session_id=' . urlencode($sessionId));
-    curl_setopt($req, CURLOPT_HEADER, 0);
-    curl_setopt($req, CURLOPT_REFERER, 'https://www.microsoft.com/en-us/software-download/windows11');
-    curl_setopt($req, CURLOPT_RETURNTRANSFER, true); 
+    $url = sprintf('https://vlscppe.microsoft.com/fp/tags.js?org_id=%s&session_id=%s', $orgId, urlencode($sessionId));
 
-    $out = curl_exec($req);
-    curl_close($req);
+    for ($count = 1; $count < 5; $count++) {
+        set_time_limit(35);
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        //curl_setopt($ch, CURLOPT_ENCODING, 'gzip');
+        curl_setopt($ch, CURLOPT_REFERER, 'https://www.microsoft.com/en-us/software-download/windows11');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+        $response = curl_exec($ch);
+        if(curl_getinfo($ch, CURLINFO_HTTP_CODE) == 200) {
+            curl_close($ch);
+            break;
+        }
+        curl_close($ch);
+    }
 
     return $sessionId;
 }
@@ -84,10 +122,11 @@ function setConfig($type, $key = null, $value = null) {
         if($key && $value) $config[$key] = $value;
         file_put_contents('config.json', json_encode($config));
     } else if($type == 'init') {
-        $config = [];
-        $config['version'] = '1.0';
-        $config['php'] = findPHP();
-        $config['autoupd'] = true;
+        $config = [
+            'version' => '1.0',
+            'php' => findPHP(),
+            'autoupd' => true
+        ];
         file_put_contents('config.json', json_encode($config));
     }
 }
@@ -95,21 +134,16 @@ function setConfig($type, $key = null, $value = null) {
 function findPHP() {
     if(strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
         $delimiter = ';';
-        $ext = '.exe';
-        $separator = '\\';
-        if(strpos(shell_exec('php -v'), 'PHP') !== false) $php = 'php';
+        if(strpos(shell_exec('php -v'), 'PHP') !== false) $php = 'php.exe';
     } else {
         $delimiter = ':';
-        $ext = '';
-        $separator = '/';
         if(shell_exec('command -v php')) $php = 'php';
     }
 
     if(!isset($php)) {
         $directory = dirname(php_ini_loaded_file());
-        if(is_file($directory . $separator . 'php' . $ext)) {
-            $php = $directory . $separator . 'php' . $ext;
-        } else $php = false;
+        $php = $directory . DIRECTORY_SEPARATOR . $php;
+        if(!is_file($php)) $php = false;
     }
     return $php;
 }
@@ -120,6 +154,13 @@ function execBackground($php, $command) {
     } else {
         shell_exec("$php $command >/dev/null 2>&1 &");
     }
+}
+
+function in_subArray(mixed $needle, array $haystack, bool $strict = false) {
+    foreach($haystack as $key => $subArray) {
+        if(in_array($needle, $subArray, $strict)) return $key;
+    }
+    return false;
 }
 
 function identProduct($productId) {
@@ -346,7 +387,7 @@ function checkInfo($apiVersion, $productName, $productId, $skus, $category, $pro
             switch($apiVersion) {
                 case 1:
                     $downHTML = new DOMDocument();
-                    $downHTML->loadHTML(getInfo($apiVersion, 'Sku', $id, $option));
+                    $downHTML->loadHTML(getInfo($apiVersion, 'Sku', $id, sku: $option));
                     if($downHTML->getElementById('errorModalMessage')) {
                         $info['Status'] = 'Unavailable';
                         $errorMsg = $downHTML->getElementById('errorModalMessage')->textContent;
@@ -367,7 +408,7 @@ function checkInfo($apiVersion, $productName, $productId, $skus, $category, $pro
                     }
                     break;
                 case 2:
-                    $downInfo = getInfo($apiVersion, 'Sku', $id, $option);
+                    $downInfo = getInfo($apiVersion, 'Sku', $id);
                     if($downInfo) {
                         $downInfo = json_decode($downInfo, true);
                     } else {
@@ -379,8 +420,20 @@ function checkInfo($apiVersion, $productName, $productId, $skus, $category, $pro
                             if(isset($downInfo['ProductDownloadOptions'])) {
                                 foreach($downInfo['ProductDownloadOptions'] as $option) {
                                     if(isset($option['DownloadType'])) {
-                                        if($option['DownloadType'] === 0) $info['Arch'][] = 'x86';
-                                        else if($option['DownloadType'] === 1) $info['Arch'][] = 'x64';
+                                        switch($option['DownloadType']) {
+                                            case 0:
+                                                $info['Arch'][] = 'x86';
+                                                break;
+                                            case 1:
+                                                $info['Arch'][] = 'x64';
+                                                break;
+                                            case 2:
+                                                $info['Arch'][] = 'arm64';
+                                                break;
+                                            default:
+                                                $info['Arch'][] = 'Unknown';
+                                                break;
+                                        }
                                     }
                                 }
                             }
@@ -439,43 +492,48 @@ function checkInfo($apiVersion, $productName, $productId, $skus, $category, $pro
     return $info;
 }
 
-function getInfo($apiVersion, $type, $id, $sku = ['Name' => 'English (United States)']) {
+function getInfo($apiVersion, $type, $id = 0, $lang = 'en-US', $sku = ['Name' => 'English (United States)']) {
     global $sessionId;
-    $sku = urlencode($sku['Name']);
-    switch ($apiVersion) {
-        case 1:
-            $baseUrl = "https://www.microsoft.com/en-us/api/controls/contentinclude/html?pageId=%s&host=www.microsoft.com&segments=software-download,windows11&query=&action=%s&sessionid=$sessionId%s&sdVersion=2";
-            $prodUrlId = 'cd06bda8-ff9c-4a6e-912a-b92a21f42526';
-            $skuUrlId = 'cfa9e580-a81e-4a4b-a846-7b21bf4e2e5b';
-            if($type == 'Prod') {
-                $url = sprintf($baseUrl, $prodUrlId, 'getskuinformationbyProductedition', "&ProductEditionId=$id");
-            } else if($type == 'Sku') {
-                $url = sprintf($baseUrl, $skuUrlId, 'GetProductDownloadLinksBySku', "&skuId=$id&language=$sku");
-            }
-            break;
-        case 2:
-            $baseUrl = "https://www.microsoft.com/software-download-connector/api/%s?profile=606624d44113&ProductEditionId=%s&SKU=%s&friendlyFileName=undefined&Locale=en-US&sessionID=$sessionId";
-            if($type == 'Prod') {
-                $url = sprintf($baseUrl, 'getskuinformationbyProductedition', $id, 'undefined');
-            } else if($type == 'Sku') {
-                $url = sprintf($baseUrl, 'GetProductDownloadLinksBySku', 'undefined', $id);
-            }
-            break;
-        default:
-            return false;
+
+    if($type != 'Page') {
+        $sku = urlencode($sku['Name']);
+        switch ($apiVersion) {
+            case 1:
+                $baseUrl = "https://www.microsoft.com/$lang/api/controls/contentinclude/html?pageId=%s&host=www.microsoft.com&segments=software-download,windows11&query=&action=%s&sessionid=$sessionId%s&sdVersion=2";
+                $prodUrlId = 'cd06bda8-ff9c-4a6e-912a-b92a21f42526';
+                $skuUrlId = 'cfa9e580-a81e-4a4b-a846-7b21bf4e2e5b';
+                if($type == 'Prod') {
+                    $url = sprintf($baseUrl, $prodUrlId, 'getskuinformationbyProductedition', "&ProductEditionId=$id");
+                } else if($type == 'Sku') {
+                    $url = sprintf($baseUrl, $skuUrlId, 'GetProductDownloadLinksBySku', "&skuId=$id&language=$sku");
+                }
+                break;
+            case 2:
+                $baseUrl = "https://www.microsoft.com/software-download-connector/api/%s?profile=606624d44113&ProductEditionId=%s&SKU=%s&friendlyFileName=undefined&Locale=$lang&sessionID=$sessionId";
+                if($type == 'Prod') {
+                    $url = sprintf($baseUrl, 'getskuinformationbyProductedition', $id, 'undefined');
+                } else if($type == 'Sku') {
+                    $url = sprintf($baseUrl, 'GetProductDownloadLinksBySku', 'undefined', $id);
+                }
+                break;
+            default:
+                return false;
+        }
+    } else {
+        $url = "https://www.microsoft.com/$lang/software-download/windows11";
     }
 
-    $headers = array(
-        'Referer: https://tb.win-story.cn/',
-    );
+    $headers = [
+        'Referer: https://tb.win-story.cn/'
+    ];
 
     for ($count = 1; $count < 5; $count++) {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_HEADER, 0);
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-        //curl_setopt($ch, CURLOPT_ENCODING, 'gzip');
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        if($type == 'Page') curl_setopt($ch, CURLOPT_ENCODING, 'gzip');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
         curl_setopt($ch, CURLOPT_TIMEOUT, 30);
         $response = curl_exec($ch);
@@ -489,8 +547,11 @@ function getInfo($apiVersion, $type, $id, $sku = ['Name' => 'English (United Sta
 }
 
 function parseProdInfo($apiVersion, $productId, $prodInfo) {
-    $parsedInfo = [];
+    global $enLangNames;
     $skus = [];
+    $parsedSkus = [];
+    $langCount = 0;
+    $skuCount = 0;
 
     switch($apiVersion) {
         case 1:
@@ -525,14 +586,34 @@ function parseProdInfo($apiVersion, $productId, $prodInfo) {
     }
     if(!ksort($skus, SORT_NUMERIC)) ksort($skus);            
 
-    $infoTemp = checkInfo($apiVersion, $productName, $productId, $skus, $category, $prodInfo);
-    if(!$infoTemp) return false;
+    $info = checkInfo($apiVersion, $productName, $productId, $skus, $category, $prodInfo);
+    if(!$info) return false;
 
-    $parsedInfo['ProductName'] = $productName;
-    $parsedInfo['Skus'] = $skus;
-    $parsedInfo['Category'] = $category;
-    $parsedInfo['Status'] = $infoTemp['Status'];
-    $parsedInfo['Arch'] = $infoTemp['Arch'];
+    foreach($skus as $skuId => $sku) {
+        $lang = in_subArray($sku['Name'], $enLangNames);
+        if($lang) {
+            $sku['Name'] = $lang;
+            $langCount++;
+        } else {
+            $skuCount++;
+        }
+        $parsedSkus[$skuId]['Name'] = $sku['Name'];
+        if($apiVersion == 2) {
+            $parsedSkus[$skuId]['FileNames'] = $sku['FileNames'];
+            $parsedSkus[$skuId]['Description'] = $sku['Description'];
+        }
+    }
+
+    $skuName = $langCount > $skuCount ? 'Language' : 'Sku';
+
+    $parsedInfo = [
+        'Name' => $productName,
+        'Category' => $category,
+        'Status' => $info['Status'],
+        'Arch' => $info['Arch'],
+        $skuName => $parsedSkus,
+    ];
+
     return $parsedInfo;
 }
 ?>

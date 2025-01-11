@@ -15,51 +15,22 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-
-require_once 'contrib/langconf.php';
+if(__DIR__ == getcwd() && basename($_SERVER['SCRIPT_NAME']) == basename(__FILE__)) {
+    $v = $_SERVER['SERVER_PROTOCOL'];
+    header("$v 403 Forbidden");
+    exit();
+}
 
 function checkStrNum($str = null) {
     if(!is_numeric($str) || is_double($str) || $str > PHP_INT_MAX || $str < 0) return 0;
     return true;
 }
 
-function in_subArray(mixed $needle, array $haystack, bool $strict = false) {
-    foreach($haystack as $key => $subArray) {
-        if(in_array($needle, $subArray, $strict)) return $key;
-    }
-    return false;
-}
-
 function writeProduct($productId, $info) {
-    global $dump, $enLangName;
+    global $dump;
 
-    $skus = [];
-    $langCount = 0;
-    $skuCount = 0;
-
-    foreach($info['Skus'] as $skuId => $sku) {
-        $lang = in_subArray($sku['Name'], $enLangName);
-        if($lang) {
-            $sku['Name'] = $lang;
-            $langCount++;
-        } else {
-            $skuCount++;
-        }
-        $skus[$skuId]['Name'] = $sku['Name'];
-        if(isset($sku['FileNames'])) $skus[$skuId]['FileNames'] = $sku['FileNames'];
-        if(isset($sku['Description'])) $skus[$skuId]['Description'] = $sku['Description'];
-    }
-
-    $skuName = $langCount > $skuCount ? 'Language' : 'Sku';
-
-    if($productId < 3000 || $info['ProductName'] != 'Unknown') {
-        $dump['ProdInfo'][$productId] = [
-            'Name' => $info['ProductName'],
-            'Category' => $info['Category'],
-            'Status' => $info['Status'],
-            'Arch' => $info['Arch'],
-            $skuName => $skus,
-        ];
+    if($info['Name'] != 'Unknown') {
+        $dump['ProdInfo'][$productId] = $info;
     }
 }
 
@@ -211,7 +182,7 @@ function dump($apiVersion, $minProdId, $maxProdId, $flags) {
 }
 
 function recheck($apiVersion, $lastProdId, $flags, $lastBlocked = null, $type = 'Basic') {
-    global $dump, $sessionId, $lock, $enLangName;
+    global $dump, $sessionId, $lock, $enLangNames;
     $lock['status'] = 'recheck';
     $lock['total'] = 0;
     $lock['current'] = 0;

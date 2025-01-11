@@ -68,7 +68,7 @@ function parseArgs($argv) {
                         break;
                     case '--quiet':
                     case '--q':
-                        $args['mode']['quiet'] = true;
+                        $args['flags']['quiet'] = true;
                         break;
                     default:
                         printUsage();

@@ -24,7 +24,7 @@ styleTop('about');
 $copyright = sprintf(
     $s['copyright'],
     date('Y'),
-    '<a class="link-underline link-underline-opacity-0" href="https://forums.mydigitallife.info/threads/72165">'.$s['contributors'].'</a>'
+    '<a class="link-underline link-underline-opacity-0" href="https://forums.mydigitallife.net/threads/72165">'.$s['contributors'].'</a>'
 );
 
 echo <<<HTML
@@ -39,7 +39,9 @@ echo <<<HTML
 
 <h3 class="fs-4"><i class="bi bi-hand-thumbs-up fs-5"></i> {$s['aboutThanksTitle']}</h3>
 <p>{$s['aboutThanksContent']}</p>
-<p><i class="bi bi-github fs-6"></i><a class="link-underline link-underline-opacity-0 fs-5" href="https://github.com/lzw29107/techbench-dump"> GitHub repository</a></p>
+
+<h3><i class="bi bi-github fs-5"></i><a class="link-underline link-underline-opacity-0 fs-4" href="https://github.com/lzw29107/techbench-dump"> GitHub repository</a></h3>
+<br>
 
 <h3 class="fs-4"><i class="bi bi-globe fs-5"></i> {$s['aboutTranslationsTitle']}</h3>
 <table class="table table-striped">
@@ -51,27 +53,27 @@ echo <<<HTML
     </thead>
 <tbody><tr>
         <td><img src="contrib/flags/en-US.png"> English (US)</td>
-        <td><a class="link-underline link-underline-opacity-0" href="https://forums.mydigitallife.info/members/317641">whatever127</a> (<a class="link-underline link-underline-opacity-0" href="https://github.com/whatever127">GitHub</a>)</td>
+        <td><a class="link-underline link-underline-opacity-0" href="https://forums.mydigitallife.net/members/317641">whatever127</a> (<a class="link-underline link-underline-opacity-0" href="https://github.com/whatever127">GitHub</a>)</td>
     </tr>
     <tr>
         <td><img src="contrib/flags/es-ES.png"> Español (España)</td>
-        <td><a class="link-underline link-underline-opacity-0" href="https://forums.mydigitallife.info/members/417886">antonio8909</a></td>
+        <td><a class="link-underline link-underline-opacity-0" href="https://forums.mydigitallife.net/members/417886">antonio8909</a></td>
     </tr>
     <tr>
         <td><img src="contrib/flags/fr-FR.png"> Français</td>
-        <td><a class="link-underline link-underline-opacity-0" href="https://forums.mydigitallife.info/members/476049">NeXtStatioN (@AniMachin3)</a></td>
+        <td><a class="link-underline link-underline-opacity-0" href="https://forums.mydigitallife.net/members/476049">NeXtStatioN (@AniMachin3)</a></td>
     </tr>
     <tr>
         <td><img src="contrib/flags/it-IT.png"> Italiano</td>
-        <td><a class="link-underline link-underline-opacity-0" href="https://forums.mydigitallife.info/members/6748">garf02</a></td>
+        <td><a class="link-underline link-underline-opacity-0" href="https://forums.mydigitallife.net/members/6748">garf02</a></td>
     </tr>
     <tr>
         <td><img src="contrib/flags/nl-NL.png"> Nederlands</td>
-        <td><a class="link-underline link-underline-opacity-0" href="https://forums.mydigitallife.info/members/104688">Enthousiast</a></td>
+        <td><a class="link-underline link-underline-opacity-0" href="https://forums.mydigitallife.net/members/104688">Enthousiast</a></td>
     </tr>
     <tr>
         <td><img src="contrib/flags/pl-PL.png"> Polski</td>
-        <td><a class="link-underline link-underline-opacity-0" href="https://forums.mydigitallife.info/members/317641">whatever127</a> (<a class="link-underline link-underline-opacity-0" href="https://github.com/whatever127">GitHub</a>)</td>
+        <td><a class="link-underline link-underline-opacity-0" href="https://forums.mydigitallife.net/members/317641">whatever127</a> (<a class="link-underline link-underline-opacity-0" href="https://github.com/whatever127">GitHub</a>)</td>
     </tr>
     <tr>
         <td><img src="contrib/flags/pt-BR.png"> Português (Brasil)</td>
@@ -79,31 +81,31 @@ echo <<<HTML
     </tr>
     <tr>
         <td><img src="contrib/flags/ru-RU.png"> Русский</td>
-        <td><a class="link-underline link-underline-opacity-0" href="https://forums.mydigitallife.info/members/381582">adguard</a></td>
+        <td><a class="link-underline link-underline-opacity-0" href="https://forums.mydigitallife.net/members/381582">adguard</a></td>
     </tr>
     <tr>
         <td><img src="contrib/flags/ar-EG.png"> العربية</td>
-        <td><a class="link-underline link-underline-opacity-0" href="https://forums.mydigitallife.info/members/319699">ShoSh</a></td>
+        <td><a class="link-underline link-underline-opacity-0" href="https://forums.mydigitallife.net/members/319699">ShoSh</a></td>
     </tr>
     <tr>
         <td><img src="contrib/flags/th-TH.png"> ภาษาไทย</td>
-        <td><a class="link-underline link-underline-opacity-0" href="https://forums.mydigitallife.info/members/418421">Phairat</a></td>
+        <td><a class="link-underline link-underline-opacity-0" href="https://forums.mydigitallife.net/members/418421">Phairat</a></td>
     </tr>
     <tr>
         <td><img src="contrib/flags/ja-JP.png"> 日本語</td>
-        <td><a class="link-underline link-underline-opacity-0" href="https://forums.mydigitallife.info/members/476049">NeXtStatioN (@AniMachin3)</a></td>
+        <td><a class="link-underline link-underline-opacity-0" href="https://forums.mydigitallife.net/members/476049">NeXtStatioN (@AniMachin3)</a></td>
     </tr>
     <tr>
         <td><img src="contrib/flags/zh-CN.png"> 简体中文</td>
-        <td><a class="link-underline link-underline-opacity-0" href="https://forums.mydigitallife.info/members/690532">正义羊 (JRJSheep)</a></td>
+        <td><a class="link-underline link-underline-opacity-0" href="https://forums.mydigitallife.net/members/690532">正义羊 (JRJSheep)</a></td>
     </tr>
     <tr>
         <td><img src="contrib/flags/zh-TW.png"> 繁體中文</td>
-        <td><a class="link-underline link-underline-opacity-0" href="https://forums.mydigitallife.info/members/269134">rubyclose (@iliGPU)</a></td>
+        <td><a class="link-underline link-underline-opacity-0" href="https://forums.mydigitallife.net/members/269134">rubyclose (@iliGPU)</a></td>
     </tr>
     <tr>
         <td><img src="contrib/flags/qps-ploc.png"> [ !!! Ƥşḗŭḓǿ !!! ]</td>
-        <td><a class="link-underline link-underline-opacity-0" href="https://forums.mydigitallife.info/members/317641">whatever127</a> (<a class="link-underline link-underline-opacity-0" href="https://github.com/whatever127">GitHub</a>)</td>
+        <td><a class="link-underline link-underline-opacity-0" href="https://forums.mydigitallife.net/members/317641">whatever127</a> (<a class="link-underline link-underline-opacity-0" href="https://github.com/whatever127">GitHub</a>)</td>
     </tr>
 </tbody>
 </table>

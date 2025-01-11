@@ -19,22 +19,23 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 //List of languages supported by the website
+
 $supportedLangs = [
-    'ar-eg',
-    'de-de',
-    'en-us',
-    'es-es',
-    'fr-fr',
-    'it-it',
-    'ja-jp',
-    'nl-nl',
-    'pl-pl',
-    'pt-br',
-    'qps-ploc',
-    'ru-ru',
-    'th-th',
-    'zh-cn',
-    'zh-tw',
+    'de-DE' => 'Deutsch',
+    'en-US' => 'English (United States)',
+    'es-ES' => 'Español (España)',
+    'fr-FR' => 'Français',
+    'it-IT' => 'Italiano',
+    'nl-NL' => 'Nederlands',
+    'pl-PL' => 'Polski',
+    'pt-BR' => 'Português (Brasil)',
+    'ru-RU' => 'Русский',
+    'ar-EG' => 'العربية',
+    'th-TH' => 'ภาษาไทย',
+    'ja-JP' => '日本語',
+    'zh-CN' => '简体中文',
+    'zh-TW' => '繁体中文',
+    'qps-ploc' => '[ !!! Ƥşḗŭḓǿ !!! ]'
 ];
 
 /*
@@ -44,23 +45,23 @@ These mappings were made only for somewhat complete translations on purpose as
 it's better to not force half translated website down to people's throats.
 */
 $autoLangMappings = [
-    'ar' => 'ar-eg',
-    'de' => 'de-de',
-    'en' => 'en-us',
-    'es' => 'es-es',
-    'fr' => 'fr-fr',
-    'it' => 'it-it',
-    'ja' => 'ja-jp',
-    'nl' => 'nl-nl',
-    'pl' => 'pl-pl',
-    'pt' => 'pt-br',
+    'ar' => 'ar-EG',
+    'de' => 'de-DE',
+    'en' => 'en-US',
+    'es' => 'es-ES',
+    'fr' => 'fr-FR',
+    'it' => 'it-IT',
+    'ja' => 'ja-JP',
+    'nl' => 'nl-NL',
+    'pl' => 'pl-PL',
+    'pt' => 'pt-BR',
     'qps' => 'qps-ploc',
-    'ru' => 'ru-ru',
-    'th' => 'th-th',
-    'zh' => 'zh-cn',
+    'ru' => 'ru-RU',
+    'th' => 'th-TH',
+    'zh' => 'zh-CN',
 ];
 
-$enLangName = [
+$enLangNames = [
     'ar-SA' => ['Arabic'],
     'bg-BG' => ['Bulgarian'],
     'cs-CZ' => ['Czech'],
@@ -99,7 +100,6 @@ $enLangName = [
     'th-TH' => ['Thai'],
     'tr-TR' => ['Turkish'],
     'uk-UA' => ['Ukrainian'],
-    'vi-VN' => ['Vietnamese'],
     'zh-CN' => ['Chinese (Simplified)', 'Chinese Simplified'],
     'zh-HK' => ['Chinese (Traditional Hong Kong)', 'Chinese Traditional Hong Kong'],
     'zh-TW' => ['Chinese (Traditional)', 'Chinese Traditional'],

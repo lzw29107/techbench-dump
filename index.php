@@ -86,13 +86,13 @@ echo <<<HTML
     <div class="col-md prod-btn mt-3 btn-group">
         <a class="btn btn-lg btn-info" href="./products.php?prod=win81">
             <div class="prod-btn-title">{$s['win81']}</div>
-            <div class="prod-btn-desc text-opacity-75">{$s['win81_desc']}</div>
+            <div class="prod-btn-desc text-opacity-75 text-wrap">{$s['win81_desc']}</div>
         </a>
     </div>
     <div class="col-md prod-btn mt-3 btn-group">
         <button type="button" class="btn btn-lg btn-info dropdown-toggle dropd-toggle-btn" data-bs-toggle="dropdown" aria-expanded="false">
             <div class="prod-btn-title">{$s['win10']}</div>
-            <div class="prod-btn-desc text-opacity-75">{$s['win10_desc']}</div>
+            <div class="prod-btn-desc text-opacity-75 text-wrap">{$s['win10_desc']}</div>
         </button>
         <ul class="dropdown-menu dropdown-menu-end">
           <li><a class="dropdown-item" href="./products.php?prod=win10">{$s['win10']}</a></li>
@@ -120,7 +120,7 @@ echo <<<HTML
     <div class="col-md prod-btn mt-3 btn-group">
         <button type="button" class="btn btn-lg btn-info dropdown-toggle dropd-toggle-btn" data-bs-toggle="dropdown" aria-expanded="false">
             <div class="prod-btn-title">{$s['win11']}</div>
-            <div class="prod-btn-desc text-opacity-75">{$s['win11_desc']}</div>
+            <div class="prod-btn-desc text-opacity-75 text-wrap">{$s['win11_desc']}</div>
         </button>
            <ul class="dropdown-menu dropdown-menu-end">
               <li><a class="dropdown-item" href="./products.php?prod=win11">{$s['win11']}</a></li>
@@ -135,7 +135,7 @@ echo <<<HTML
     <div class="col-md prod-btn mt-3 btn-group">
         <a class="btn btn-lg btn-info" href="./products.php?prod=winsrvip">
             <div class="prod-btn-title">{$s['winsrvip']}</div>
-            <div class="prod-btn-desc text-opacity-75">{$s['winsrvip_desc']}</div>
+            <div class="prod-btn-desc text-opacity-75 text-wrap">{$s['winsrvip_desc']}</div>
         </a>
     </div>
 </div>

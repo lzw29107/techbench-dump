@@ -5,7 +5,7 @@ $s['langName']               = 'Arabic (Egypt)';
 $s['langNameLocal']          = 'العربية';
 $s['langCode']               = 'ar-EG';
 $s['authorName']             = 'ShoSh';
-$s['authorLink']             = 'https://forums.mydigitallife.info/members/319699-cheetoslover';
+$s['authorLink']             = 'https://forums.mydigitallife.net/members/319699-cheetoslover';
 $s['langCodeMs']             = 'ar-sa'; //used internally when connecting to Microsoft API
 $s['timeZone']               = 'Africa/Cairo';
 

@@ -73,16 +73,6 @@ function _checkInfo(id) {
     process(ids, current);
 }
 
-function newSession() {
-    return new Promise(function () {
-        let xhr = new XMLHttpRequest();
-        xhr.open('POST',window.location.href,false);
-        xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
-        xhr.send('NewSession=1');
-        sessionId = xhr.responseText;
-    });
-}
-
 function process(ids, current) {
     return new Promise(function () {
         if(current > ids.length) return true;

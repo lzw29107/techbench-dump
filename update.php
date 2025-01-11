@@ -97,7 +97,7 @@ if(is_file('dump.json')) {
     $notice = 'File not exist';
 }
 
-styleTop();
+styleTop('update');
 
 echo <<<HTML
 <script defer="defer" src="js/update.js"></script>
