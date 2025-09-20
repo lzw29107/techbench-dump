@@ -1,6 +1,6 @@
 TechBench dump
 --------------
-Website: https://tb.win-story.cn/preview/<br>
+Website: https://tb.win-story.cn/<br>
 
 License
 -------
